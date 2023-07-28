@@ -8,38 +8,33 @@ const FileCourse = ({title, img, duration}) => {
     return (
         <TouchableOpacity
         style={{
-            flexDirection: "row",
+            
             backgroundColor: "#fff",
-            padding: 15,
-            marginHorizontal: 0,
+            flexDirection: "row",
             borderRadius: 10,
-            alignItems: "center",
-            marginTop: 8
+            paddingHorizontal: 7,
+            justifyContent: 'space-between',
+            padding: 5,
+            marginTop: 5,
+            
         }}
-    >
-        <Image
+    >   
+                    <View style={{ flexDirection: "row", alignItems: "center", }}> 
+                    <Image
                         source={img}
-                        style={{width:40,height:40}}
+                        style={{width:30,height:30}}
                     />
                     <View>
                          <Text style={{
                              color:"#345c74",
                              fontFamily:"Bold",
-                             fontSize:13,
-                             paddingHorizontal:20,
-                             width:280
+                             fontSize:11,
+                             paddingHorizontal:10,
                          }}>{title}</Text>
-                         <Text style={{
-                             color:"#f58084",
-                             fontFamily:"Medium",
-                             fontSize:12,
-                             paddingHorizontal:20
-                         }}>
-                             เอกสารการเรียน
-                         </Text>
                     </View>
-                    <View>
-                        <Icon name="cloud-download-outline" size={25} color="#666" />
+                    </View>
+                    <View style={{alignItems: 'flex-end', paddingTop:5}}>
+                        <Icon name="cloud-download-outline" size={20} color="#666"   />
                     </View>
     </TouchableOpacity>
     )

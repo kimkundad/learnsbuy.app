@@ -3,16 +3,15 @@ import { Text, TouchableOpacity, View, Image } from 'react-native'
 import ProgressCircle from 'react-native-progress-circle'
 import PropTypes from 'prop-types';
 
-const CourseList = ({title,num, duration, activebg, percent, color, onPress}) => {
+const CourseList = ({num, videos, color, onPress}) => {
 
 
     return (
         <TouchableOpacity
-            onPress={onPress}
             style={{
                 flexDirection: "row",
                 backgroundColor: "#fff",
-                padding: 20,
+                padding: 10,
                 marginHorizontal: 0,
                 borderRadius: 10,
                 alignItems: "center",
@@ -33,12 +32,11 @@ const CourseList = ({title,num, duration, activebg, percent, color, onPress}) =>
             <View>
                 <Text style={{
                     color: "#345c74",
-                    fontFamily: "Bold",
-                    fontSize: 13,
+                    fontSize: 12,
                     paddingLeft: 20,
                     width: 280
                 }}>
-                    {title}
+                    {videos.course_video_name}
                 </Text>
                 <Text style={{
                     color: "#666",
@@ -46,7 +44,8 @@ const CourseList = ({title,num, duration, activebg, percent, color, onPress}) =>
                     paddingLeft: 20,
                     width: 180
                 }}>
-                    {duration}
+                    {videos.time_video == "" ? "ไม่ระบุเวลา" : videos.time_video + "นาที"}
+                  
                 </Text>
             </View>
 

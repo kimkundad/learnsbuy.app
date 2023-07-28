@@ -4,7 +4,7 @@ import { Text, View,StatusBar,Image } from 'react-native'
 const Splash = ({navigation}) => {
 
     setTimeout(()=>{
-        navigation.replace('OnboardingScreen')
+        navigation.replace('HomePage')
     },3000)
     return (
         <View style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:'#32d191'}} >
@@ -15,3 +15,4 @@ const Splash = ({navigation}) => {
 }
 
 export default Splash
+

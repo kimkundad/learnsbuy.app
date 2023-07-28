@@ -10,22 +10,21 @@ import {
     StatusBar,
     Dimensions
 } from "react-native";
-import { categories, products } from "../data/index";
 import Icon from 'react-native-vector-icons/Ionicons';
-import CourseList from '../screens/CourseList'
-import FileCourse from '../screens/FileCourse'
-import useFile from '../../services/file';
+import getPackageId from '../../services/packageId';
+import CardCourse from '../components/CardCourse'
+import { useNavigation } from '@react-navigation/native';
 
 const IMAGE_HEIGHT = 220;
 
-const ProductDetail = ({ route, navigation }) => {
+const PackageDetail = ({ route }) => {
 
-    const product = route.params.product;
-    const [sortData, setSortData] = useState(product.c_id)
+    const pack = route.params.pack;
+    const navigation = useNavigation();
+
     const [showMore, setShowMore] = useState(false);
-    const [activeColorIndex, setActiveColorIndex] = useState(0);
-    const [activeSizeIndex, setActiveSizeIndex] = useState(0);
-    const { data: getFile, isLoading: fetchLoading } = useFile(product.c_id)
+    const { data: getPackage, isLoading: fetchLoading } = getPackageId(pack.id)
+
 
 
     return (
@@ -79,7 +78,7 @@ const ProductDetail = ({ route, navigation }) => {
                         height: IMAGE_HEIGHT,
                         borderRadius: 10,
                     }}
-                    source={{ uri: 'https://learnsbuy.com/assets/uploads/' + product.image_course }}
+                    source={{ uri: 'https://learnsbuy.com/assets/uploads/' + pack.c_pack_image }}
                 />
                 <View 
                     style={{ 
@@ -93,26 +92,26 @@ const ProductDetail = ({ route, navigation }) => {
                         color: "#666",
                         }}
                     >
-                        {product.title_course}
+                        {pack.c_pack_name}
                     </Text>
                    
                     <View style={styles.postContentContainer}>
-                    {product.detail_course.length > 300 ? (
+                    {pack.c_pack_detail.length > 300 ? (
                         showMore ? (
                         <TouchableOpacity onPress={() => setShowMore(!showMore)}>
-                            <Text style={styles.postDescription}>{product.detail_course}</Text>
+                            <Text style={styles.postDescription}>{pack.c_pack_detail}</Text>
                             <Text style={styles.seeMore}>Show less</Text>
                         </TouchableOpacity>
                         ) : (
                         <TouchableOpacity onPress={() => setShowMore(!showMore)}>
                             <Text style={styles.postDescription}>
-                            {`${product.detail_course.slice(0, 300)}... `}
+                            {`${pack.c_pack_detail.slice(0, 300)}... `}
                             </Text>
                             <Text style={styles.seeMore}>Show more</Text>
                         </TouchableOpacity>
                         )
                     ) : (
-                        <Text style={styles.postDescription}>{product.detail_course}</Text>
+                        <Text style={styles.postDescription}>{pack.c_pack_detail}</Text>
                     )}
                     </View>
                 </View>
@@ -133,12 +132,12 @@ const ProductDetail = ({ route, navigation }) => {
                         color: "#000",
                     }}
                     >
-                    ฿ {product.price_course}
+                    ฿ {pack.c_pack_price}
                     </Text>
                     <View style={{
                         flexDirection: "row",
                     }}>
-                        {product.discount !== 0 ?
+                        {pack.c_pack_price_2 !== 0 ?
                         <Text style={{
                                                     fontWeight: 700,
                                                     fontSize: 16,
@@ -149,7 +148,7 @@ const ProductDetail = ({ route, navigation }) => {
                         <Text></Text>
                     }
                     
-                    {product.discount !== 0 ?
+                    {pack.c_pack_price_2 !== 0 ?
                                                 <Text
                                                 style={{
                                                     fontWeight: 200,
@@ -160,7 +159,7 @@ const ProductDetail = ({ route, navigation }) => {
                                                     textDecorationLine: 'line-through'
                                                 }}
                                             >
-                                                {product.discount} บาท
+                                                {pack.c_pack_price_2} บาท
                                             </Text>
                                             : 
                                                 <Text></Text>
@@ -196,6 +195,7 @@ const ProductDetail = ({ route, navigation }) => {
                     </Text>
                     </TouchableOpacity>
                 </View>
+
                 <View
                         style={{
                             flexDirection: "row",
@@ -213,92 +213,41 @@ const ProductDetail = ({ route, navigation }) => {
                                 fontSize: 16,
                             }}
                         >
-                            เอกสารให้ Download
+                            คอร์สเรียน ภายในแพ็กเกจสุดคุ้ม
                         </Text>
-
                 </View>
-                <View 
-                 style={{
-                    marginBottom:10
-                 }}
-                > 
-                    {fetchLoading ?
+                <View style={{
+                    paddingHorizontal: 5,
+                }}>
+            <View style={{flex:2,flexDirection:'column',paddingTop:10, paddingHorizontal:0, paddingBottom:50}} >
+                
+
+            {fetchLoading ?
                             <View></View>
                             :
                             <View>
-                        {getFile?.data?.file.map((file) =>
-                            (
-                        <FileCourse
-                        img={require('../assets/img/pdf.png')}
-                        title={file?.file_of_name}
-                        bg="#fdddf3"
-                        />
-                            )
-                        )
-                            
+                                {getPackage?.data?.course.map((course) => (
+                                <CardCourse
+                                    title={course.title_course}
+                                    img={{ uri: 'https://learnsbuy.com/assets/uploads/' + course.image_course }}
+                                    price={course.price_course}
+                                    discount={course.discount}
+                                    onPress={() => navigation.navigate("Product-detail", { product: course })}
+                                    course={course}
+                                />
+                                ))}
+                                </View>
                         }
-                        </View>
-                    }
-                    
-                   </View>
-                <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            backgroundColor: "#fff",
-                            padding: 10,
-                            marginTop: 10,
-                            borderRadius: 10,
-                        }}
-                    >
-                        <Text
-                            style={{
-                                fontWeight: "bold",
-                                fontSize: 16,
-                            }}
-                        >
-                            Video คอร์ส
-                        </Text>
-                        <Text
-                            style={{
-                                fontWeight: "bold",
-                                fontSize: 16,
-                            }}
-                        >
-                            จำนวน { getFile?.data?.video.length }
-                        </Text>
-
-                </View>
-                <View 
-                 style={{
-                    marginBottom:50
-                 }}
-                > 
-                {fetchLoading ?
-                            <View></View>
-                            :
-                            <View>
-                        {getFile?.data?.video.map((videos) =>
-                            (
-                                <CourseList
-                        num={videos.order_sort}
-                        color="#fde6e6"
-                        videos={videos}
-                        onPress={()=>navigation.navigate('VideoPage')}
-                   />
-                            )
-                        )}
-                        </View>
-                    
-                            }
-                </View>
+                
+            </View>
+            </View>
+               
             </ScrollView>
         </SafeAreaView>
     )
 }
 
-export default ProductDetail
+export default PackageDetail
 
 const styles = StyleSheet.create({
     postContentContainer: {

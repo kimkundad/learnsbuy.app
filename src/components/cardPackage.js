@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, Image } from 'react-native'
 
-const IMAGE_WITH = 240;
-const IMAGE_HEIGHT = 160;
 
-const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
-    
+const IMAGE_WITH = 240;
+const IMAGE_HEIGHT = 200;
+
+const cardPackage = ({title,img, price, discount,onPress}) => {
+
     return (
-        <TouchableOpacity
-                  onPress={
-                    onPress
-                    }
+        <TouchableOpacity 
+        onPress={
+            onPress
+            }
                         style={{
-                            height:220,
-                            width:240,
+                            width: '100%',
                             elevation:2,
                             backgroundColor:"#FFF",
                             marginRight:10,
-                            marginTop:10,
+                            marginTop:0,
                             borderRadius:15,
-                            marginBottom:0,
+                            marginBottom:15,
                         }}
                     >
                         <Image
                                 style={{
-                                width: IMAGE_WITH,
+                                width: "100%",
                                 height: IMAGE_HEIGHT,
                                 borderTopLeftRadius:10,
                                 borderTopRightRadius: 10
@@ -41,7 +41,9 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                         marginTop:5,
                                     }}
                                 >
-                                    <View>
+                                    <View style={{
+                                        paddingBottom:8
+                                    }}>
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
                                                 fontWeight: 'bold',
@@ -103,4 +105,4 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
 }
 
 
-export default Package
+export default cardPackage
