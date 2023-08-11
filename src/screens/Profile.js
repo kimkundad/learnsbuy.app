@@ -17,11 +17,23 @@ import { useSelector, useDispatch } from "react-redux";
 
 const Profile = ({ navigation }) => {
 
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
-    console.log('@@@Login guser:: ', user?.profile);
 
+    const getWeekNumber = (date) => {
+        const currentDate = new Date(date);
+        currentDate.setHours(0, 0, 0, 0); // Set time to midnight to ensure accurate week calculation
+        currentDate.setDate(currentDate.getDate() + 3 - (currentDate.getDay() + 6) % 7); // Adjust to Thursday to get the correct week
+        const startOfYear = new Date(currentDate.getFullYear(), 0, 4); // January 4th as reference
+        const weekNumber = Math.ceil(((currentDate - startOfYear) / 86400000 + 1) / 7); // Calculate week number
+        return weekNumber;
+      };
+      
     useEffect(() => {
-
+        console.log('@@@Login guser:: ', user?.token);
         console.log('isLogin ', isLogin);
 
     },);
@@ -192,7 +204,7 @@ const Profile = ({ navigation }) => {
                                                 paddingHorizontal: 20,
                                                 fontWeight: 700,
                                             }}>
-                                                150,000
+                                                {numberWithCommas(user?.profile?.user_coin)}
                                             </Text>
                                         </View>
                                         <View
@@ -401,7 +413,7 @@ const Profile = ({ navigation }) => {
                                                     paddingHorizontal: 20,
                                                     fontWeight: 700,
                                                 }}>
-                                                    Updated 2 weeks ago
+                                                    Updated {getWeekNumber(user?.profile?.updated_at)} weeks ago
                                                 </Text>
                                             </View>
                                             <View

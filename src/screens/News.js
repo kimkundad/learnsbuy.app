@@ -55,6 +55,7 @@ const News = ({ navigation }) => {
                         urlToImage = {"https://learnsbuy.com/assets/blog/"+item.image}
                         title = {item.title_blog}
                         description = {item.detail_blog}
+                        detail = {item.detail_blog_website}
                         author = "ครูพี่โฮม"
                         publishedAt = {item.created_at}
                         sourceName = {item.view}

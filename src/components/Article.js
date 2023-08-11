@@ -1,39 +1,48 @@
 import React from "react";
-import {View,StyleSheet,Text,Pressable,Image} from "react-native";
+import { View, StyleSheet, Text, Pressable, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
+import { useNavigation } from '@react-navigation/native';
 
 const Article = (props) => {
 
+    const navigation = useNavigation();
+    const format = amount => {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
-    return(
+    return (
         <Pressable style={styles.container} onPress={props.onPress}>
             {/* image */}
-            <Image source={{
-                uri: props.urlToImage
-            }}
-            style={styles.image}
-            />
+            <TouchableOpacity
+                onPress={()=> navigation.navigate('blogDetail', { blog: props })}
+            >
+                <Image source={{
+                    uri: props.urlToImage
+                }}
+                    style={styles.image}
+                />
+            </TouchableOpacity>
 
-            <View style={{padding: 20}}>
+            <View style={styles.blockDetail}>
 
 
-        {/*    title */}
-            <Text style={styles.title}>{props.title}</Text>
+                {/*    title */}
+                <Text style={styles.title}>{props.title}</Text>
 
-        {/*    description */}
-            <Text style={styles.description} numberOfLines={3}>
-                {props.description}
-            </Text>
+                {/*    description */}
+                <Text style={styles.description} numberOfLines={3}>
+                    {props.description}
+                </Text>
 
-            <View style={styles.data}>
-                <Text style={styles.heading}>โดย: <Text style={styles.author}>{props.author}</Text></Text>
-                <Text style={styles.date}>{moment(props.publishedAt).format("MMM Do YY") }</Text>
-            </View>
+                <View style={styles.data}>
+                    <Text style={styles.heading}>โดย: <Text style={styles.author}>{props.author}</Text></Text>
+                    <Text style={styles.date}>{moment(props.publishedAt).format("MMM Do YY")}</Text>
+                </View>
 
-        {/*     source */}
-            <View style={{marginTop: 10}}>
-                <Text>การดู: <Text style={styles.source}>{props.sourceName}</Text></Text>
-            </View>
+                {/*     source */}
+                <View style={{ marginTop: 0 }}>
+                    <Text>การดู: <Text style={styles.source}>{format(props.sourceName)}</Text></Text>
+                </View>
             </View>
         </Pressable>
     )
@@ -42,7 +51,7 @@ const Article = (props) => {
 export default Article;
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         width: "90%",
         alignSelf: "center",
         borderRadius: 20,
@@ -57,42 +66,48 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         marginTop: 10
     },
-    image:{
-        height: 200,
+    blockDetail: {
+        paddingBottom: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 10
+    },
+    image: {
+        height: 180,
         width: "100%",
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
     },
-    title:{
-        fontSize: 18,
-        fontWeight: "600",
-        marginTop: 10
-    },
-    description:{
+    title: {
         fontSize: 16,
-        fontWeight: "400",
-        marginTop: 10
+        fontWeight: "600",
+        marginTop: 0
     },
-    data:{
+    description: {
+        fontSize: 14,
+        fontWeight: "400",
+        marginTop: 5
+    },
+    data: {
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10
     },
-    heading:{
+    heading: {
 
     },
-    author:{
+    author: {
         fontWeight: "bold",
         fontSize: 15
     },
-    date:{
+    date: {
         fontWeight: "bold",
-        color: "#e63946",
+        color: "#32d191",
         fontSize: 15
     },
-    source:{
-        color: "#e63946",
+    source: {
+        color: "#32d191",
         fontWeight: "bold",
-        fontSize: 18
+        fontSize: 14
     }
 })

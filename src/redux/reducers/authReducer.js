@@ -30,6 +30,15 @@ const initialStateAuth = {
                     message: 'Login Success',
                     error: ''
                   };
+                  case type.UPDATEPRO_SUCCESS:
+                  return { 
+                    ...state,
+                    isLoading: false,
+                    user: action.payload,
+                    isLogin: true,
+                    message: 'Login Success',
+                    error: ''
+                  };
                 case type.LOGIN_FAILED:
                   return {
                     ...state,

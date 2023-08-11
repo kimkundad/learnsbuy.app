@@ -22,6 +22,10 @@ import Policy from './src/screens/Policy'
 import Terms from './src/screens/Terms'
 import PackageAll from './src/screens/PackageAll'
 import PackageDetail from './src/screens/PackageDetail'
+import BlogDetail from './src/screens/blogDetail'
+import VerificationScreen from './src/screens/VerificationScreen'
+import NewPassword from './src/screens/NewPassword'
+
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor} from './src/redux/store';
@@ -157,7 +161,10 @@ const HomeStack = () => {
             <Stack.Screen name="Course" component={Course} />
             <Stack.Screen name="PackageAll" component={PackageAll} />
             <Stack.Screen name="PackageDetail" component={PackageDetail} />
-
+            <Stack.Screen name="blogDetail" component={BlogDetail} />
+            <Stack.Screen name="VerificationScreen" component={VerificationScreen} />
+            <Stack.Screen name="NewPassword" component={NewPassword} />
+            <Stack.Screen name="Profile" component={Profile} />
           </Stack.Navigator>
         </NavigationContainer>
         </PersistGate>

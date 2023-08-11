@@ -1,8 +1,16 @@
 import * as type from '../types/auth';
 import axios from 'axios'
 const apiUrl = `https://61c823f0adee460017260ba9.mockapi.io/api/azer29/users`
-import { setCookie } from 'cookies-next';
 
+
+export const updateProfile = (user) => async dispatch => {
+
+  dispatch({
+    type: type.UPDATEPRO_SUCCESS,
+    payload: user
+});
+
+}
 
 export const login = (user) => async dispatch => {
         dispatch({

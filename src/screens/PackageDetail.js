@@ -26,7 +26,6 @@ const PackageDetail = ({ route }) => {
     const { data: getPackage, isLoading: fetchLoading } = getPackageId(pack.id)
 
 
-
     return (
         <SafeAreaView>
             <StatusBar backgroundColor="#32d191" />

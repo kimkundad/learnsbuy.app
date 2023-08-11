@@ -354,6 +354,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                                         </TouchableOpacity>
                                     ))}
                                 </View>
+                                
                             </View>
                         </View>
                     </View>

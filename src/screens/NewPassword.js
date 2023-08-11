@@ -1,13 +1,13 @@
-import React,{useState} from 'react'
-import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { StyleSheet, Text, ScrollView, View, StatusBar, Image, TextInput, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
-import Buttons from '../components/ButtonsLogin'
-import { newPasswords2 } from "../../services/api"
-import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from '@react-navigation/native';
+import { newPasswords } from "../../services/api"
 
-const ProfilePassword = ({ navigation }) => {
-    const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
+const NewPassword = ({ route, navigation: { navigate } }) => {
 
+    const email = route.params.email;
+    const navigation = useNavigation();
     const [isPasswordShown, setIsPasswordShown] = useState(true);
     const [password, setPassword] = useState('');
     const [conpassword, setConPassword] = useState('');
@@ -15,8 +15,8 @@ const ProfilePassword = ({ navigation }) => {
     const [regisError, setRegisError] = useState(false);
     const [regisSuccess, setRegisSuccess] = useState(false);
     const [btnDis, setBtnDis] = useState(false);
-    const [token, settoken] = useState(user?.token);
 
+    
     const handleSubmit = async () => {
 
         setBtnDis(true)
@@ -49,8 +49,8 @@ const ProfilePassword = ({ navigation }) => {
         }
         
 
-        const response = await newPasswords2({
-            token,
+        const response = await newPasswords({
+            email,
             password
         })
         if (response.status === 200) {
@@ -58,8 +58,8 @@ const ProfilePassword = ({ navigation }) => {
             setRegisError(false)
             setRegisSuccess(true)
             setTimeout(function(){ 
-                navigation.goBack()
-             }, 2000);
+                navigation.navigate('Login')
+             }, 4000);
             
         }else{
             setBtnDis(false)
@@ -71,16 +71,14 @@ const ProfilePassword = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={{flex:1,backgroundColor:'#fff',flexDirection:'column'}}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
             <StatusBar backgroundColor="#32d191" />
             <View
                 style={{
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    paddingHorizontal: 10,
-                    borderBottomColor: "#dadde1",
-                                borderBottomWidth: 1,
+                    paddingHorizontal: 8,
                 }}
             >
                 <TouchableOpacity
@@ -102,14 +100,14 @@ const ProfilePassword = ({ navigation }) => {
                         color: "#666",
                     }}
                 >
-                    เปลี่ยนรหัสผ่าน
+                    New Password
                 </Text>
                 <TouchableOpacity
                     style={{
                         padding: 5,
                     }}
                 >
-                    <Icon name="notifications-outline" size={28} color="#666" />
+
                 </TouchableOpacity>
             </View>
             <View style={{
@@ -215,7 +213,8 @@ const ProfilePassword = ({ navigation }) => {
                         </View>
                     </View>
                 }
-                    <View style={{
+
+                <View style={{
                         flexDirection: 'row',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -298,15 +297,12 @@ const ProfilePassword = ({ navigation }) => {
                 
             </View>
             </View>
-
-
-
         </ScrollView>
     )
 
 }
 
-export default ProfilePassword
+export default NewPassword
 
 const styles = StyleSheet.create({
     input:{

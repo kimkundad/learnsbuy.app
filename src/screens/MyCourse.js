@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Buttons from '../components/ButtonsLogin'
 import LinearGradient from 'react-native-linear-gradient';
 import { useSelector, useDispatch } from "react-redux";
+import myCourse from '../../services/myCourse';
 
 const win = Dimensions.get('window');
 
@@ -14,10 +15,13 @@ const IMAGE_HEIGHT = 118;
 
 const EditName = ({ navigation }) => {
 
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
-    
+    const { data: mycourse, isLoading: fetchLoading } = myCourse()
     useEffect(() => {
-        console.log('true ', isLogin);
 
         if (isLogin === false) {
             navigation.navigate('Login')
@@ -40,7 +44,7 @@ const EditName = ({ navigation }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.goBack()}
+                    onPress={() => navigation.navigate('Profile')}
                     style={{
                         padding: 5,
                     }}
@@ -105,7 +109,7 @@ const EditName = ({ navigation }) => {
                                         paddingHorizontal: 20,
                                         fontWeight: 700,
                                     }}>
-                                        150,000
+                                        {numberWithCommas(user?.profile?.user_coin)}
                                     </Text>
                                 </View>
 
@@ -118,8 +122,16 @@ const EditName = ({ navigation }) => {
                             marginTop: 10,
                             paddingHorizontal: 10
                         }}>
+                            {fetchLoading ?
+                                <View></View>
+                                :
+                                <View>
+                                    {mycourse?.data?.map((pack) => (
                             <TouchableOpacity
-                            onPress={()=>navigation.navigate('VideoPage')}
+                            onPress={()=> 
+                                navigation.navigate('VideoPage', { product: pack }) 
+                            }
+                            
                             style={{
                                 marginVertical: 5,
                                 borderBottomColor: "#dadde1",
@@ -144,9 +156,10 @@ const EditName = ({ navigation }) => {
                                             height: '100%',
                                             borderRadius: 10,
                                         }}
-                                        source={require("../assets/img/products/1605940945.jpg")}
+                                        source={{ uri: 'https://learnsbuy.com/assets/uploads/' + pack.image_course }}
                                     />
                                 </View>
+
                                 <View
                                     style={{
                                         flex: 1,
@@ -166,7 +179,7 @@ const EditName = ({ navigation }) => {
                                                 maxWidth: '100%',
                                             }}
                                         >
-                                            ภาษาญี่ปุ่นเบื้องต้น 1 เรียนภาษาญี่ปุ่นเริ่มต้น
+                                            {pack.title_course} 
                                         </Text>
                                         <View style={{
                                             flexDirection: 'row',
@@ -182,7 +195,7 @@ const EditName = ({ navigation }) => {
                                                     color: '#9e9e9e',
                                                 }}
                                             >
-                                                ไวยากรณ์ N4 N5 (1)
+                                                {pack.code_course}
                                             </Text>
                                         </View>
                                         <View style={{
@@ -199,101 +212,17 @@ const EditName = ({ navigation }) => {
                                                     color: '#9e9e9e',
                                                 }}
                                             >
-                                                2 hours, 20 minutes
+                                                {pack.time_course}
                                             </Text>
                                         </View>
                                     </View>
                                 </View>
                             </View>
                             </TouchableOpacity>
-                            <TouchableOpacity
-                            onPress={()=>navigation.navigate('VideoPage')}
-                            style={{
-                                marginVertical: 5,
-                                borderBottomColor: "#dadde1",
-                                borderBottomWidth: 1,
-                            }}
-                            >
-                            <View style={{
-                                width: '100%',
-                                height: 100,
-                                flexDirection: "row",
-                                marginBottom: 10,
-                                alignItems: 'center',
-                            }}>
-                                <View style={{
-                                    width: '50%',
-                                    height: 100,
-                                    
-                                }}>
-                                    <Image
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            borderRadius: 10,
-                                        }}
-                                        source={require("../assets/img/products/1605940984.jpg")}
-                                    />
-                                </View>
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        height: '100%',
-                                        justifyContent: 'space-around',
-                                        marginLeft:10
-                                    }}
-                                >
-                                    <View>
-                                        <Text ellipsizeMode='tail' numberOfLines={2}
-                                            style={{
-                                                fontWeight: 'bold',
-                                                fontSize: 14,
-                                                color: "#666",
-                                                maxWidth: '100%',
-                                                letterSpacing: 0.5,
-                                                maxWidth: '100%',
-                                            }}
-                                        >
-                                            ติวสอบวัดระดับภาษาญี่ปุ่น JLPT N3
-                                        </Text>
-                                        <View style={{
-                                            flexDirection: 'row',
-                                            paddingHorizontal: 5,
-                                            marginTop:5
-                                        }}>
-                                            <Icon name="pricetags-outline" size={16} color="#4caf50"  />
-                                            <Text
-                                                style={{
-                                                    fontWeight: 400,
-                                                    fontSize: 14,
-                                                    marginLeft:5,
-                                                    color: '#9e9e9e',
-                                                }}
-                                            >
-                                                FIGHTO PAT
-                                            </Text>
-                                        </View>
-                                        <View style={{
-                                            flexDirection: 'row',
-                                            paddingHorizontal: 5,
-                                            marginTop:5
-                                        }}>
-                                            <Icon name="stopwatch-outline" size={16} color="#ff741a"  />
-                                            <Text
-                                                style={{
-                                                    fontWeight: 400,
-                                                    fontSize: 14,
-                                                    marginLeft:5,
-                                                    color: '#9e9e9e',
-                                                }}
-                                            >
-                                                2 hours, 20 minutes
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View>
+                            ))}
                             </View>
-                            </TouchableOpacity>
+                            }
+                            
                         </View>
 
                     </View>

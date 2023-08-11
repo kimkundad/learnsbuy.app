@@ -1,9 +1,45 @@
-import React,{useState} from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
-import Buttons from '../components/ButtonsLogin'
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { updateProfile } from '../redux/actions/auth';
 
-const EditName = ({ navigation }) => {
+
+const EditName = () => {
+    const navigation = useNavigation();
+    const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const [name, setName] = useState(user?.profile?.name);
+    const [token, settoken] = useState(user?.token);
+
+      const handleSubmit = async () => {
+
+        console.log('handleSubmit', name)
+
+        try {
+            const { data } = await axios.post('https://www.learnsbuy.com/api/postName', {
+                token , name
+            })
+            if(data.status === 200){
+                console.log('response', data?.data)
+                dispatch(updateProfile(data?.data))
+                navigation.goBack()
+            }
+            
+          } catch (err) {
+            console.log('err xx00--> ', err)
+            return err.response.data
+          }
+
+        // const response = await postName(name)
+        // console.log('response', response)
+        //   if(response.status === 200){
+    
+        //     navigation.navigate('Profile')
+        //   }
+      }
 
     return (
         <ScrollView style={{flex:1,backgroundColor:'#fff',flexDirection:'column'}}>
@@ -58,11 +94,24 @@ const EditName = ({ navigation }) => {
                 <View style={{flexDirection:'column',paddingTop:20}} >
                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:'#ededed',width:'100%',borderRadius:10,height:60,paddingLeft:15}} >
                         <Icon name="person-outline" size={22} color="#818181" />
-                        <TextInput  style={styles.input} placeholder="ป้อนชื่อ - นามสกุล" placeholderTextColor="#818181" />
+                        <TextInput  
+                        style={styles.input} 
+                        placeholder="ป้อนชื่อ - นามสกุล" 
+                        placeholderTextColor="#818181" 
+                        value={name}
+                        onChangeText={(text) => setName(text)} 
+                        />
 
                     </View>
 
-                    <Buttons  btn_text={"ยืนยัน"} />
+                    <View style={{ alignItems: 'center' }}>
+                        <TouchableOpacity 
+                        style={{justifyContent:'center',backgroundColor:'#32d191', width: '100%', height:40,marginBottom:0,borderRadius:10, marginTop:10}} 
+                        onPress={() => handleSubmit()}
+                        >
+                            <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily:'OpenSans-SemiBold',color:'#fff'}} >บันทึก</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 
             </View>

@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, ScrollView, View, StatusBar, Image, TextInput, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
-import Buttons from '../components/ButtonsLogin'
 import { resetPassword } from "../../services/api"
+import { useNavigation } from '@react-navigation/native';
 
-const Forgot = ({ navigation }) => {
+const Forgot = () => {
+
+    const navigation = useNavigation();
 
     // เราได้ส่งลิงก์รีเซ็ตรหัสผ่านของคุณทางอีเมลแล้ว!
     const IMAGE_HEIGHT = 320;
@@ -14,14 +16,15 @@ const Forgot = ({ navigation }) => {
     const handleSubmit = async () => {
   
         const response = await resetPassword({
-            email: email
+            email
           })
-          console.log('response --> ',response.status)
+          console.log('data response xx--> ',response.status)
           setMsgResponse(response.message)
           setLoading(true)
           if(response.status === 200){
             setLoading(false)
-            navigation.replace('HomePage')
+    
+            navigation.navigate('VerificationScreen', {email : email})
           }
     }
 
