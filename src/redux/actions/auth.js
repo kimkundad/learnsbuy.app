@@ -1,5 +1,9 @@
 import * as type from '../types/auth';
+import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {requestUserPermission, getFcmToken, getNoti} from '../../utils/notificationHelper';
+
 const apiUrl = `https://61c823f0adee460017260ba9.mockapi.io/api/azer29/users`
 
 
@@ -32,6 +36,11 @@ export const login = (user) => async dispatch => {
 
           if (response?.data?.status == 200) { 
             console.log('@@@Login response xxx:: ', response?.data?.status);
+            
+                  AsyncStorage.setItem('token_web', response?.data?.data?.token);
+                  requestUserPermission();
+                  getFcmToken()
+             
                   dispatch({
                      type: type.GET_USERS_SUCCESS,
                      payload: response?.data?.data
@@ -136,6 +145,7 @@ export const login = (user) => async dispatch => {
       type: type.CREATE_USER_REQUEST,
     });
 
+    
       try {
         console.log('@@@Register user 1 ', user);
         axios.request({
@@ -150,6 +160,11 @@ export const login = (user) => async dispatch => {
        .then(function (response) {
         console.log('@@@Register user 2', response?.data);
         if (response?.data?.status == 200) { 
+          
+          AsyncStorage.setItem('token_web', response?.data?.data?.token);
+          requestUserPermission();
+          getFcmToken()
+
           dispatch({
             type: type.GET_USERS_SUCCESS,
             payload: response?.data?.data

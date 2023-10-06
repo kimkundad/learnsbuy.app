@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Text,
     View,
@@ -18,6 +18,7 @@ import useCourse from '../../services/course';
 import useslideShow from '../../services/slideShow';
 import usePackage from '../../services/package';
 import Header from '../components/header'
+import messaging from '@react-native-firebase/messaging';
 
 const IMAGE_WITH = 180;
 const IMAGE_HEIGHT = 118;
@@ -31,6 +32,12 @@ const HomePage = ({ navigation: { navigate } }) => {
     const { data: slideShow, isLoading: fetchLoading } = useslideShow()
     const { data: pacKage, isLoading: fetchLoading3 } = usePackage()
     console.log('data-->', slideShow?.data)
+    
+
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
     return (
         <SafeAreaView>
             <View>
@@ -73,9 +80,9 @@ const HomePage = ({ navigation: { navigate } }) => {
                         >
                             <Text
                                 style={{
-                                    fontWeight: "bold",
                                     fontSize: 16,
-                                    paddingTop: 5
+                                    paddingTop: 5,
+                                    fontFamily: "IBMPlexSansThai-Bold"
                                 }}
                             >
                                 แพ็กเกจสุดคุ้ม
@@ -96,9 +103,9 @@ const HomePage = ({ navigation: { navigate } }) => {
 
                                 <Text
                                     style={{
-                                        fontWeight: "bold",
+                                        fontFamily: "IBMPlexSansThai-Bold",
                                         fontSize: 14,
-                                        color: "#666",
+                                        color: "#666666",
                                         marginRight: 2,
                                     }}
                                 >
@@ -107,7 +114,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                                 <Icon
                                     name="chevron-forward-outline"
                                     size={18}
-                                    color="#666"
+                                    color="#666666"
                                 />
                             </TouchableOpacity>
                         </View>
@@ -124,6 +131,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                             >
                                 {pacKage?.data?.get_package.map((pack) => (
                                 <Package
+                                    key={pack.id}
                                     title={pack.c_pack_name}
                                     img={{ uri: 'https://learnsbuy.com/assets/uploads/' + pack.c_pack_image }}
                                     price={pack.c_pack_price}
@@ -140,7 +148,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                         <View>
                             <Text
                                 style={{
-                                    fontWeight: "bold",
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 16,
                                     paddingTop: 5,
                                     marginTop:0
@@ -177,10 +185,11 @@ const HomePage = ({ navigation: { navigate } }) => {
                                     >
                                         <Text
                                             style={{
+                                                fontFamily: "IBMPlexSansThai-Regular",
                                                 color:
                                                     activeCategoryIndex === index
-                                                        ? "#fff"
-                                                        : "#666",
+                                                        ? "#ffffff"
+                                                        : "#666666",
                                                 fontSize: 14,
                                             }}
                                         >
@@ -203,7 +212,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                                 >
                                     <Text
                                         style={{
-                                            fontWeight: "bold",
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             fontSize: 16,
                                             paddingTop: 5
                                         }}
@@ -226,9 +235,9 @@ const HomePage = ({ navigation: { navigate } }) => {
                                             >
                                         <Text
                                             style={{
-                                                fontWeight: "bold",
+                                                fontFamily: "IBMPlexSansThai-Bold",
                                                 fontSize: 14,
-                                                color: "#666",
+                                                color: "#666666",
                                                 marginRight: 2,
                                             }}
                                         >
@@ -238,7 +247,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                                         <Icon
                                             name="chevron-forward-outline"
                                             size={18}
-                                            color="#666"
+                                            color="#666666"
                                         />
                                     </TouchableOpacity>
                                 </View>
@@ -258,7 +267,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                                             style={{
                                                 marginVertical: 5,
                                                 elevation:2,
-                                                backgroundColor:"#FFF",
+                                                backgroundColor:"#FFFFFF",
                                                 borderRadius:15,
                                                 width: IMAGE_WITH,
                                             }}
@@ -297,9 +306,10 @@ const HomePage = ({ navigation: { navigate } }) => {
                                     <View>
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
-                                                fontWeight: 'bold',
+                                                fontFamily: "IBMPlexSansThai-Medium",
                                                 fontSize: 12,
-                                                color: "#666",
+                                                color: "#666666",
+                                                lineHeight: 18,
                                             }}
                                         >
                                             {product.title_course}
@@ -310,21 +320,21 @@ const HomePage = ({ navigation: { navigate } }) => {
                                         }}>
                                             <Text
                                                 style={{
-                                                    fontWeight: 700,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     color: '#00c402',
                                                     paddingTop: 1
                                                 }}
                                             >
-                                                {product.price_course}
+                                                {numberWithCommas(product.price_course)}
                                             </Text>
                                             <Text
                                                 style={{
-                                                    fontWeight: 600,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     marginLeft:5,
-                                                    color: '#666',
-                                                    paddingTop: 2
+                                                    color: '#666666',
+                                                    paddingTop: 0
                                                 }}
                                             >
                                                 บาท
@@ -332,15 +342,15 @@ const HomePage = ({ navigation: { navigate } }) => {
                                             {product.discount !== 0 ?
                                                 <Text
                                                 style={{
-                                                    fontWeight: 200,
+                                                    fontFamily: "IBMPlexSansThai-Light",
                                                     fontSize: 12,
-                                                    color: '#666',
+                                                    color: '#666666',
                                                     marginLeft: 10,
                                                     paddingTop: 4,
                                                     textDecorationLine: 'line-through'
                                                 }}
                                             >
-                                                {product.discount} บาท
+                                                {numberWithCommas(product.discount)} บาท
                                             </Text>
                                             : 
                                                 <Text></Text>

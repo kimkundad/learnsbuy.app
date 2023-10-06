@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, } from 'react-native'
 import { getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -25,6 +25,12 @@ import PackageDetail from './src/screens/PackageDetail'
 import BlogDetail from './src/screens/blogDetail'
 import VerificationScreen from './src/screens/VerificationScreen'
 import NewPassword from './src/screens/NewPassword'
+import Pay1 from './src/screens/Pay1'
+import Pay2 from './src/screens/Pay2'
+import MessagesScreen from './src/screens/MessagesScreen'
+import MessagesScreen2 from './src/screens/MessagesScreen2'
+import ChatList from './src/screens/ChatList'
+
 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -33,6 +39,7 @@ import { store, persistor} from './src/redux/store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {HomeTabs} from './src/HomeTabs';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -47,7 +54,7 @@ const screenOptions = {
     left: 0,
     elevation: 0,
     height: 60,
-    background: "#fff"
+    background: "#ffffff"
   }
 }
 
@@ -165,6 +172,12 @@ const HomeStack = () => {
             <Stack.Screen name="VerificationScreen" component={VerificationScreen} />
             <Stack.Screen name="NewPassword" component={NewPassword} />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Pay1" component={Pay1} />
+            <Stack.Screen name="Pay2" component={Pay2} />
+            <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
+            <Stack.Screen name="MessagesScreen2" component={MessagesScreen2} />
+            <Stack.Screen name="ChatList" component={ChatList} />
+            
           </Stack.Navigator>
         </NavigationContainer>
         </PersistGate>

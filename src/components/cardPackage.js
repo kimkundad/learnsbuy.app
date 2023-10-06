@@ -46,7 +46,7 @@ const cardPackage = ({title,img, price, discount,onPress}) => {
                                     }}>
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
-                                                fontWeight: 'bold',
+                                                fontFamily: "IBMPlexSansThai-Bold",
                                                 fontSize: 12,
                                                 color: "#666",
                                                 maxWidth: '100%',
@@ -70,7 +70,7 @@ const cardPackage = ({title,img, price, discount,onPress}) => {
                                             </Text>
                                             <Text
                                                 style={{
-                                                    fontWeight: 600,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     marginLeft:5,
                                                     color: '#666',
@@ -82,7 +82,7 @@ const cardPackage = ({title,img, price, discount,onPress}) => {
                                             {discount !== 0 ?
                                                 <Text
                                                 style={{
-                                                    fontWeight: 200,
+                                                    fontFamily: "IBMPlexSansThai-Regular",
                                                     fontSize: 13,
                                                     color: '#666',
                                                     marginLeft: 10,

@@ -1,17 +1,18 @@
-import React,{useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import usePackage from '../../services/package';
 import CardPackage from '../components/cardPackage'
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from '@react-navigation/native';
 
 const PackagesAll = () => {
 
-    
+    const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
     const { data: pacKage, isLoading: fetchLoading3 } = usePackage()
     const navigation = useNavigation();
     return (
-        <ScrollView style={{flex:1,backgroundColor:'#fff',flexDirection:'column'}}>
+        <ScrollView style={{flex:1,backgroundColor:'#ffffff',flexDirection:'column'}}>
             <StatusBar backgroundColor="#32d191" />
             <View
                 style={{
@@ -32,30 +33,55 @@ const PackagesAll = () => {
                     <Icon
                         name="arrow-back-outline"
                         size={28}
-                        color="#666"
+                        color="#666666"
                     />
                 </TouchableOpacity>
                 <Text
                     style={{
-                        fontWeight: "bold",
+                        fontFamily: "IBMPlexSansThai-Bold",
                         fontSize: 16,
-                        color: "#666",
+                        color: "#666666",
                     }}
                 >
                     แพ็กเกจสุดคุ้ม
                 </Text>
-                <TouchableOpacity
-                    style={{
-                        padding: 5,
-                    }}
-                >
-                    <Icon name="notifications-outline" size={28} color="#666" />
-                </TouchableOpacity>
+                <View
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center"
+                        }}
+                    >
+                        {isLogin === true ?
+                        <>
+                        {user?.profile?.id === 1 ?
+                        <TouchableOpacity
+                        onPress={()=>navigation.navigate('ChatList')}
+                        >
+                        <Icon name="chatbubbles-outline" size={28} color="#666666" />
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity
+                                onPress={()=>navigation.navigate('MessagesScreen')}
+                            >
+                                <Icon name="chatbubbles-outline" size={28} color="#666666" />
+                            </TouchableOpacity>
+                        }
+                        </>    
+                            
+                        :
+                        <TouchableOpacity
+                        onPress={()=>navigation.navigate('Login')}
+                        >
+                            <Icon name="chatbubbles-outline" size={28} color="#666666" />
+                        </TouchableOpacity>
+                        }
+                        
+                    </View>
             </View>
             <View style={{
                     paddingHorizontal: 10,
                 }}>
-            <View style={{flex:2,flexDirection:'column',backgroundColor:'#fff',paddingTop:10,paddingHorizontal:'3%', paddingBottom:50}} >
+            <View style={{flex:2,flexDirection:'column',backgroundColor:'#ffffff',paddingTop:10,paddingHorizontal:'3%', paddingBottom:50}} >
                 
 
             {fetchLoading3 ?
@@ -92,7 +118,7 @@ const styles = StyleSheet.create({
         position:'relative',
         height:'100%',
         width:'90%',
-        fontFamily:'OpenSans-Medium',
+        fontFamily:'IBMPlexSansThai-Medium',
         paddingLeft:20,
     },
     social_btn:{
@@ -100,7 +126,7 @@ const styles = StyleSheet.create({
         width:'100%',
         borderWidth:1,
         borderRadius:10,
-        borderColor:'#ddd',
+        borderColor:'#dddddd',
         flexDirection:'row',
         alignItems:'center',
         marginBottom:20

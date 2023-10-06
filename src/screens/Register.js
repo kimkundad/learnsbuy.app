@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const Register = ({ navigation }) => {
 
-    const [isPasswordShown, setIsPasswordShown] = useState(false);
+    const [isPasswordShown, setIsPasswordShown] = useState(true);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -56,19 +56,46 @@ const Register = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#ffffff', flexDirection: 'column' }}>
             <StatusBar backgroundColor="#32d191" />
-            <View style={{ flex: 2, flexDirection: 'column', backgroundColor: '#fff', paddingTop: 10, paddingHorizontal: '3%', marginTop: 20 }} >
+            <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingHorizontal: 10,
+                        borderBottomColor: "#d6d9dc",
+                        borderBottomWidth: 0.3,
+                    }}
+                >
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            paddingTop: 5,
+                            paddingBottom: 5
+                        }}
+                    >
+                        <TouchableOpacity
+                        onPress={()=>navigation.navigate('HomePage')}
+                        >
+                        <Image
+                            source={require("../assets/img/Learnsbuy_new_web_logo_v3.png")}
+                            style={{ width: 144, height: 40 }}
+                        />
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+            <View style={{ flex: 2, flexDirection: 'column', backgroundColor: '#ffffff', paddingTop: 10, paddingHorizontal: '3%', marginTop: 20 }} >
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }} >
-                    <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 28, color: '#000000' }} >ยินดีต้อนรับสู่ Learnsbuy</Text>
+                    <Text style={{ fontFamily: 'IBMPlexSansThai-Bold', fontSize: 28, color: '#000000' }} >ยินดีต้อนรับสู่ Learnsbuy</Text>
                     <Image source={require('../assets/img/waving_hand.png')} style={{ width: 30, height: 30 }} />
                 </View>
-                <Text style={{ fontFamily: "OpenSans-Regular", fontSize: 13, paddingTop: 10, color: "#777777" }} >
+                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", fontSize: 13, paddingTop: 10, color: "#777777" }} >
                     มาเรียนภาษาญี่ปุ่นกันเถอะ กับครูพี่โฮม คนเดียวที่ได้ PAT ญี่ปุ่น 300 คะแนนเต็ม เกียรตินิยมอันดับ 1 (เหรียญทอง) อักษรศาสตร์ จุฬาฯ
                     สื่อชั้นนำยอมรับ ประสบการณ์สอนกว่า 18 ปี
                 </Text>
 
-                {regisError === false &&
+                {regisError === true &&
                     <View style={{
                         marginHorizontal: 0,
                         borderColor: "#f1bc00",
@@ -88,7 +115,7 @@ const Register = ({ navigation }) => {
                             }}
                         >
                             <View style={{
-                                backgroundColor: "#fcf8e3f0",
+                                backgroundColor: "#FCF3CF",
                                 paddingVertical: 6,
                                 paddingHorizontal: 8,
                                 borderRadius: 20
@@ -100,14 +127,14 @@ const Register = ({ navigation }) => {
                                     color: "#000000",
                                     fontSize: 14,
                                     paddingHorizontal: 20,
-                                    fontWeight: 700,
+                                    fontFamily: 'IBMPlexSansThai-Bold',
                                     width: 270
                                 }}>สมัครสมาชิกไม่สำเร็จ</Text>
                                 <Text style={{
                                     color: "#345c74",
                                     fontSize: 12,
                                     paddingHorizontal: 20,
-                                    fontWeight: 400,
+                                    fontFamily: 'IBMPlexSansThai-Bold',
                                 }}>
                                     {messageError}
                                 </Text>
@@ -245,39 +272,45 @@ const Register = ({ navigation }) => {
                         }}
                             onPress={() => onRegister()}
                         >
-                            <Text style={{ fontSize: 15, letterSpacing: 1.5, textAlign: 'center', position: 'relative', fontFamily: 'OpenSans-SemiBold', color: '#ffffff' }} >สมัครสมาชิก</Text>
+                            <Text style={{ fontSize: 15, letterSpacing: 1.5, textAlign: 'center', position: 'relative', fontFamily: 'IBMPlexSansThai-Bold', color: '#ffffff' }} >สมัครสมาชิก</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
 
+            <View style={{ flex: 1, flexDirection: 'row', marginTop:18, justifyContent: 'center', alignItems: 'flex-end', backgroundColor: '#ffffff', marginBottom: 40 }} >
+                    <Text style={{ fontFamily: 'IBMPlexSansThai-Medium', fontSize: 17, color: '#818181' }} >มีบัญชีใช้งานอยู่แล้ว? </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                        <Text style={{ fontSize: 18, fontFamily: 'IBMPlexSansThai-Bold', color: '#32d191', paddingLeft:10 }} >เข้าสู่ระบบ</Text>
+                    </TouchableOpacity>
+                </View>
 
             {/* social login section */}
-            <View style={{ flex: 2, backgroundColor: '#fff', flexDirection: 'column', paddingHorizontal: '3%' }} >
-                <Text style={{ fontFamily: "OpenSans-Bold", textAlign: 'center', marginVertical: 35, color: '#818181', fontSize: 20 }} >Or</Text>
+            {/* <View style={{ flex: 2, backgroundColor: '#fff', flexDirection: 'column', paddingHorizontal: '3%' }} >
+                <Text style={{ fontFamily: 'IBMPlexSansThai-Bold', textAlign: 'center', marginVertical: 35, color: '#818181', fontSize: 20 }} >Or</Text>
 
                 <View style={{ flexDirection: 'column', alignItems: 'center', width: '100%' }} >
                     <TouchableOpacity onPress={() => console.log("google login")} style={styles.social_btn} >
                         <Image style={styles.social_img} source={require('../assets/img/google_icon.png')} />
-                        <Text style={{ width: '80%', textAlign: 'center', fontSize: 16, fontFamily: 'OpenSans-Medium' }} >Sign up with Google </Text>
+                        <Text style={{ width: '80%', textAlign: 'center', fontSize: 16, fontFamily: 'IBMPlexSansThai-Medium', }} >Sign up with Google </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => console.log("facebook login")} style={styles.social_btn} >
                         <Image style={styles.social_img} source={require('../assets/img/facebook_icon.png')} />
-                        <Text style={{ width: '80%', textAlign: 'center', fontSize: 16, fontFamily: 'OpenSans-Medium' }} >Sign up with Facebook </Text>
+                        <Text style={{ width: '80%', textAlign: 'center', fontSize: 16, fontFamily: 'IBMPlexSansThai-Medium', }} >Sign up with Facebook </Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end', backgroundColor: '#fff', marginBottom: 40 }} >
                     <Text style={{ fontFamily: 'OpenSans-Medium', fontSize: 17, color: '#818181' }} >If you have a account? </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Text style={{ fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: '#333' }} >Sign In</Text>
+                        <Text style={{ fontSize: 18, fontFamily: 'IBMPlexSansThai-Bold', color: '#333' }} >Sign In</Text>
                     </TouchableOpacity>
                 </View>
 
 
 
-            </View>
+            </View> */}
 
 
         </ScrollView>
@@ -292,7 +325,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         height: '100%',
         width: '90%',
-        fontFamily: 'OpenSans-Medium',
+        fontFamily: 'IBMPlexSansThai-Medium',
         paddingLeft: 20,
     },
     social_btn: {
@@ -300,7 +333,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#ddd',
+        borderColor: '#dddddd',
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 20

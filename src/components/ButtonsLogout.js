@@ -20,7 +20,7 @@ const Buttons = ({ btn_text}) => {
             <TouchableOpacity style={{justifyContent:'center',backgroundColor:'#ff0000', width: '60%', height:40,marginBottom:30,borderRadius:10, marginTop:10}} 
             onPress={() => clicklogout()}
             >
-                <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily:'OpenSans-SemiBold',color:'#fff'}} >{btn_text}</Text>
+                <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily:'OpenSans-SemiBold',color:'#fff', fontFamily: "IBMPlexSansThai-Bold",}} >{btn_text}</Text>
             </TouchableOpacity>
         </View>
     )

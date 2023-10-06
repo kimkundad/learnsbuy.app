@@ -5,7 +5,6 @@ import ProgressCircle from 'react-native-progress-circle'
 
 const CourseList = ({num, videos, color, onPress, bg}) => {
 
-
     return (
         <TouchableOpacity
             style={{
@@ -36,11 +35,13 @@ const CourseList = ({num, videos, color, onPress, bg}) => {
                     color: "#345c74",
                     fontSize: 12,
                     paddingLeft: 20,
+                    fontFamily: "IBMPlexSansThai-Regular",
                     width: 280
                 }}>
                     {videos.course_video_name}
                 </Text>
                 <Text style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
                     color: "#666",
                     fontSize: 12,
                     paddingLeft: 20,

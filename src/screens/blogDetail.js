@@ -63,7 +63,7 @@ const BlogDetail = ({ route, navigation }) => {
                                         borderWidth: 0.5, }}></View>
                 <View style={styles.data}>
                     <Text style={styles.date}>{moment(product.publishedAt).format("MMM Do YY")}</Text>
-                    <Text>การดู: <Text style={styles.source}>{format(product.sourceName)}</Text></Text>
+                    <Text style={{ fontFamily: "IBMPlexSansThai-Bold", }}>การดู: <Text style={styles.source}>{format(product.sourceName)}</Text></Text>
                 </View>
                 <View style={{ borderColor: "#dadde1",
                                         backgroundColor: "#FFF",
@@ -72,7 +72,7 @@ const BlogDetail = ({ route, navigation }) => {
 
                 {/*     source */}
                 
-                <View style={{ marginBottom:20, marginTop:10 }}>
+                <View style={{ marginBottom:20, marginTop:10, fontFamily: "IBMPlexSansThai-Bold", }}>
                     <HTMLView value={product.detail}/>
                 </View>
             </View>
@@ -112,12 +112,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        fontWeight: "600",
+        fontFamily: "IBMPlexSansThai-Bold",
         marginTop: 0
     },
     description: {
         fontSize: 14,
-        fontWeight: "400",
+        fontFamily: "IBMPlexSansThai-Regular",
         marginTop: 5
     },
     data: {
@@ -129,17 +129,17 @@ const styles = StyleSheet.create({
 
     },
     author: {
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 15
     },
     date: {
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         color: "#32d191",
         fontSize: 15
     },
     source: {
         color: "#32d191",
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 14
     }
 })

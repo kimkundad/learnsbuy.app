@@ -42,7 +42,7 @@ const About = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text
                     style={{
-                        fontWeight: "bold",
+                        fontFamily: "IBMPlexSansThai-Bold",
                         fontSize: 16,
                         color: "#fff",
                     }}
@@ -54,7 +54,7 @@ const About = ({ navigation }) => {
                         padding: 5,
                     }}
                 >
-                    <Icon name="notifications-outline" size={28} color="#fff" />
+                    
                 </TouchableOpacity>
             </View>
             <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
@@ -87,12 +87,12 @@ const About = ({ navigation }) => {
                                 <Text style={{
                                     fontSize: 22,
                                     color: "#038206",
-                                    fontWeight: "bold"
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                 }}>ครูพี่โฮม</Text>
                                 <Text style={{
                                     fontSize: 14,
                                     color: "#666",
-                                    fontWeight: "bold"
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                 }}>ผู้ก่อตั้งสถาบันสอนถาษาญี่ปุ่น "เสาหลักแห่งศิลป์ญี่ปุ่น"</Text>
                             </View>
                             <View style={{
@@ -102,9 +102,9 @@ const About = ({ navigation }) => {
                                     fontSize: 16,
                                     color: "#666",
                                     marginTop: 5,
-                                    fontWeight: "bold"
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                 }}>พรหมเทพ ชัยกิตติวณิชย์ (ครูพี่โฮม ZA-SHI)</Text>
-                                <Text>สถาบันติว PAT ญี่ปุ่นและภาษาญี่ปุ่น ZA-SHI ภาษาญี่ปุ่น (ครูพี่โฮม) คนแรกและคนเดียวที่ได้ PAT ญี่ปุ่น 300 คะแนนเต็ม เกียรตินิยมอันดับ 1 (เหรียญทอง) อักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</Text>
+                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular"}}>สถาบันติว PAT ญี่ปุ่นและภาษาญี่ปุ่น ZA-SHI ภาษาญี่ปุ่น (ครูพี่โฮม) คนแรกและคนเดียวที่ได้ PAT ญี่ปุ่น 300 คะแนนเต็ม เกียรตินิยมอันดับ 1 (เหรียญทอง) อักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</Text>
 
                             </View>
 
@@ -128,7 +128,7 @@ const About = ({ navigation }) => {
                                         color: "#000",
                                         fontSize: 12,
                                         paddingHorizontal: 20,
-                                        fontWeight: 700,
+                                        fontFamily: "IBMPlexSansThai-Bold",
                                         maxWidth: '100%'
                                     }}>
                                         อักษรศาสตร์บัณฑิต จุฬาลงกรณ์มหาวิทยาลัย เกียรตินิยมอันดับ 1 (เหรียญทอง) เอกภาษาญี่ปุ่น
@@ -155,7 +155,7 @@ const About = ({ navigation }) => {
                                         color: "#000",
                                         fontSize: 12,
                                         paddingHorizontal: 20,
-                                        fontWeight: 700,
+                                        fontFamily: "IBMPlexSansThai-Bold",
                                         maxWidth: '100%'
                                     }}>
                                         (ครูพี่โฮม) คนแรกและคนเดียวในประเทศไทยที่สอบ PAT ภาษาญี่ปุ่นได้ 300 คะแนนเต็ม
@@ -182,7 +182,7 @@ const About = ({ navigation }) => {
                                         color: "#000",
                                         fontSize: 12,
                                         paddingHorizontal: 20,
-                                        fontWeight: 700,
+                                        fontFamily: "IBMPlexSansThai-Bold",
                                         maxWidth: '100%'
                                     }}>
                                         ติวเตอร์ภาษาญี่ปุ่นอันดับ 1 ผู้ก่อตั้งสถาบันสอนถาษาญี่ปุ่น Za-shi, Learnsabuy มีสถิติติวลูกศิษย์ที่ติดอักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย ได้มากที่สุด
@@ -209,7 +209,7 @@ const About = ({ navigation }) => {
                                         color: "#000",
                                         fontSize: 12,
                                         paddingHorizontal: 20,
-                                        fontWeight: 700,
+                                        fontFamily: "IBMPlexSansThai-Bold",
                                         maxWidth: '100%'
                                     }}>
                                         ติวเตอร์ภาษาญี่ปุ่นที่ได้รับเชิญจากสื่อชั้นนำระดับประเทศ ไปตัว PAT ทั้งทาง GTH ON AIR (PLAY CHANNEL) และ TRUE VISIONS หรือ Trueplookpanya ( AdGang59 : 42 PAT 7 ภาษาญี่ปุ่น ครูพี่โฮม ZA-SHI )
@@ -224,7 +224,7 @@ const About = ({ navigation }) => {
                                     fontSize: 16,
                                     color: '#038206',
                                     marginTop: 5,
-                                    fontWeight: "bold"
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                 }}>ผลงานและรางวัล (ครูพี่โฮม)</Text>
 
 
@@ -248,7 +248,7 @@ const About = ({ navigation }) => {
                                             color: "#000",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             maxWidth: '100%'
                                         }}>
                                             ราลวัลชนะเลิศอันดับที่ 1 ในการแข่งขันเขียนเรียงความภาษาญี่ปุ่นในระดับอุดมศึกษาทั่วประเทศ
@@ -277,7 +277,7 @@ const About = ({ navigation }) => {
                                             color: "#000",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             maxWidth: '100%'
                                         }}>
                                         ได้รับทุนการศึกษาไปเรียนภาษาญี่ปุ่น ณ กรุงโตเกียว ประเทศญี่ปุ่น
@@ -306,7 +306,7 @@ const About = ({ navigation }) => {
                                             color: "#000",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             maxWidth: '100%'
                                         }}>
                                         ประกาศนียบัตรนิสิตอักษรศาสตร์ที่มีผลการเรียนดีเด่น เงินทุนศาสตราจารย์ รอง ศยามานนท์ - คณะอักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
@@ -334,7 +334,7 @@ const About = ({ navigation }) => {
                                             color: "#000",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             maxWidth: '100%'
                                         }}>
                                             ตัวแทนเอกภาษาญี่ปุ่นและจุฬาลงกรณ์มหาวิทยาลัย กล่าวสุนทรพจน์ภาษาญี่ปุ่นขอบคุณประธานบริษัทและคณะผู้บริหารบริษัท โตโยต้า มอเตอร์ (ประเทศไทย) จำกัด เนื่องในโอกาสที่มาเยือนจุฬาลงกรณ์มหาวิทยาลัย
@@ -362,7 +362,7 @@ const About = ({ navigation }) => {
                                             color: "#000",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             maxWidth: '100%'
                                         }}>
                                             ตัวแทนเอกภาษาญี่ปุ่นและจุฬาลงกรณ์มหาวิทยาลัย กล่าวสุนทรพจน์ภาษาญี่ปุ่นขอบคุณประธานบริษัทและคณะผู้บริหารบริษัท ธนาคาร Mitsubishi Tokyo UFJ ประเทศญี่ปุ่น เนื่องในโอกาสที่มาเยือนจุฬาลงกรณ์มหาวิทยาลัย
@@ -390,7 +390,7 @@ const About = ({ navigation }) => {
                                             color: "#000",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             maxWidth: '100%'
                                         }}>
                                            หัวหน้าโครงการภาษาญี่ปุ่นงานจุฬาลงกรณ์มหาวิทยาลัย วิชาการ คณะอักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย

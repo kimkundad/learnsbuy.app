@@ -47,7 +47,7 @@ const CardCourse = ({title,img, price, discount, onPress, course}) => {
                                     }}>
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
-                                                fontWeight: 'bold',
+                                                fontFamily: "IBMPlexSansThai-Bold",
                                                 fontSize: 12,
                                                 color: "#666",
                                                 maxWidth: '100%',
@@ -71,7 +71,7 @@ const CardCourse = ({title,img, price, discount, onPress, course}) => {
                                             </Text>
                                             <Text
                                                 style={{
-                                                    fontWeight: 600,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     marginLeft:5,
                                                     color: '#666',

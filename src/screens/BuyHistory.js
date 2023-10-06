@@ -5,6 +5,7 @@ import Buttons from '../components/ButtonsLogin'
 import LinearGradient from 'react-native-linear-gradient';
 import buyHistory from '../../services/buyHistory';
 
+
 const win = Dimensions.get('window');
 
 const ratio = win.width / 541; //541 is actual image width
@@ -54,7 +55,7 @@ const BuyHistory = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text
                     style={{
-                        fontWeight: "bold",
+                        fontFamily: "IBMPlexSansThai-Bold",
                         fontSize: 16,
                         color: "#fff",
                     }}
@@ -66,7 +67,7 @@ const BuyHistory = ({ navigation }) => {
                         padding: 5,
                     }}
                 >
-                    <Icon name="notifications-outline" size={28} color="#fff" />
+                   
                 </TouchableOpacity>
             </View>
             <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
@@ -108,7 +109,7 @@ const BuyHistory = ({ navigation }) => {
                                                 <View style={{ flexDirection: 'row', }}>
                                                     <Icon name="cart-outline" size={22} color="#ff951e" />
                                                     <Text style={{
-                                                        fontWeight: "bold",
+                                                        fontFamily: "IBMPlexSansThai-Bold",
                                                         color: "#ff951e",
                                                         fontSize: 15,
                                                     }}>{pack.Dcre}</Text>
@@ -116,7 +117,7 @@ const BuyHistory = ({ navigation }) => {
 
                                                 {pack.statusxx === 0 &&
                                                     <Text style={{
-                                                        fontWeight: "bold",
+                                                        fontFamily: "IBMPlexSansThai-Bold",
                                                         color: "#f1416c",
                                                         fontSize: 14,
                                                     }} >รอการชำระเงิน</Text>
@@ -124,7 +125,7 @@ const BuyHistory = ({ navigation }) => {
 
                                                 {pack.statusxx === 1 &&
                                                     <Text style={{
-                                                        fontWeight: "bold",
+                                                        fontFamily: "IBMPlexSansThai-Bold",
                                                         color: "#ffc700",
                                                         fontSize: 14,
                                                     }} >รอการตรวจสอบ</Text>
@@ -132,7 +133,7 @@ const BuyHistory = ({ navigation }) => {
 
                                                 {pack.statusxx === 2 &&
                                                     <Text style={{
-                                                        fontWeight: "bold",
+                                                        fontFamily: "IBMPlexSansThai-Bold",
                                                         color: "#00c402",
                                                         fontSize: 14,
                                                     }} >ชำระเงินสำเร็จ</Text>
@@ -176,7 +177,7 @@ const BuyHistory = ({ navigation }) => {
                                                     <View>
                                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                                             style={{
-                                                                fontWeight: 'bold',
+                                                                fontFamily: "IBMPlexSansThai-Bold",
                                                                 fontSize: 14,
                                                                 color: "#666",
                                                                 maxWidth: '100%',
@@ -195,7 +196,7 @@ const BuyHistory = ({ navigation }) => {
                                                             <Icon name="shield-checkmark-outline" size={20} color="#f1416c" />
                                                             <Text
                                                                 style={{
-                                                                    fontWeight: 400,
+                                                                    fontFamily: "IBMPlexSansThai-Regular",
                                                                     fontSize: 14,
                                                                     marginLeft: 5,
                                                                     color: '#9e9e9e',
@@ -205,7 +206,7 @@ const BuyHistory = ({ navigation }) => {
                                                             </Text>
                                                             <Text
                                                                 style={{
-                                                                    fontWeight: 700,
+                                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                                     fontSize: 15,
                                                                     marginLeft: 5,
                                                                     color: '#f1416c',
@@ -223,7 +224,7 @@ const BuyHistory = ({ navigation }) => {
                                                 justifyContent: 'space-between',
                                                 paddingBottom: 5,
                                             }}>
-                                                <Text>หมายเลขคำสั่งซื้อ</Text>
+                                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", }}>หมายเลขคำสั่งซื้อ</Text>
                                                 <Text style={{
                                                     fontWeight: 'bold',
                                                     color: 'black',
@@ -234,7 +235,7 @@ const BuyHistory = ({ navigation }) => {
                                                 justifyContent: 'space-between',
                                                 paddingBottom: 5,
                                             }}>
-                                                <Text>เวลาชำระเงิน</Text>
+                                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", }}>เวลาชำระเงิน</Text>
                                                 <Text style={{
                                                     fontWeight: 'bold',
                                                     color: 'black',

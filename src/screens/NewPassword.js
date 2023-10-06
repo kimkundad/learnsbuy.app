@@ -71,7 +71,7 @@ const NewPassword = ({ route, navigation: { navigate } }) => {
     }
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#ffffff', flexDirection: 'column' }}>
             <StatusBar backgroundColor="#32d191" />
             <View
                 style={{
@@ -90,14 +90,14 @@ const NewPassword = ({ route, navigation: { navigate } }) => {
                     <Icon
                         name="arrow-back-outline"
                         size={28}
-                        color="#666"
+                        color="#666666"
                     />
                 </TouchableOpacity>
                 <Text
                     style={{
                         fontWeight: "bold",
                         fontSize: 16,
-                        color: "#666",
+                        color: "#666666",
                     }}
                 >
                     New Password
@@ -113,9 +113,9 @@ const NewPassword = ({ route, navigation: { navigate } }) => {
             <View style={{
                     paddingHorizontal: 10,
                 }}>
-            <View style={{flex:2,flexDirection:'column',backgroundColor:'#fff',paddingTop:10,paddingHorizontal:'3%', marginTop: 20}} >
+            <View style={{flex:2,flexDirection:'column',backgroundColor:'#ffffff',paddingTop:10,paddingHorizontal:'3%', marginTop: 20}} >
                  <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}} >
-                    <Text style={{fontFamily:'OpenSans-SemiBold',fontSize:16,color: '#000'}} >ทำการรีเซ็ตรหัสผ่าน ป้อนรหัสผ่านใหม่ ด้านล่างเพื่อเปลี่ยนรหัสผ่านของคุณ </Text>
+                    <Text style={{fontFamily:'IBMPlexSansThai-Bold',fontSize:16,color: '#000000'}} >ทำการรีเซ็ตรหัสผ่าน ป้อนรหัสผ่านใหม่ ด้านล่างเพื่อเปลี่ยนรหัสผ่านของคุณ </Text>
                 </View> 
                
                 <View style={{flexDirection:'column',paddingTop:10}} >
@@ -290,7 +290,7 @@ const NewPassword = ({ route, navigation: { navigate } }) => {
                         <TouchableOpacity disabled={btnDis} style={{justifyContent:'center',backgroundColor:'#32d191', width: '100%', height:40,marginBottom:0,borderRadius:10, marginTop:10}} 
                         onPress={() => handleSubmit()}
                         >
-                            <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily:'OpenSans-SemiBold',color:'#fff'}} >รีเซ็ตรหัสผ่าน</Text>
+                            <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily:'IBMPlexSansThai-Bold',color:'#ffffff'}} >รีเซ็ตรหัสผ่าน</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
         position:'relative',
         height:'100%',
         width:'90%',
-        fontFamily:'OpenSans-Medium',
+        fontFamily:'IBMPlexSansThai-Medium',
         paddingLeft:20,
     },
     social_btn:{
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
         width:'100%',
         borderWidth:1,
         borderRadius:10,
-        borderColor:'#ddd',
+        borderColor:'#dddddd',
         flexDirection:'row',
         alignItems:'center',
         marginBottom:20

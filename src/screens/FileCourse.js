@@ -9,7 +9,7 @@ const FileCourse = ({title, img, duration}) => {
         <TouchableOpacity
         style={{
             
-            backgroundColor: "#fff",
+            backgroundColor: "#ffffff",
             flexDirection: "row",
             borderRadius: 10,
             paddingHorizontal: 7,
@@ -27,14 +27,14 @@ const FileCourse = ({title, img, duration}) => {
                     <View>
                          <Text style={{
                              color:"#345c74",
-                             fontFamily:"Bold",
+                             fontFamily: "IBMPlexSansThai-Bold",
                              fontSize:11,
                              paddingHorizontal:10,
                          }}>{title}</Text>
                     </View>
                     </View>
                     <View style={{alignItems: 'flex-end', paddingTop:5}}>
-                        <Icon name="cloud-download-outline" size={20} color="#666"   />
+                        <Icon name="cloud-download-outline" size={20} color="#666666"   />
                     </View>
     </TouchableOpacity>
     )

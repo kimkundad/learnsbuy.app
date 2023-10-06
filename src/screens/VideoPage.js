@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
+import getCoin from '../../services/getCoin';
 
 const { width, height } = Dimensions.get("window");
 
@@ -15,6 +16,7 @@ const VideoPage = ({ route, navigation }) => {
     const product = route.params.product;
   
     const { user, error, isLogin, message } = useSelector(state => state.auth);
+    const { data: mycoinx, isLoading: fetchLoading1 } = getCoin()
 
     const [urlvideo, setUrlvideo] = useState('')
     const [imgvideo, setImgvideo] = useState('')
@@ -22,6 +24,10 @@ const VideoPage = ({ route, navigation }) => {
     const [sortvideo, setSortvideo] = useState('')
     const [timevideo, setTimevideo] = useState('')
     const [videoall, setVideoall] = useState('')
+    const [mymin, setMymin] = useState(0)
+    const [cutTime, setCutTime] = useState(0)
+    const [token, settoken] = useState(user?.token);
+    const [mycoin, setMycoin] = useState(mycoinx?.data);
 
     const useDataFile = async (id) => {
         console.log('id-->', id)
@@ -29,7 +35,6 @@ const VideoPage = ({ route, navigation }) => {
             const data0 = await axios.get(`https://www.learnsbuy.com/api/get_file_app/${id}`)
             
             if(data0?.data?.status === 200){
-                console.log('response', data0?.data?.data?.video)
                 setVideoall(data0?.data?.data)
             }
           } catch (err) {
@@ -41,15 +46,50 @@ const VideoPage = ({ route, navigation }) => {
         handleChange(product.option)
         useDataFile(product.course_id)
     }, []);
+
+    const clickedStatus = () => {
+
+        setClicked(true)
+        setTimeout(function(){ setClicked(false) }, 5000);
+
+    }
+
+    const countTime = async () => {
+
+        let secs = new Date().getSeconds()
+        setMymin(new Date().getSeconds())
+        if(secs !== mymin){
+            setCutTime(cutTime + 1)
+            if(cutTime === 10){
+                console.log('10 sec-->', cutTime)
+                setCutTime(0)
+
+                try {
+                    const { data } = await axios.post('https://www.learnsbuy.com/api/del_point_v2', {
+                        token
+                    })
+                    if(data.status === 200){
+                        console.log('response', data?.data)
+                         setMycoin(data?.data)
+                    }
+                    
+                  } catch (err) {
+                    console.log('err xx00--> ', err)
+                    return err.response.data
+                  }
+
+            }
+            // console.log('setCutTime-->', cutTime)
+        }
+        
+    }
     
 
     const handleChange = async (id) => {
-        console.log('id-->', id)
         try {
             const data1 = await axios.get(`https://www.learnsbuy.com/api/getVideoId/${id}`)
             
             if(data1?.data?.status === 200){
-                console.log('response', data1?.data?.data?.course_video_url)
                 setUrlvideo(data1?.data?.data?.course_video_url)
                 setImgvideo(data1?.data?.data?.thumbnail_img)
                 setNamevideo(data1?.data?.data?.course_video_name)
@@ -67,8 +107,10 @@ const VideoPage = ({ route, navigation }) => {
     const [clicked, setClicked] = useState(false);
   const [puased, setPaused] = useState(false);
   const [progress, setProgress] = useState(null);
+  const [statusBars, setStatusBars] = useState(false);
   const [fullScreen,setFullScreen]=useState(false)
   const ref = useRef();
+  
   const format = seconds => {
     let mins = parseInt(seconds / 60)
       .toString()
@@ -87,7 +129,7 @@ const VideoPage = ({ route, navigation }) => {
     return (
         <SafeAreaView>
             <View style={styles.container}>
-                <StatusBar backgroundColor="#32d191" />
+                <StatusBar hidden={statusBars} backgroundColor="#32d191" />
                 <View
                     style={{
                         flexDirection: "row",
@@ -105,14 +147,14 @@ const VideoPage = ({ route, navigation }) => {
                         <Icon
                             name="arrow-back-outline"
                             size={28}
-                            color="#666"
+                            color="#666666"
                         />
                     </TouchableOpacity>
                     <Text
                         style={{
                             fontWeight: "bold",
                             fontSize: 16,
-                            color: "#666",
+                            color: "#666666",
                         }}
                     >
                         <Icon name="medal-outline" size={22} color="#ff741a" /> 
@@ -120,12 +162,12 @@ const VideoPage = ({ route, navigation }) => {
                             paddingLeft: 5,
                          }}>
                         <Text style={{
-                                                color: "#000",
+                                                color: "#000000",
                                                 fontSize: 16,
                                                 fontWeight: 700,
                                                 
                                             }}>
-                                                {numberWithCommas(user?.profile?.user_coin)}
+                                                {numberWithCommas(mycoin)}
                                             </Text></View>
                     </Text>
                     <TouchableOpacity
@@ -140,9 +182,9 @@ const VideoPage = ({ route, navigation }) => {
                
                     <View>
                         <TouchableOpacity
-                            style={{width: '100%', height:fullScreen?'60%': 200}}
+                            style={{ marginTop: -40, width: '100%', height:fullScreen?'69%': 200}}
                             onPress={() => {
-                            setClicked(true);
+                            clickedStatus();
                             }}>
 
                         <Video
@@ -153,7 +195,8 @@ const VideoPage = ({ route, navigation }) => {
                                 poster={'https://learnsbuy.com/assets/uploads/' + imgvideo}
                                 ref={ref}
                                 onProgress={x => {
-                                    console.log(x);
+                                    // console.log( 'xxx',x);
+                                    countTime()
                                     setProgress(x);
                                 }}
                                 // Can be a URL or a local file.
@@ -167,6 +210,17 @@ const VideoPage = ({ route, navigation }) => {
                                 style={{width: '100%', height: fullScreen?'100%': 200}}
                                 resizeMode="contain"
                                 />
+                                <Text
+                                    style={{ 
+                                        fontSize: 12,
+                                        fontWeight: 'bold',
+                                        color: '#ea4335',
+                                        position: 'absolute',
+                                        bottom: 10, right: 20
+                                    }}
+                                >
+                                    {user?.profile?.name} {user?.profile?.email}
+                                </Text>
                                 {clicked && (
           <TouchableOpacity
             style={{
@@ -262,8 +316,10 @@ const VideoPage = ({ route, navigation }) => {
             <TouchableOpacity onPress={()=>{
               if(fullScreen){
                 Orientation.lockToPortrait();
+                setStatusBars(false)
             } else{
                 Orientation.lockToLandscape();
+                setStatusBars(true)
             }
             setFullScreen(!fullScreen)
             }}>
@@ -324,7 +380,7 @@ const VideoPage = ({ route, navigation }) => {
                                                 {namevideo}
                                             </Text>
                                             <Text style={{
-                                                color: "#666",
+                                                color: "#666666",
                                                 fontSize: 12,
                                                 paddingLeft: 20,
                                                 width: 180
@@ -373,6 +429,7 @@ const VideoPage = ({ route, navigation }) => {
     {videoall?.video.map((videos) =>
                                 (
                                     <TouchableOpacity
+                                    key={videos.id}
                                     onPress={() => handleChange(videos.id)}
                                         style={{
                                             flexDirection: "row",
@@ -407,7 +464,7 @@ const VideoPage = ({ route, navigation }) => {
                                                 {videos.course_video_name}
                                             </Text>
                                             <Text style={{
-                                                color: "#666",
+                                                color: "#666666",
                                                 fontSize: 12,
                                                 paddingLeft: 20,
                                                 width: 180

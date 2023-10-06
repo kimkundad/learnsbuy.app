@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SwitchComponent from '../components/Switch'
 import Buttons from '../components/ButtonsLogout'
 import { useSelector, useDispatch } from "react-redux";
+import getCoin from '../../services/getCoin';
 
 const Profile = ({ navigation }) => {
 
@@ -22,6 +23,8 @@ const Profile = ({ navigation }) => {
       };
 
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
+
+    const { data: mycoin, isLoading: fetchLoading1 } = getCoin()
 
     const getWeekNumber = (date) => {
         const currentDate = new Date(date);
@@ -58,7 +61,7 @@ const Profile = ({ navigation }) => {
                                     fontWeight: "bold",
                                     fontSize: 22,
                                     paddingTop: 5,
-                                    color: "#000"
+                                    color: "#000000"
                                 }}
                             >
                                 Profile
@@ -68,17 +71,21 @@ const Profile = ({ navigation }) => {
                         <View
                             style={{ paddingHorizontal: 10, marginTop: 10 }}
                         >
-                            <Image
-                                source={require("../assets/img/Learnsbuy_new_web_logo_v3.png")}
-                                style={{ width: 144, height: 40 }}
-                            />
+                            <TouchableOpacity
+                        onPress={()=>navigation.navigate('HomePage')}
+                        >
+                        <Image
+                            source={require("../assets/img/Learnsbuy_new_web_logo_v3.png")}
+                            style={{ width: 144, height: 40 }}
+                        />
+                        </TouchableOpacity>
                             <View>
 
                                 <View
                                     style={{
                                         marginHorizontal: 5,
                                         borderColor: "#dadde1",
-                                        backgroundColor: "#FFF",
+                                        backgroundColor: "#FFFFFF",
                                         marginTop: 10,
                                         borderWidth: 1,
                                         minHeight: 50,
@@ -106,6 +113,7 @@ const Profile = ({ navigation }) => {
                                                 }}>Learnsbuy</Text>
                                                 <Text style={{
                                                     color: "#345c74",
+                                                    fontFamily: "IBMPlexSansThai-Regular",
                                                     fontSize: 13,
                                                 }}>ยินดีต้อนรับ</Text>
                                             </View>
@@ -161,7 +169,7 @@ const Profile = ({ navigation }) => {
                             style={{
                                 marginHorizontal: 15,
                                 borderColor: "#dadde1",
-                                backgroundColor: "#FFF",
+                                backgroundColor: "#FFFFFF",
                                 marginTop: 10,
                                 borderWidth: 1,
                                 minHeight: 50,
@@ -196,16 +204,25 @@ const Profile = ({ navigation }) => {
                                                 color: "#345c74",
                                                 fontSize: 13,
                                                 paddingHorizontal: 20,
+                                                fontFamily: "IBMPlexSansThai-Regular",
                                                 width: 270
                                             }}>แต้มดูวิดีโอคงเหลือ</Text>
-                                            <Text style={{
-                                                color: "#000",
-                                                fontSize: 14,
-                                                paddingHorizontal: 20,
-                                                fontWeight: 700,
-                                            }}>
-                                                {numberWithCommas(user?.profile?.user_coin)}
-                                            </Text>
+                                           
+
+                                            {fetchLoading1 ?
+                                <View></View>
+                                :
+                                        <Text style={{
+                                            color: "#000000",
+                                            fontSize: 14,
+                                            paddingHorizontal: 20,
+                                            fontWeight: 700,
+                                        }}>
+                                            {mycoin?.data}
+                                            {/* {numberWithCommas(mycoint)} */}
+                                        </Text>
+                                }
+
                                         </View>
                                         <View
                                             style={{
@@ -248,6 +265,7 @@ const Profile = ({ navigation }) => {
                                                 color: "#345c74",
                                                 fontSize: 16,
                                                 paddingHorizontal: 20,
+                                                fontFamily: "IBMPlexSansThai-Regular",
                                                 width: 270
                                             }}>แต้มดูวิดีโอคงเหลือ</Text>
                                         </View>
@@ -302,10 +320,10 @@ const Profile = ({ navigation }) => {
                                                     width: 270
                                                 }}>Name</Text>
                                                 <Text style={{
-                                                    color: "#000",
+                                                    color: "#000000",
                                                     fontSize: 14,
                                                     paddingHorizontal: 20,
-                                                    fontWeight: 700,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                 }}>
                                                     {user?.profile?.name}
                                                 </Text>
@@ -358,10 +376,10 @@ const Profile = ({ navigation }) => {
                                                 width: 270
                                             }}>Email</Text>
                                             <Text style={{
-                                                color: "#000",
+                                                color: "#000000",
                                                 fontSize: 14,
                                                 paddingHorizontal: 20,
-                                                fontWeight: 700,
+                                                fontFamily: "IBMPlexSansThai-Bold",
                                             }}>
                                                 {user?.profile?.email}
                                             </Text>
@@ -408,10 +426,10 @@ const Profile = ({ navigation }) => {
                                                     width: 270
                                                 }}>Password</Text>
                                                 <Text style={{
-                                                    color: "#000",
+                                                    color: "#000000",
                                                     fontSize: 14,
                                                     paddingHorizontal: 20,
-                                                    fontWeight: 700,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                 }}>
                                                     Updated {getWeekNumber(user?.profile?.updated_at)} weeks ago
                                                 </Text>
@@ -461,12 +479,12 @@ const Profile = ({ navigation }) => {
                                                 width: 270
                                             }}>Contact Number</Text>
                                             <Text style={{
-                                                color: "#000",
+                                                color: "#000000",
                                                 fontSize: 14,
                                                 paddingHorizontal: 20,
-                                                fontWeight: 700,
+                                                fontFamily: "IBMPlexSansThai-Bold",
                                             }}>
-                                                0958467417
+                                                {user?.profile?.phone}
                                             </Text>
                                         </View>
                                         <View
@@ -491,7 +509,7 @@ const Profile = ({ navigation }) => {
                             style={{
                                 marginHorizontal: 15,
                                 borderColor: "#dadde1",
-                                backgroundColor: "#FFF",
+                                backgroundColor: "#FFFFFF",
                                 marginTop: 10,
                                 borderWidth: 1,
                                 minHeight: 50,
@@ -523,10 +541,10 @@ const Profile = ({ navigation }) => {
                                     </View>
                                     <View>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             width: 250
                                         }}>
                                             การแจ้งเตือน
@@ -583,10 +601,10 @@ const Profile = ({ navigation }) => {
                                             width: 270
                                         }}>คอร์สเรียนทั้งหมดที่สั่งซื้อไว้</Text>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                         }}>
                                             คอร์สเรียนของฉัน
                                         </Text>
@@ -628,10 +646,10 @@ const Profile = ({ navigation }) => {
                                     </View>
                                     <View>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             width: 270
                                         }}>
                                             ประวัติการสั่งซื้อ
@@ -680,13 +698,14 @@ const Profile = ({ navigation }) => {
                                             color: "#345c74",
                                             fontSize: 12,
                                             paddingHorizontal: 20,
+                                            fontFamily: "IBMPlexSansThai-Regular",
                                             width: 270
                                         }}>คอร์สเรียนทั้งหมดที่สั่งซื้อไว้</Text>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                         }}>
                                             คอร์สเรียนของฉัน
                                         </Text>
@@ -728,10 +747,10 @@ const Profile = ({ navigation }) => {
                                     </View>
                                     <View>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             width: 270
                                         }}>
                                             ประวัติการสั่งซื้อ
@@ -787,13 +806,14 @@ const Profile = ({ navigation }) => {
                                             color: "#345c74",
                                             fontSize: 13,
                                             paddingHorizontal: 20,
+                                            fontFamily: "IBMPlexSansThai-Regular",
                                             width: 270
                                         }}>ครูพี่โฮม ZA-SHI</Text>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                         }}>
                                             เกี่ยวกับ Learnsbuy
                                         </Text>
@@ -840,13 +860,14 @@ const Profile = ({ navigation }) => {
                                             color: "#345c74",
                                             fontSize: 13,
                                             paddingHorizontal: 20,
+                                            fontFamily: "IBMPlexSansThai-Regular",
                                             width: 270
                                         }}>นโยบายความเป็นส่วนตัว</Text>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                         }}>
                                             Privacy Policy
                                         </Text>
@@ -890,14 +911,15 @@ const Profile = ({ navigation }) => {
                                         <Text style={{
                                             color: "#345c74",
                                             fontSize: 13,
+                                            fontFamily: "IBMPlexSansThai-Regular",
                                             paddingHorizontal: 20,
                                             width: 270
                                         }}>ข้อกำหนดและเงื่อนไขการใช้งาน</Text>
                                         <Text style={{
-                                            color: "#000",
+                                            color: "#000000",
                                             fontSize: 14,
                                             paddingHorizontal: 20,
-                                            fontWeight: 700,
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                         }}>
                                             Terms of Service
                                         </Text>
@@ -941,7 +963,7 @@ const Profile = ({ navigation }) => {
                                 >
                                     <Text
                                         style={{
-                                            fontWeight: 'bold',
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             fontSize: 15,
                                             color: '#32d191',
                                         }}>
@@ -955,9 +977,9 @@ const Profile = ({ navigation }) => {
                                     style={styles.btn}>
                                     <Text
                                         style={{
-                                            fontWeight: 'bold',
+                                            fontFamily: "IBMPlexSansThai-Bold",
                                             fontSize: 15,
-                                            color: '#fff',
+                                            color: '#ffffff',
                                         }}>
                                         เข้าสู่ระบบ
                                     </Text>

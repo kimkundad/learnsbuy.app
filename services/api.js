@@ -65,3 +65,19 @@ export const resetPassword = async (email) => {
   }
 
 
+  export const getMsg = async ({token}) => {
+    try {
+      const { data } = await axios.post('https://www.learnsbuy.com/api/get_my_message2', {
+        token
+      })
+      console.log('getMsg xx--> ', data)
+      return data
+    } catch (err) {
+      console.log('err xx00--> ', err)
+      return err.response.data
+    }
+  }
+
+
+
+

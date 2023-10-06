@@ -11,6 +11,10 @@ const IMAGE_HEIGHT = 118;
 
 const Course = ({ navigation: { navigate } }) => {
 
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
     const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
     const [sortData, setSortData] = useState(0)
     const { data: course, isLoading: fetchLoading2 } = useCourse(sortData)
@@ -25,12 +29,13 @@ const Course = ({ navigation: { navigate } }) => {
                         marginBottom: 10,
                         paddingHorizontal: 10,
                         marginTop: 10,
+                        marginBottom: 120
                     }}
                 >
                <View>
                             <Text
                                 style={{
-                                    fontWeight: "bold",
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 16,
                                     paddingTop: 5,
                                     marginTop:0
@@ -63,10 +68,11 @@ const Course = ({ navigation: { navigate } }) => {
                                                 backgroundColor: "#32d191",
                                             },
                                         ]}
-                                        key={category.id}
+                                        key={index}
                                     >
                                         <Text
                                             style={{
+                                                fontFamily: "IBMPlexSansThai-Regular",
                                                 color:
                                                     activeCategoryIndex === index
                                                         ? "#fff"
@@ -140,9 +146,10 @@ const Course = ({ navigation: { navigate } }) => {
                                     <View>
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
-                                                fontWeight: 'bold',
+                                                fontFamily: "IBMPlexSansThai-Medium",
                                                 fontSize: 12,
                                                 color: "#666",
+                                                lineHeight: 18,
                                             }}
                                         >
                                             {product.title_course}
@@ -153,17 +160,17 @@ const Course = ({ navigation: { navigate } }) => {
                                         }}>
                                             <Text
                                                 style={{
-                                                    fontWeight: 700,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     color: '#00c402',
                                                     paddingTop: 1
                                                 }}
                                             >
-                                                {product.price_course}
+                                                {numberWithCommas(product.price_course)}
                                             </Text>
                                             <Text
                                                 style={{
-                                                    fontWeight: 600,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     marginLeft:5,
                                                     color: '#666',
@@ -175,7 +182,7 @@ const Course = ({ navigation: { navigate } }) => {
                                             {product.discount !== 0 ?
                                                 <Text
                                                 style={{
-                                                    fontWeight: 200,
+                                                    fontFamily: "IBMPlexSansThai-Light",
                                                     fontSize: 12,
                                                     color: '#666',
                                                     marginLeft: 10,
@@ -183,7 +190,7 @@ const Course = ({ navigation: { navigate } }) => {
                                                     textDecorationLine: 'line-through'
                                                 }}
                                             >
-                                                {product.discount} บาท
+                                                {numberWithCommas(product.discount)} บาท
                                             </Text>
                                             : 
                                                 <Text></Text>
@@ -199,6 +206,7 @@ const Course = ({ navigation: { navigate } }) => {
                                 </View>
                             </View>
                         </View>
+                        
                 </ScrollView>
                 
             </View>

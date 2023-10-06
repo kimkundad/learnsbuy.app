@@ -29,27 +29,28 @@ const News = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView
-                    style={{
-                        marginBottom: 0
-                    }}
-                >
+            
             <View
                         style={{ paddingHorizontal: 15, marginTop: 5 }}
                     >
                         <Text
                             style={{
-                                fontWeight: "bold",
+                                fontFamily: "IBMPlexSansThai-Bold",
                                 fontSize: 20,
                                 paddingTop: 5,
-                                color: "#000"
+                                color: "#000000"
                             }}
                         >
                             ข่าวสารจากครูพี่โฮม
                         </Text>
                     </View>
+                    <ScrollView >
             <FlatList
                 data={articles}
+                nestedScrollEnabled={true}
+                keyExtractor={(item, index) => {
+                    return item.id;
+                  }}
                 renderItem = {({item}) =>
                     <Article
                         urlToImage = {"https://learnsbuy.com/assets/blog/"+item.image}
@@ -60,10 +61,10 @@ const News = ({ navigation }) => {
                         publishedAt = {item.created_at}
                         sourceName = {item.view}
                         url={item.id}
+                        key={item.id}
                     />}
-                keyExtractor = {(item) => item.title}
             />
-    </ScrollView>
+            </ScrollView>
         </SafeAreaView>
     )
 
@@ -74,6 +75,6 @@ export default News
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#ffffff',
     }
 })

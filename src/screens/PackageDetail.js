@@ -14,18 +14,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import getPackageId from '../../services/packageId';
 import CardCourse from '../components/CardCourse'
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from "react-redux";
 
 const IMAGE_HEIGHT = 220;
 
 const PackageDetail = ({ route }) => {
 
+    const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
     const pack = route.params.pack;
     const navigation = useNavigation();
 
     const [showMore, setShowMore] = useState(false);
     const { data: getPackage, isLoading: fetchLoading } = getPackageId(pack.id)
 
-
+    console.log('packv', pack )
     return (
         <SafeAreaView>
             <StatusBar backgroundColor="#32d191" />
@@ -53,18 +55,12 @@ const PackageDetail = ({ route }) => {
                     style={{
                         fontWeight: "bold",
                         fontSize: 16,
-                        color: "#666",
+                        color: "#666666",
                     }}
                 >
                   
                 </Text>
-                <TouchableOpacity
-                    style={{
-                        padding: 5,
-                    }}
-                >
-                    <Icon name="notifications-outline" size={28} color="#666" />
-                </TouchableOpacity>
+                
             </View>
             <ScrollView
                 style={{
@@ -87,8 +83,8 @@ const PackageDetail = ({ route }) => {
                     <Text
                         style={{
                         fontSize: 18,
-                        fontWeight: "bold",
-                        color: "#666",
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        color: "#666666",
                         }}
                     >
                         {pack.c_pack_name}
@@ -128,7 +124,7 @@ const PackageDetail = ({ route }) => {
                     style={{
                         fontWeight: "bold",
                         fontSize: 24,
-                        color: "#000",
+                        color: "#000000",
                     }}
                     >
                     ฿ {pack.c_pack_price}
@@ -138,9 +134,9 @@ const PackageDetail = ({ route }) => {
                     }}>
                         {pack.c_pack_price_2 !== 0 ?
                         <Text style={{
-                                                    fontWeight: 700,
+                            fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 16,
-                                                    color: '#666',
+                                                    color: '#666666',
                                                 }}>
                             จาก</Text>
                         : 
@@ -150,9 +146,9 @@ const PackageDetail = ({ route }) => {
                     {pack.c_pack_price_2 !== 0 ?
                                                 <Text
                                                 style={{
-                                                    fontWeight: 200,
+                                                    fontFamily: "IBMPlexSansThai-Regular",
                                                     fontSize: 12,
-                                                    color: '#666',
+                                                    color: '#666666',
                                                     marginLeft: 10,
                                                     paddingTop: 4,
                                                     textDecorationLine: 'line-through'
@@ -165,7 +161,10 @@ const PackageDetail = ({ route }) => {
                                             }
                                             </View>
                     </View>
-                    <TouchableOpacity
+                    {isLogin === true ?
+                        <>
+                        <TouchableOpacity
+                    onPress={()=> navigation.navigate('Pay2', { pack: pack })}
                     style={{
                         backgroundColor: "#32d191",
                         paddingHorizontal: 30,
@@ -184,8 +183,8 @@ const PackageDetail = ({ route }) => {
                     />
                     <Text
                         style={{
-                        fontWeight: "bold",
-                        color: "#fff",
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        color: "#ffffff",
                         fontSize: 18,
                         marginLeft: 10,
                         }}
@@ -193,6 +192,42 @@ const PackageDetail = ({ route }) => {
                         สมัครเรียน
                     </Text>
                     </TouchableOpacity>
+                        </>   
+                        :  
+                        <>
+                        <TouchableOpacity
+                    onPress={()=> navigation.navigate('Login')}
+                    style={{
+                        backgroundColor: "#32d191",
+                        paddingHorizontal: 30,
+                        paddingVertical: 7,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        width: "50%",
+                        borderRadius: 50,
+                    }}
+                    >
+                    <Icon
+                        name="cart-outline"
+                        size={22}
+                        color="#fff"
+                    />
+                    <Text
+                        style={{
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        color: "#ffffff",
+                        fontSize: 18,
+                        marginLeft: 10,
+                        }}
+                    >
+                        สมัครเรียน
+                    </Text>
+                    </TouchableOpacity>
+                        </> 
+                    }                   
+                    
+
                 </View>
 
                 <View
@@ -200,7 +235,7 @@ const PackageDetail = ({ route }) => {
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "center",
-                            backgroundColor: "#fff",
+                            backgroundColor: "#ffffff",
                             padding: 10,
                             marginTop: 10,
                             borderRadius: 10,
@@ -208,7 +243,7 @@ const PackageDetail = ({ route }) => {
                     >
                         <Text
                             style={{
-                                fontWeight: "bold",
+                                fontFamily: "IBMPlexSansThai-Bold",
                                 fontSize: 16,
                             }}
                         >
@@ -227,6 +262,7 @@ const PackageDetail = ({ route }) => {
                             <View>
                                 {getPackage?.data?.course.map((course) => (
                                 <CardCourse
+                                    key={course.id}
                                     title={course.title_course}
                                     img={{ uri: 'https://learnsbuy.com/assets/uploads/' + course.image_course }}
                                     price={course.price_course}
@@ -240,7 +276,9 @@ const PackageDetail = ({ route }) => {
                 
             </View>
             </View>
-               
+               <View 
+                style={{ height: 40 }}
+               ></View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -264,11 +302,10 @@ const styles = StyleSheet.create({
     },
   
     postDescription: {
-      paddingTop: 10,
       paddingHorizontal: 5,
-      color: "#999",
+      color: "#999999",
       fontSize: 12,
-      fontWeight: 'bold',
+      fontFamily: "IBMPlexSansThai-Regular",
     },
   
     seeMore: {
@@ -277,6 +314,6 @@ const styles = StyleSheet.create({
       textDecorationLine: 'underline',
       color: "#00c402",
       fontSize: 14,
-      fontWeight: 'bold',
+      fontFamily: "IBMPlexSansThai-Bold",
     },
   });

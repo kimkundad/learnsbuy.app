@@ -36,7 +36,7 @@ const VerificationScreen = ({ route }) => {
     }
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#ffffff', flexDirection: 'column' }}>
             <StatusBar backgroundColor="#32d191" />
             <View
                 style={{
@@ -55,14 +55,14 @@ const VerificationScreen = ({ route }) => {
                     <Icon
                         name="arrow-back-outline"
                         size={28}
-                        color="#666"
+                        color="#666666"
                     />
                 </TouchableOpacity>
                 <Text
                     style={{
                         fontWeight: "bold",
                         fontSize: 16,
-                        color: "#666",
+                        color: "#666666",
                     }}
                 >
                     OTP Verification
@@ -75,7 +75,7 @@ const VerificationScreen = ({ route }) => {
 
                 </TouchableOpacity>
             </View>
-            <View style={{ flex: 2, flexDirection: 'column', backgroundColor: '#fff', paddingTop: 0, paddingHorizontal: '3%', marginTop: 0 }} >
+            <View style={{ flex: 2, flexDirection: 'column', backgroundColor: '#ffffff', paddingTop: 0, paddingHorizontal: '3%', marginTop: 0 }} >
                 {checkError &&
                     <View
                         style={{

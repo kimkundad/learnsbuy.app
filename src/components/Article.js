@@ -41,7 +41,7 @@ const Article = (props) => {
 
                 {/*     source */}
                 <View style={{ marginTop: 0 }}>
-                    <Text>การดู: <Text style={styles.source}>{format(props.sourceName)}</Text></Text>
+                    <Text style={{ fontFamily: "IBMPlexSansThai-Regular", }}>การดู: <Text style={styles.source}>{format(props.sourceName)}</Text></Text>
                 </View>
             </View>
         </Pressable>
@@ -56,14 +56,14 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderRadius: 20,
         shadowOpacity: 0.5,
-        shadowColor: "#000",
+        shadowColor: "#000000",
         borderColor: "#dadde1",
         borderWidth: 1,
         shadowOffset: {
             height: 5,
             width: 5
         },
-        backgroundColor: "#fff",
+        backgroundColor: "#ffffff",
         marginTop: 10
     },
     blockDetail: {
@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        fontWeight: "600",
+        fontFamily: "IBMPlexSansThai-Bold",
         marginTop: 0
     },
     description: {
         fontSize: 14,
-        fontWeight: "400",
+        fontFamily: "IBMPlexSansThai-Regular",
         marginTop: 5
     },
     data: {
@@ -94,20 +94,20 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     heading: {
-
+        fontFamily: "IBMPlexSansThai-Regular",
     },
     author: {
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 15
     },
     date: {
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         color: "#32d191",
         fontSize: 15
     },
     source: {
         color: "#32d191",
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 14
     }
 })

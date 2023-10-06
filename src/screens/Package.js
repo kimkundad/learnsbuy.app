@@ -5,6 +5,10 @@ const IMAGE_WITH = 240;
 const IMAGE_HEIGHT = 160;
 
 const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
+
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
     
     return (
         <TouchableOpacity
@@ -15,7 +19,7 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                             height:220,
                             width:240,
                             elevation:2,
-                            backgroundColor:"#FFF",
+                            backgroundColor:"#FFFFFF",
                             marginRight:10,
                             marginTop:10,
                             borderRadius:15,
@@ -44,9 +48,9 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                     <View>
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
-                                                fontWeight: 'bold',
+                                                fontFamily: "IBMPlexSansThai-Bold",
                                                 fontSize: 12,
-                                                color: "#666",
+                                                color: "#666666",
                                                 maxWidth: '100%',
                                                 maxWidth: '100%',
                                             }}
@@ -59,19 +63,19 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                         }}>
                                             <Text
                                                 style={{
-                                                    fontWeight: 700,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 16,
                                                     color: '#00c402',
                                                 }}
                                             >
-                                                {price}
+                                                {numberWithCommas(price)}
                                             </Text>
                                             <Text
                                                 style={{
-                                                    fontWeight: 600,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
                                                     marginLeft:5,
-                                                    color: '#666',
+                                                    color: '#666666',
                                                     paddingTop: 2
                                                 }}
                                             >
@@ -80,15 +84,15 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                             {discount !== 0 ?
                                                 <Text
                                                 style={{
-                                                    fontWeight: 200,
+                                                    fontFamily: "IBMPlexSansThai-Light",
                                                     fontSize: 13,
-                                                    color: '#666',
+                                                    color: '#666666',
                                                     marginLeft: 10,
                                                     paddingTop: 3,
                                                     textDecorationLine: 'line-through'
                                                 }}
                                             >
-                                                {discount} บาท
+                                                {numberWithCommas(discount)} บาท
                                             </Text>
                                             : 
                                                 <Text></Text>

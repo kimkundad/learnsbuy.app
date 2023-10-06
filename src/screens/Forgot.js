@@ -97,14 +97,15 @@ const Forgot = () => {
                 <Text 
                     style={{ 
                         fontSize: 22, 
-                        fontWeight:700,
+                        fontFamily: "IBMPlexSansThai-Bold",
                         color: '#000' 
                         }} >
                         ลืมรหัสผ่าน ?</Text>
                     <Text 
                     style={{ 
                         fontSize: 16, 
-                        color: '#000' 
+                        color: '#000',
+                        fontFamily: "IBMPlexSansThai-Regular",
                         }} >
                         ใส่อีเมลของคุณเพื่อรีเซ็ตรหัสผ่านของคุณ.</Text>
                 </View>
@@ -135,7 +136,7 @@ const Forgot = () => {
                         }}
                             onPress={() => handleSubmit()}
                         >
-                            <Text style={{ fontSize: 15, letterSpacing: 1.5, textAlign: 'center', position: 'relative', fontFamily: 'OpenSans-SemiBold', color: '#ffffff' }} >รีเซ็ตพาสเวิร์ด</Text>
+                            <Text style={{ fontSize: 15, letterSpacing: 1.5, textAlign: 'center', position: 'relative', fontFamily: "IBMPlexSansThai-Bold", color: '#ffffff' }} >รีเซ็ตพาสเวิร์ด</Text>
                         </TouchableOpacity>
                 </View>
             </View>
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         height: '100%',
         width: '90%',
-        fontFamily: 'OpenSans-Medium',
+        fontFamily: "IBMPlexSansThai-Regular",
         paddingLeft: 20,
     },
     social_btn: {

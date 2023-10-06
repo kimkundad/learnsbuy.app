@@ -22,7 +22,7 @@ const screenOptions = {
     left: 0,
     elevation: 0,
     height: 60,
-    background: "#fff"
+    background: "#ffffff"
   }
 }
 
@@ -40,7 +40,7 @@ export const HomeTabs = () =>  {
                 console.log('focused', focused)
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Icon name="home-outline" size={24} color={focused ? "#2ab37c" : "##111"} />
+                    <Icon name="home-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>Home</Text>
                   </View>
                 )
@@ -54,7 +54,7 @@ export const HomeTabs = () =>  {
               tabBarIcon: ({ focused }) => {
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Icon name="library-outline" size={24} color={focused ? "#2ab37c" : "#111"} />
+                    <Icon name="library-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>คอร์สเรียน</Text>
                   </View>
                 )
@@ -111,7 +111,7 @@ export const HomeTabs = () =>  {
                     alignItems: "center", 
                     justifyContent: "center",
                      }}>
-                    <Icon name="receipt-outline" size={24} color={focused ? "#2ab37c" : "#111"} />
+                    <Icon name="receipt-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>News</Text>
                   </View>
                 )
@@ -125,7 +125,7 @@ export const HomeTabs = () =>  {
               tabBarIcon: ({ focused }) => {
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Icon name="person-outline" size={24} color={focused ? "#2ab37c" : "#111"} />
+                    <Icon name="person-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>Profile</Text>
                   </View>
                 )
@@ -139,7 +139,7 @@ export const HomeTabs = () =>  {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 12, color: "#000"
+    fontSize: 12, color: "#000000", fontFamily: "IBMPlexSansThai-Medium",
   },
   textfocused: {
     fontSize: 12, color: "#2ab37c"

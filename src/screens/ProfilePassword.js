@@ -71,7 +71,7 @@ const ProfilePassword = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={{flex:1,backgroundColor:'#fff',flexDirection:'column'}}>
+        <ScrollView style={{flex:1,backgroundColor:'#ffffff',flexDirection:'column'}}>
             <StatusBar backgroundColor="#32d191" />
             <View
                 style={{
@@ -92,14 +92,14 @@ const ProfilePassword = ({ navigation }) => {
                     <Icon
                         name="arrow-back-outline"
                         size={28}
-                        color="#666"
+                        color="#666666"
                     />
                 </TouchableOpacity>
                 <Text
                     style={{
-                        fontWeight: "bold",
+                        fontFamily: "IBMPlexSansThai-Bold",
                         fontSize: 16,
-                        color: "#666",
+                        color: "#666666",
                     }}
                 >
                     เปลี่ยนรหัสผ่าน
@@ -109,15 +109,15 @@ const ProfilePassword = ({ navigation }) => {
                         padding: 5,
                     }}
                 >
-                    <Icon name="notifications-outline" size={28} color="#666" />
+                   
                 </TouchableOpacity>
             </View>
             <View style={{
                     paddingHorizontal: 10,
                 }}>
-            <View style={{flex:2,flexDirection:'column',backgroundColor:'#fff',paddingTop:10,paddingHorizontal:'3%', marginTop: 20}} >
+            <View style={{flex:2,flexDirection:'column',backgroundColor:'#ffffff',paddingTop:10,paddingHorizontal:'3%', marginTop: 20}} >
                  <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}} >
-                    <Text style={{fontFamily:'OpenSans-SemiBold',fontSize:16,color: '#000'}} >ทำการรีเซ็ตรหัสผ่าน ป้อนรหัสผ่านใหม่ ด้านล่างเพื่อเปลี่ยนรหัสผ่านของคุณ </Text>
+                    <Text style={{fontFamily: "IBMPlexSansThai-Bold", fontSize:16,color: '#000000'}} >ทำการรีเซ็ตรหัสผ่าน ป้อนรหัสผ่านใหม่ ด้านล่างเพื่อเปลี่ยนรหัสผ่านของคุณ </Text>
                 </View> 
                
                 <View style={{flexDirection:'column',paddingTop:10}} >
@@ -141,7 +141,7 @@ const ProfilePassword = ({ navigation }) => {
                             }}
                         >
                             <View style={{
-                                backgroundColor: "#fcf8e3f0",
+                                backgroundColor: "#FCF3CF",
                                 paddingVertical: 6,
                                 paddingHorizontal: 8,
                                 borderRadius: 20
@@ -153,14 +153,14 @@ const ProfilePassword = ({ navigation }) => {
                                     color: "#50cd89",
                                     fontSize: 14,
                                     paddingHorizontal: 20,
-                                    fontWeight: 700,
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                     width: 270
                                 }}>คุณเปลี่ยน Password สำเร็จแล้ว!</Text>
                                 <Text style={{
                                     color: "#50cd89",
                                     fontSize: 12,
                                     paddingHorizontal: 20,
-                                    fontWeight: 400,
+                                    fontFamily: "IBMPlexSansThai-Regular",
                                 }}>
                                     กรุณาทำการเข้าสู่ระบบอีกครั้ง
                                 </Text>
@@ -188,7 +188,7 @@ const ProfilePassword = ({ navigation }) => {
                             }}
                         >
                             <View style={{
-                                backgroundColor: "#fcf8e3f0",
+                                backgroundColor: "#FCF3CF",
                                 paddingVertical: 6,
                                 paddingHorizontal: 8,
                                 borderRadius: 20
@@ -291,7 +291,7 @@ const ProfilePassword = ({ navigation }) => {
                         <TouchableOpacity disabled={btnDis} style={{justifyContent:'center',backgroundColor:'#32d191', width: '100%', height:40,marginBottom:0,borderRadius:10, marginTop:10}} 
                         onPress={() => handleSubmit()}
                         >
-                            <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily:'OpenSans-SemiBold',color:'#fff'}} >รีเซ็ตรหัสผ่าน</Text>
+                            <Text style={{fontSize:15,letterSpacing:1.5,textAlign:'center',position:'relative',fontFamily: "IBMPlexSansThai-Regular",color:'#fff'}} >รีเซ็ตรหัสผ่าน</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
         width:'100%',
         borderWidth:1,
         borderRadius:10,
-        borderColor:'#ddd',
+        borderColor:'#dddddd',
         flexDirection:'row',
         alignItems:'center',
         marginBottom:20

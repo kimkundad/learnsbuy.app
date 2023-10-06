@@ -5,6 +5,7 @@ import Buttons from '../components/ButtonsLogin'
 import LinearGradient from 'react-native-linear-gradient';
 import { useSelector, useDispatch } from "react-redux";
 import myCourse from '../../services/myCourse';
+import getCoin from '../../services/getCoin';
 
 const win = Dimensions.get('window');
 
@@ -21,13 +22,28 @@ const EditName = ({ navigation }) => {
 
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
     const { data: mycourse, isLoading: fetchLoading } = myCourse()
+    const { data: mycoin, isLoading: fetchLoading1 } = getCoin()
+
+    const formatDate = (rawDate) => {
+        let date = new Date(rawDate);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        month = month < 10 ? `0${month}` : month
+        let day = date.getDate();
+        return `${year}-${month}-${day}`;
+    }
+
+      console.log('mycourse', mycourse)
+
     useEffect(() => {
 
         if (isLogin === false) {
             navigation.navigate('Login')
         } 
 
-    },);
+    },[]);
+
+   
 
     return (
         <LinearGradient
@@ -57,20 +73,45 @@ const EditName = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text
                     style={{
-                        fontWeight: "bold",
+                        fontFamily: "IBMPlexSansThai-Bold",
                         fontSize: 16,
-                        color: "#fff",
+                        color: "#ffffff",
                     }}
                 >
                     คอร์สเรียนของฉัน
                 </Text>
-                <TouchableOpacity
-                    style={{
-                        padding: 5,
-                    }}
-                >
-                    <Icon name="notifications-outline" size={28} color="#fff" />
-                </TouchableOpacity>
+                <View
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center"
+                        }}
+                    >
+                        {isLogin === true ?
+                        <>
+                        {user?.profile?.id === 1 ?
+                        <TouchableOpacity
+                        onPress={()=>navigation.navigate('ChatList')}
+                        >
+                        <Icon name="chatbubbles-outline" size={28} color="#ffffff" />
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity
+                                onPress={()=>navigation.navigate('MessagesScreen')}
+                            >
+                                <Icon name="chatbubbles-outline" size={28} color="#ffffff" />
+                            </TouchableOpacity>
+                        }
+                        </>    
+                            
+                        :
+                        <TouchableOpacity
+                        onPress={()=>navigation.navigate('Login')}
+                        >
+                            <Icon name="chatbubbles-outline" size={28} color="#ffffff" />
+                        </TouchableOpacity>
+                        }
+                        
+                    </View>
             </View>
             <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
 
@@ -98,19 +139,28 @@ const EditName = ({ navigation }) => {
                                 </View>
                                 <View>
                                     <Text style={{
+                                        fontFamily: "IBMPlexSansThai-Regular",
                                         color: "#345c74",
                                         fontSize: 13,
                                         paddingHorizontal: 20,
                                         width: 270
                                     }}>แต้มดูวิดีโอคงเหลือ</Text>
-                                    <Text style={{
-                                        color: "#000",
-                                        fontSize: 14,
-                                        paddingHorizontal: 20,
-                                        fontWeight: 700,
-                                    }}>
-                                        {numberWithCommas(user?.profile?.user_coin)}
-                                    </Text>
+
+                                {fetchLoading1 ?
+                                <View></View>
+                                :
+                                        <Text style={{
+                                            color: "#000000",
+                                            fontSize: 14,
+                                            paddingHorizontal: 20,
+                                            fontWeight: 700,
+                                        }}>
+                                            {mycoin?.data}
+                                            {/* {numberWithCommas(mycoint)} */}
+                                        </Text>
+                                }
+
+                                    
                                 </View>
 
                             </View>
@@ -127,98 +177,209 @@ const EditName = ({ navigation }) => {
                                 :
                                 <View>
                                     {mycourse?.data?.map((pack) => (
-                            <TouchableOpacity
-                            onPress={()=> 
-                                navigation.navigate('VideoPage', { product: pack }) 
-                            }
-                            
-                            style={{
-                                marginVertical: 5,
-                                borderBottomColor: "#dadde1",
-                                borderBottomWidth: 1,
-                            }}
-                            >
-                            <View style={{
-                                width: '100%',
-                                height: 100,
-                                flexDirection: "row",
-                                marginBottom: 10,
-                                alignItems: 'center',
-                            }}>
-                                <View style={{
-                                    width: '50%',
-                                    height: 100,
-                                    
-                                }}>
-                                    <Image
+                                        <>
+                                        {pack?.type_course == 1 ?
+                                        <TouchableOpacity
+                                        key={pack}
                                         style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            borderRadius: 10,
+                                            marginVertical: 5,
+                                            borderBottomColor: "#dadde1",
+                                            borderBottomWidth: 1,
                                         }}
-                                        source={{ uri: 'https://learnsbuy.com/assets/uploads/' + pack.image_course }}
-                                    />
-                                </View>
-
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        height: '100%',
-                                        justifyContent: 'space-around',
-                                        marginLeft:10
-                                    }}
-                                >
-                                    <View>
-                                        <Text ellipsizeMode='tail' numberOfLines={2}
-                                            style={{
-                                                fontWeight: 'bold',
-                                                fontSize: 14,
-                                                color: "#666",
-                                                maxWidth: '100%',
-                                                letterSpacing: 0.5,
-                                                maxWidth: '100%',
-                                            }}
                                         >
-                                            {pack.title_course} 
-                                        </Text>
-                                        <View style={{
-                                            flexDirection: 'row',
-                                            paddingHorizontal: 5,
-                                            marginTop:5
+                                        <View key={pack} style={{
+                                            width: '100%',
+                                            height: 100,
+                                            flexDirection: "row",
+                                            marginBottom: 10,
+                                            alignItems: 'center',
                                         }}>
-                                            <Icon name="pricetags-outline" size={16} color="#4caf50"  />
-                                            <Text
+                                            <View style={{
+                                                width: '50%',
+                                                height: 100,
+                                                
+                                            }}>
+                                                <Image
+                                                    style={{
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        borderRadius: 10,
+                                                    }}
+                                                    source={{ uri: 'https://learnsbuy.com/assets/uploads/' + pack.image_course }}
+                                                />
+                                            </View>
+            
+                                            <View
                                                 style={{
-                                                    fontWeight: 400,
-                                                    fontSize: 14,
-                                                    marginLeft:5,
-                                                    color: '#9e9e9e',
+                                                    flex: 1,
+                                                    height: '100%',
+                                                    justifyContent: 'space-around',
+                                                    marginLeft:10
                                                 }}
                                             >
-                                                {pack.code_course}
-                                            </Text>
+                                                <View>
+                                                    <Text ellipsizeMode='tail' numberOfLines={2}
+                                                        style={{
+                                                            fontFamily: "IBMPlexSansThai-Bold",
+                                                            fontSize: 14,
+                                                            color: "#666666",
+                                                            maxWidth: '100%',
+                                                            letterSpacing: 0.5,
+                                                            maxWidth: '100%',
+                                                        }}
+                                                    >
+                                                        {pack.title_course} 
+                                                    </Text>
+                                                    <View style={{
+                                                        flexDirection: 'row',
+                                                        paddingHorizontal: 5,
+                                                        marginTop:5
+                                                    }}>
+                                                        <Icon name="pricetags-outline" size={16} color="#4caf50"  />
+                                                        <Text
+                                                            style={{
+                                                                fontFamily: "IBMPlexSansThai-Regular",
+                                                                fontSize: 14,
+                                                                marginLeft:5,
+                                                                color: '#9e9e9e',
+                                                            }}
+                                                        >
+                                                            {pack.code_course}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{
+                                                        flexDirection: 'row',
+                                                        paddingHorizontal: 5,
+                                                        marginTop:5
+                                                    }}>
+                                                        <Icon name="stopwatch-outline" size={16} color="#ff741a"  />
+                                                        <Text
+                                                            style={{
+                                                                fontFamily: "IBMPlexSansThai-Regular",
+                                                                fontSize: 14,
+                                                                marginLeft:5,
+                                                                color: '#9e9e9e',
+                                                            }}
+                                                        >
+                                                            {pack.time_course}
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <View style={{
-                                            flexDirection: 'row',
-                                            paddingHorizontal: 5,
-                                            marginTop:5
-                                        }}>
-                                            <Icon name="stopwatch-outline" size={16} color="#ff741a"  />
-                                            <Text
+                                        </TouchableOpacity>
+                                :
+                                <TouchableOpacity
+                                key={pack}
+                                onPress={()=> 
+                                    navigation.navigate('VideoPage', { product: pack }) 
+                                }
+                                style={{
+                                    marginVertical: 5,
+                                    borderBottomColor: "#dadde1",
+                                    borderBottomWidth: 1,
+                                }}
+                                >
+                                <View key={pack} style={{
+                                    width: '100%',
+                                    height: 100,
+                                    flexDirection: "row",
+                                    marginBottom: 10,
+                                    alignItems: 'center',
+                                }}>
+                                    <View style={{
+                                        width: '50%',
+                                        height: 100,
+                                        
+                                    }}>
+                                        <Image
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                borderRadius: 10,
+                                            }}
+                                            source={{ uri: 'https://learnsbuy.com/assets/uploads/' + pack.image_course }}
+                                        />
+                                    </View>
+    
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            height: '100%',
+                                            justifyContent: 'space-around',
+                                            marginLeft:10
+                                        }}
+                                    >
+                                        <View>
+                                            <Text ellipsizeMode='tail' numberOfLines={2}
                                                 style={{
-                                                    fontWeight: 400,
+                                                    fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 14,
-                                                    marginLeft:5,
-                                                    color: '#9e9e9e',
+                                                    color: "#666666",
+                                                    maxWidth: '100%',
+                                                    letterSpacing: 0.5,
+                                                    maxWidth: '100%',
+                                                    lineHeight: 18
                                                 }}
                                             >
-                                                {pack.time_course}
+                                                {pack.title_course} 
                                             </Text>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                paddingHorizontal: 5,
+                                                marginTop:0
+                                            }}>
+                                                <Icon name="pricetags-outline" size={16} color="#4caf50"  />
+                                                <Text
+                                                    style={{
+                                                        fontFamily: "IBMPlexSansThai-Regular",
+                                                        fontSize: 14,
+                                                        marginLeft:5,
+                                                        color: '#9e9e9e',
+                                                    }}
+                                                >
+                                                    {pack.code_course}
+                                                </Text>
+                                            </View>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                paddingHorizontal: 5,
+                                                marginTop:0
+                                            }}>
+                                                <Icon name="stopwatch-outline" size={16} color="#ff741a"  />
+                                                <Text
+                                                    style={{
+                                                        fontFamily: "IBMPlexSansThai-Regular",
+                                                        fontSize: 14,
+                                                        marginLeft:5,
+                                                        color: '#9e9e9e',
+                                                    }}
+                                                >
+                                                    {pack.time_course}
+                                                </Text>
+                                            </View>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                            }}>
+                                                <Text
+                                                    style={{
+                                                        fontFamily: "IBMPlexSansThai-Bold",
+                                                        fontSize: 14,
+                                                        marginLeft:5,
+                                                        color: '#9e9e9e',
+                                                    }}
+                                                >
+                                                    หมดอายุ {formatDate(pack.end_day)}
+                                                </Text>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
-                            </View>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                            }
+                            
+                            
+                            </>
                             ))}
                             </View>
                             }
@@ -251,7 +412,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#ddd',
+        borderColor: '#dddddd',
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 20
@@ -278,7 +439,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 35,
         borderTopRightRadius: 35,
         height: 800,
-        backgroundColor: '#FFF',
+        backgroundColor: '#FFFFFF',
         marginHorizontal: -10
     },
     col: {
