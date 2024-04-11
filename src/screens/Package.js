@@ -86,6 +86,7 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                                     marginLeft: 10,
                                                 }}
                                             >
+                                                
                                                 {numberWithCommas(price)}
                                             </Text>
                                             <Text
