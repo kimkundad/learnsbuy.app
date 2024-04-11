@@ -17,6 +17,8 @@ import CourseList from '../screens/CourseList'
 import useFile from '../../services/file';
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
+import Dialog from "react-native-dialog";
+import { useFocusEffect } from '@react-navigation/native';
 
 const IMAGE_HEIGHT = 220;
 
@@ -31,13 +33,18 @@ const ProductDetail = ({ route, navigation }) => {
     const { data: getFile, isLoading: fetchLoading } = useFile(product.c_id)
     const [token, settoken] = useState(user?.token);
     const [isState, setIsState] = useState(false);
+    const [getStatusx, setgetStatusx] = useState(0);
+    const [getOid, setGetOid] = useState(0);
     const [isSuggestion, setIsSuggestion] = useState([]);
+    const [visible, setVisible] = useState(false);
     const getMycourse = async () => {
 
         if (token) {
             try {
-                const response = await axios.post('https://www.learnsbuy.com/api/getMyCourse', { token: token })
+                const response = await axios.post('https://www.learnsbuy.com/api/getMyCoursecx5', { token: token })
                 if (response?.data?.status == 200) {
+
+                    console.error('Error response?.data?.data:', response?.data?.data);
 
                     const matchs = response?.data?.data.filter(res => { return res.course_id === product.id })
                     return matchs
@@ -51,15 +58,48 @@ const ProductDetail = ({ route, navigation }) => {
         }
     }
 
-    useEffect(() => {
+    const handleCancel = () => {
+        setVisible(false);
+    };
+
+    const handleCheck = async (id) => {
+
+        try {
+            const { data } = await axios.post('https://www.learnsbuy.com/api/check_mypoint', {
+                token, id
+            })
+            console.log('check', data)
+            if (data.status === 200) {
+
+                setVisible(false);
+                navigation.navigate('VideoPage2', { product: data.coursess })
+
+            } else {
+                setVisible(true);
+            }
+
+        } catch (err) {
+            console.log('err xx00--> ', err)
+            return err.response.data
+        }
+
+
+
+        // setVisible(true);
+    }
+
+
+    useFocusEffect(() => {
 
         if (token) {
             getMycourse()
                 .then(matchs => {
                     // Do something with the filtered data
-                    console.log(`product.id ${product.id}, matchs[0]?.course_i --> ${matchs[0]?.course_id}`);
+                    console.log(`product.id ${product.id}, matchs[0]?.course_i --> ${matchs[0]?.Oid}`);
                     if (matchs[0]?.course_id === product.id) {
                         setIsState(true)
+                        setgetStatusx(matchs[0]?.statusxx)
+                        setGetOid(matchs[0]?.Oid)
                         console.log('setIsState', isState)
                     }
                 })
@@ -115,6 +155,13 @@ const ProductDetail = ({ route, navigation }) => {
                     paddingHorizontal: 10,
                 }}
             >
+                <Dialog.Container visible={visible}>
+                    <Dialog.Title style={{ fontFamily: "IBMPlexSansThai-Regular" }}>ไม่สามารถเข้าเรียนได้</Dialog.Title>
+                    <Dialog.Description style={{ fontFamily: "IBMPlexSansThai-Regular" }}>
+                        คอร์สของท่านหมดอายุแล้ว กรุณาสมัครเรียนใหม่ หรือติดต่อ LINE : @ZA-SHI เพื่อรับส่วนลด
+                    </Dialog.Description>
+                    <Dialog.Button style={{ fontFamily: "IBMPlexSansThai-Regular" }} label="ตกลง" onPress={handleCancel} />
+                </Dialog.Container>
                 <Image
                     style={{
                         width: "100%",
@@ -168,6 +215,11 @@ const ProductDetail = ({ route, navigation }) => {
                     }}
                 >
                     <View>
+
+                    {product.set_type_c === 1 ? 
+                                    <Text>
+                                    </Text>
+                                    : 
                         <Text
                             style={{
                                 fontWeight: "bold",
@@ -177,6 +229,7 @@ const ProductDetail = ({ route, navigation }) => {
                         >
                             ฿ {product.price_course}
                         </Text>
+}
                         <View style={{
                             flexDirection: "row",
                         }}>
@@ -213,35 +266,135 @@ const ProductDetail = ({ route, navigation }) => {
 
                     {isLogin === true ?
                         <>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('Pay1', { course: product })}
-                                style={{
-                                    backgroundColor: "#32d191",
-                                    paddingHorizontal: 30,
-                                    paddingVertical: 7,
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    width: "50%",
-                                    borderRadius: 50,
-                                }}
-                            >
-                                <Icon
-                                    name="cart-outline"
-                                    size={22}
-                                    color="#fff"
-                                />
-                                <Text
+                            {isState === true ?
+                                <>
+                                    {getStatusx === 2 ?
+                                        <View style={{
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                        }}>
+                                        <TouchableOpacity
+                                            style={{
+                                                backgroundColor: "#6c757d",
+                                                paddingHorizontal: 20,
+                                                paddingVertical: 2,
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                borderRadius: 50,
+                                            }}
+                                        >
+                                            <Text
+                                                style={{
+                                                    fontFamily: "IBMPlexSansThai-Bold",
+                                                    color: "#ffffff",
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                สมัครแล้ว
+                                            </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{
+                                                backgroundColor: "#32d191",
+                                                paddingHorizontal: 20,
+                                                paddingVertical: 2,
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                borderRadius: 50,
+                                                marginLeft:10
+                                            }}
+                                            onPress={()=> 
+                                                handleCheck( getOid )
+                                            }
+                                        >
+                                            <Text
+                                                style={{
+                                                    fontFamily: "IBMPlexSansThai-Bold",
+                                                    color: "#ffffff",
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                ดูวิดีโอ
+                                            </Text>
+                                        </TouchableOpacity>
+                                        </View>
+                                        :
+                                        <TouchableOpacity
+                                            style={{
+                                                backgroundColor: "#6c757d",
+                                                paddingHorizontal: 30,
+                                                paddingVertical: 7,
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                borderRadius: 50,
+                                            }}
+                                        >
+
+                                            {/* <Text
+    style={{
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: "#ffffff",
+        fontSize: 18,
+    }}
+>
+    สมัครแล้ว
+</Text> */}
+                                            <Text
+                                                style={{
+                                                    fontFamily: "IBMPlexSansThai-Bold",
+                                                    color: "#ffffff",
+                                                    fontSize: 18,
+                                                }}
+                                            >
+                                                รออนุมัติ
+                                            </Text>
+
+                                        </TouchableOpacity>
+
+                                    }
+                                </>
+                                :
+                                <>
+                                {product.set_type_c === 1 ? 
+                                    <Text>
+                                    </Text>
+                                    : 
+                                    <TouchableOpacity
+                                    onPress={() => navigation.navigate('Pay1', { course: product })}
                                     style={{
-                                        fontFamily: "IBMPlexSansThai-Bold",
-                                        color: "#ffffff",
-                                        fontSize: 18,
-                                        marginLeft: 10,
+                                        backgroundColor: "#32d191",
+                                        paddingHorizontal: 30,
+                                        paddingVertical: 7,
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        width: "50%",
+                                        borderRadius: 50,
                                     }}
                                 >
-                                    สมัครเรียน
-                                </Text>
-                            </TouchableOpacity>
+                                    <Icon
+                                        name="cart-outline"
+                                        size={22}
+                                        color="#fff"
+                                    />
+                                    <Text
+                                        style={{
+                                            fontFamily: "IBMPlexSansThai-Bold",
+                                            color: "#ffffff",
+                                            fontSize: 18,
+                                            marginLeft: 10,
+                                        }}
+                                    >
+                                        สมัครเรียน
+                                    </Text>
+                                </TouchableOpacity>
+                                    }
+                                </>
+                                
+                            }
                         </>
                         :
                         <>
@@ -291,10 +444,10 @@ const ProductDetail = ({ route, navigation }) => {
                     <Text
                         style={{
                             fontFamily: "IBMPlexSansThai-Bold",
-                            fontSize: 16,
+                            fontSize: 16, color: "#666666"
                         }}
                     >
-                        เอกสารให้ Download
+                        เอกสารเพิ่มเติม
                     </Text>
 
                 </View>
@@ -404,18 +557,18 @@ const ProductDetail = ({ route, navigation }) => {
                     <Text
                         style={{
                             fontFamily: "IBMPlexSansThai-Bold",
-                            fontSize: 14,
+                            fontSize: 14, color: "#666666"
                         }}
                     >
-                        Video คอร์ส
+                        เนื้อหาใน Video
                     </Text>
                     <Text
                         style={{
                             fontFamily: "IBMPlexSansThai-Bold",
-                            fontSize: 14,
+                            fontSize: 14, color: "#666666"
                         }}
                     >
-                        จำนวน {getFile?.data?.video.length}
+                        {/* จำนวน {getFile?.data?.video.length} */}
                     </Text>
 
                 </View>

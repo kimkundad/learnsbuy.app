@@ -13,18 +13,17 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const Pay1 = ({ route, navigation }) => {
+const Pay4 = ({ route, navigation }) => {
 
-    const course = route.params.course;
+    const course = route.params.product;
+
+    console.log('course', course?.package_price)
     const { data: bank, isLoading: fetchLoading } = getBank()
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
-    const [coupon, setCupon] = useState('');
-    const [couponId, setCouponId] = useState('');
-    const [codecoupon, setCodecoupon] = useState(0);
-    const [total, setTotal] = useState(course?.price_course || 0);
-    const [course_id, setCourse_id] = useState(course?.c_id);
-    const [msgcoupon, setMsgcoupon] = useState(false);
-    const [regisError, setRegisError] = useState(false);
+
+    const [total, setTotal] = useState(course?.package_price || 0);
+    const [course_id, setCourse_id] = useState(course?.id);
+    
     const [token, settoken] = useState(user?.token);
     const [money, setMoney] = useState(0);
     const [totalmoney, setTotalmoney] = useState(0);
@@ -35,14 +34,12 @@ const Pay1 = ({ route, navigation }) => {
     const [spinnerx, setSpinner] = useState('false');
 
     const [date, setDate] = useState(new Date());
-    const [datetran, setDatetran] = useState(null);
+    const [datetran, setDatetran] = useState('');
     const [showPicker, setShowPicker] = useState(false);
 
     const [mytimer, setMytimer] = useState(new Date());
-    const [timer, setTimer] = useState(null);
+    const [timer, setTimer] = useState('');
     const [showTimePicker, setShowTimePicker] = useState(false);
-
-    const [msgerror, setMsgerror] = useState('');
 
     const toggleDate = () => {
         setShowPicker(!showPicker)
@@ -68,7 +65,6 @@ const Pay1 = ({ route, navigation }) => {
     };
 
     const [checkErrorIn, setCheckErrorIn] = useState(false);
-    const [checkErrorIn1, setCheckErrorIn1] = useState(false);
     
     const [isValid, setIsValid] = useState(false);
     
@@ -78,47 +74,44 @@ const Pay1 = ({ route, navigation }) => {
 
     }
 
-
     onNextStep = async () => {
 
-        setTotalmoney(total - codecoupon)
+        setTotalmoney(total)
         setSpinner(true);
-        
+        console.log('photo', photo)
         if(photo === null || datetran === null || timer === null || bankname === null) {
             setSpinner(false);
             setCheckErrorIn(true);
             setIsValid(true)
-            setMsgerror('กรุณาป้อนข้อมูลของท่านให้ครบถ้วนก่อน')
+
         }else{
             
-
             if(photo.didCancel === true){
                 console.log('not pass', photo.didCancel)
                 setSpinner(false);
                 setCheckErrorIn(true);
                 setIsValid(true)
-                setMsgerror('กรุณาป้อนข้อมูลของท่านให้ครบถ้วนก่อน')
             }else{
-                
-                const formData = new FormData();
+
+            const formData = new FormData();
             formData.append('image', {
             uri: photo.assets[0].uri,
             type: photo.assets[0].type, // Adjust the MIME type according to your use case
             name: photo.assets[0].fileName,
             });
-            formData.append('course_id', course_id);
-            formData.append('coupon_id', couponId);
+            formData.append('pack_id', course_id);
             formData.append('day', datetran);
             formData.append('timer', timer);
-            formData.append('totalmoney', totalmoney);
+            formData.append('totalmoney', money);
             formData.append('bankname', bankname);
             formData.append('token', token);
            
             console.log('Upload success:', photo.assets[0].fileName);
             try {
-                const respons = await axios.post('https://www.learnsbuy.com/api/bil_course', formData ,{
+                const respons = await axios.post('https://www.learnsbuy.com/api/package_add', formData ,{
                     headers: { 'Content-Type': 'multipart/form-data' },
                 })
+                console.log('responsex', respons?.data)
                    if (respons?.data.status == 200) {
                         setCheckErrorIn(false);
                         setIsValid(false)
@@ -127,8 +120,6 @@ const Pay1 = ({ route, navigation }) => {
                     } else {
                         setCheckErrorIn(true);
                         setIsValid(true)
-                        setSpinner(false);
-                        setMsgerror('คอร์สเรียนนี้คุณทำการซื้อไปแล้ว')
                         console.log('response !== 200', respons?.status)
                         console.log('response st', respons?.data?.status)
                         console.log('response', respons?.data)
@@ -137,9 +128,8 @@ const Pay1 = ({ route, navigation }) => {
                 console.log('err xx00--> ', err)
                 return err
             }
-            }
 
-            
+        }
         }
 
 
@@ -228,31 +218,7 @@ const Pay1 = ({ route, navigation }) => {
         fontFamily: "IBMPlexSansThai-Bold",
     }
 
-    const handleSubmit = async () => {
 
-        console.log('brfore', course_id, coupon)
-
-        try {
-            const respon = await axios.post('https://www.learnsbuy.com/api/check_coupon', {
-                token, coupon, course_id
-            })
-            if (respon?.data.status === 200) {
-                console.log('response', respon)
-                setCodecoupon(respon?.data?.data?.coupon_price)
-                setCouponId(respon?.data?.coupon_id)
-                setRegisError(false)
-                setMsgcoupon(true)
-            } else {
-                setCodecoupon(0)
-                setRegisError(true)
-                setMsgcoupon(false)
-            }
-        } catch (err) {
-            console.log('err xx00--> ', err)
-            return err
-        }
-
-    }
 
 
     return (
@@ -321,8 +287,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     รายการที่สั่งซื้อ
@@ -348,7 +313,7 @@ const Pay1 = ({ route, navigation }) => {
                                                 height: '100%',
                                                 borderRadius: 10,
                                             }}
-                                            source={{ uri: 'https://learnsbuy.com/assets/uploads/' + course.image_course }}
+                                            source={{ uri: 'https://learnsbuy.com/assets/uploads/' + course.c_pack_image }}
                                         />
                                     </View>
                                     <View
@@ -371,7 +336,7 @@ const Pay1 = ({ route, navigation }) => {
                                                     lineHeight: 20,
                                                 }}
                                             >
-                                                {course.title_course}
+                                                {course.c_pack_name}
                                             </Text>
 
                                         </View>
@@ -388,134 +353,12 @@ const Pay1 = ({ route, navigation }) => {
                                                 color: '#f1416c',
                                             }}
                                         >
-                                            ฿{numberWithCommas(course.price_course)}
+                                            ฿{numberWithCommas(course.package_price)}
                                         </Text>
                                     </View>
                                 </View>
                             </View>
-                            <View style={{
-                                backgroundColor: '#ffffff',
-                                paddingHorizontal: 10,
-                                paddingTop: 10,
-                                marginTop: 8,
-                            }}>
-                                <Text
-                                    style={{
-                                        fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
-                                    }}
-                                >
-                                    คูปองส่วนลด
-                                </Text>
-                                {msgcoupon === true &&
-                                    <Text style={{
-                                        color: '#009688',
-                                    }}>คุณสามารถใช้คูปองส่วนลดนี้ได้</Text>
-                                }
-
-                                {regisError === true &&
-                                    <View style={{
-                                        marginHorizontal: 0,
-                                        borderColor: "#f1bc00",
-                                        backgroundColor: "#fff8dd",
-                                        marginTop: 10,
-                                        borderWidth: 1,
-                                        minHeight: 50,
-                                        borderRadius: 10,
-
-                                    }}>
-                                        <View
-                                            style={{
-                                                flexDirection: "row",
-                                                padding: 8,
-                                                marginRight: 10,
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <View style={{
-                                                backgroundColor: "#fcf8e3f0",
-                                                paddingVertical: 6,
-                                                paddingHorizontal: 8,
-                                                borderRadius: 20
-                                            }}>
-                                                <Icon name="alert-circle-outline" size={30} color="#ff741a" />
-                                            </View>
-                                            <View>
-                                                <Text style={{
-                                                    color: "#000000",
-                                                    fontSize: 14,
-                                                    paddingHorizontal: 20,
-                                                    fontFamily: "IBMPlexSansThai-Regular",
-                                                    width: 270
-                                                }}>ใช้ส่วนลด Coupon ไม่สำเร็จ</Text>
-                                                <Text style={{
-                                                    color: "#345c74",
-                                                    fontSize: 12,
-                                                    paddingHorizontal: 20,
-                                                    fontFamily: "IBMPlexSansThai-Regular",
-                                                }}>
-                                                    คุณไม่สามารถใช้ Coupon นี้ได้
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                }
-
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: "space-between",
-                                        marginVertical: 10,
-                                        marginBottom: 15
-                                    }}>
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        backgroundColor: '#ededed',
-                                        width: '85%',
-                                        borderRadius: 10,
-                                        height: 40,
-                                    }} >
-                                        <TextInput
-                                            style={styles.input}
-                                            value={coupon}
-                                            onChangeText={(text) => setCupon(text)}
-                                            placeholder="กรอกโค้ดส่วนลด"
-                                            placeholderTextColor="#818181"
-                                        />
-
-                                    </View>
-                                    <View style={{ alignItems: 'center' }}>
-                                        <TouchableOpacity
-                                            style={{
-                                                justifyContent: 'center',
-                                                backgroundColor: '#32d191',
-                                                width: '100%',
-                                                height: 40,
-                                                marginLeft: 10,
-                                                borderRadius: 10,
-                                            }}
-                                            onPress={() => handleSubmit()}
-                                        >
-                                            <Text style={{
-                                                fontSize: 15,
-                                                width: '100%',
-                                                letterSpacing: 1.5,
-                                                textAlign: 'center',
-                                                position: 'relative',
-                                                fontFamily: "IBMPlexSansThai-Bold",
-                                                paddingLeft: 5,
-                                                paddingRight: 5,
-                                                color: '#ffffff'
-                                            }} >
-                                                <Icon name="bookmark-outline" size={28} color="#ffffff" />
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
+                           
 
                             <View style={{
                                 backgroundColor: '#ffffff',
@@ -526,8 +369,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     บัญชีธนาคาร
@@ -566,7 +408,7 @@ const Pay1 = ({ route, navigation }) => {
                                                             style={{
                                                                 justifyContent: 'center',
                                                                 backgroundColor: '#32d191',
-                                                                height: 40,
+                                                                height: 35,
                                                                 marginLeft: 10,
                                                                 borderRadius: 10,
                                                             }}
@@ -582,7 +424,7 @@ const Pay1 = ({ route, navigation }) => {
                                                                 paddingRight: 5,
                                                                 color: '#ffffff'
                                                             }} >
-                                                                <Icon name="copy-outline" size={28} color="#ffffff" />
+                                                                <Icon name="copy-outline" size={22} color="#ffffff" />
                                                             </Text>
                                                         </TouchableOpacity>
                                                     </View>
@@ -606,8 +448,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     สรุปรายการที่สั่งซื้อ
@@ -619,23 +460,11 @@ const Pay1 = ({ route, navigation }) => {
                                         marginVertical: 1,
                                     }}>
                                     <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Regular",
-                                        color: "#666",
+                                        fontFamily: "IBMPlexSansThai-Regular", color: "#666666"
                                     }}>ราคารวม</Text>
                                     <Text>฿ {numberWithCommas(total)}</Text>
                                 </View>
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: "space-between",
-                                        marginVertical: 1,
-                                    }}>
-                                    <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Regular",
-                                        color: "#666",
-                                    }}>จากโค้ดส่วนลด</Text>
-                                    <Text> - ฿ {codecoupon}</Text>
-                                </View>
+                                
                                 <View
                                     style={{
                                         flexDirection: 'row',
@@ -644,11 +473,11 @@ const Pay1 = ({ route, navigation }) => {
                                         marginBottom: 10
                                     }}>
                                     <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Bold", color: "#666",
+                                        fontFamily: "IBMPlexSansThai-Bold", color: "#666666"
                                     }}>ที่ต้องชำระ</Text>
                                     <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Bold", color: "#666",
-                                    }}>฿ {numberWithCommas(total - codecoupon)}</Text>
+                                        fontFamily: "IBMPlexSansThai-Bold", color: "#666666"
+                                    }}>฿ {numberWithCommas(total)}</Text>
                                 </View>
                             </View>
 
@@ -679,8 +508,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     ธนาคารที่แจ้งโอน
@@ -751,8 +579,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     จำนวนเงิน
@@ -770,7 +597,7 @@ const Pay1 = ({ route, navigation }) => {
                                         <TextInput
                                             keyboardType="numeric"
                                             style={styles.input}
-                                            placeholder="กรอกจำนวนที่โอน"
+                                            placeholder="กรอกจำนวนเงินที่โอน"
                                             placeholderTextColor="#818181"
                                             value={money}
                                             onChangeText={(text) => setMoney(text)}
@@ -787,8 +614,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     วันที่โอน
@@ -841,8 +667,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     เวลาที่โอน
@@ -896,8 +721,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16,
-                                        color: "#666",
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     อัพโหลดสลิป
@@ -969,7 +793,7 @@ const Pay1 = ({ route, navigation }) => {
                                                         paddingHorizontal: 20,
                                                         fontFamily: "IBMPlexSansThai-Regular",
                                                     }}>
-                                                        {msgerror}
+                                                        กรุณาป้อนข้อมูลของท่านให้ครบถ้วนก่อน
                                                     </Text>
                                                 </View>
                                             </View>
@@ -1009,7 +833,7 @@ const Pay1 = ({ route, navigation }) => {
 
 }
 
-export default Pay1
+export default Pay4
 
 const styles = StyleSheet.create({
     input: {
@@ -1032,7 +856,7 @@ const styles = StyleSheet.create({
     bankStyle: {
         fontSize: 12,
         fontFamily: "IBMPlexSansThai-Regular",
-        color: "#666",
+        color: "#666666"
     },
     bankCopy: {
         flexDirection: "row",

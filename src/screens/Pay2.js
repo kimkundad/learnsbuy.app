@@ -49,8 +49,9 @@ const Pay1 = ({ route, navigation }) => {
     const handleChoosePhoto = (type) => {
         let options = {
             mediaType: type,
-            maxWidth: 300,
-            maxHeight: 348,
+            maxWidth: 963,
+            maxHeight: 1699,
+            videoQuality: 'high',
             quality: 1,
         };
         launchImageLibrary(options, (response) => {
@@ -75,13 +76,21 @@ const Pay1 = ({ route, navigation }) => {
 
         setTotalmoney(total)
         setSpinner(true);
+        console.log('photo', photo)
         if(photo === null || datetran === null || timer === null || bankname === null) {
-
+            setSpinner(false);
             setCheckErrorIn(true);
             setIsValid(true)
 
         }else{
             
+
+            if(photo.didCancel === true){
+                console.log('not pass', photo.didCancel)
+                setSpinner(false);
+                setCheckErrorIn(true);
+                setIsValid(true)
+            }else{
 
             const formData = new FormData();
             formData.append('image', {
@@ -117,6 +126,7 @@ const Pay1 = ({ route, navigation }) => {
                 console.log('err xx00--> ', err)
                 return err
             }
+        }
         }
 
 
@@ -274,7 +284,8 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16,
+                                        color: "#666666",
                                     }}
                                 >
                                     รายการที่สั่งซื้อ
@@ -356,7 +367,8 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16,
+                                        color: "#666666",
                                     }}
                                 >
                                     บัญชีธนาคาร
@@ -435,7 +447,8 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16,
+                                        color: "#666666",
                                     }}
                                 >
                                     สรุปรายการที่สั่งซื้อ
@@ -447,7 +460,7 @@ const Pay1 = ({ route, navigation }) => {
                                         marginVertical: 1,
                                     }}>
                                     <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Regular"
+                                        fontFamily: "IBMPlexSansThai-Regular", color: "#666666",
                                     }}>ราคารวม</Text>
                                     <Text>฿ {numberWithCommas(total)}</Text>
                                 </View>
@@ -460,10 +473,10 @@ const Pay1 = ({ route, navigation }) => {
                                         marginBottom: 10
                                     }}>
                                     <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Bold"
+                                        fontFamily: "IBMPlexSansThai-Bold", color: "#666666",
                                     }}>ที่ต้องชำระ</Text>
                                     <Text style={{
-                                        fontFamily: "IBMPlexSansThai-Bold"
+                                        fontFamily: "IBMPlexSansThai-Bold", color: "#666666",
                                     }}>฿ {numberWithCommas(total)}</Text>
                                 </View>
                             </View>
@@ -566,7 +579,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     จำนวนเงิน
@@ -584,7 +597,7 @@ const Pay1 = ({ route, navigation }) => {
                                         <TextInput
                                             keyboardType="numeric"
                                             style={styles.input}
-                                            placeholder="1500"
+                                            placeholder="กรอกจำนวนเงินที่โอน"
                                             placeholderTextColor="#818181"
                                             value={money}
                                             onChangeText={(text) => setMoney(text)}
@@ -601,7 +614,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     วันที่โอน
@@ -654,7 +667,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     เวลาที่โอน
@@ -708,7 +721,7 @@ const Pay1 = ({ route, navigation }) => {
                                 <Text
                                     style={{
                                         fontFamily: "IBMPlexSansThai-Bold",
-                                        fontSize: 16
+                                        fontSize: 16, color: "#666666"
                                     }}
                                 >
                                     อัพโหลดสลิป
@@ -807,7 +820,7 @@ const Pay1 = ({ route, navigation }) => {
                                         fontFamily: "IBMPlexSansThai-Bold",
                                     }}
                                 >ขอบคุณที่ได้ทำรายการสั่งซื้อ</Text>
-                                <Text>หลังจากนี้เจ้าหน้าที่ตรวจสอบข้อมูลแล้วอนุมัติให้ถายใน 4-5 ชม.</Text>
+                                <Text>หลังจากนี้เจ้าหน้าที่จะตรวจสอบข้อมูลแล้วอนุมัติให้ภายใน 24 ชม.</Text>
                             </View>
                         </ProgressStep>
                     </ProgressSteps>
@@ -834,6 +847,8 @@ const styles = StyleSheet.create({
         height: '100%',
         width: 500,
         fontFamily: "IBMPlexSansThai-Regular",
+        color: '#000000',
+        paddingLeft:20
     },
     ProgressStep: {
         fontFamily: "IBMPlexSansThai-Medium",
@@ -841,6 +856,7 @@ const styles = StyleSheet.create({
     bankStyle: {
         fontSize: 12,
         fontFamily: "IBMPlexSansThai-Regular",
+        color: "#666666",
     },
     bankCopy: {
         flexDirection: "row",

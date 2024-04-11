@@ -5,10 +5,11 @@ import { Text, TouchableOpacity, View, Image } from 'react-native'
 const IMAGE_WITH = 240;
 const IMAGE_HEIGHT = 200;
 
-const cardPackage = ({title,img, price, discount,onPress}) => {
+const CardCourse = ({title,img, price, discount, onPress, course}) => {
 
     return (
         <TouchableOpacity 
+
         onPress={
             onPress
             }
@@ -47,7 +48,7 @@ const cardPackage = ({title,img, price, discount,onPress}) => {
                                         <Text ellipsizeMode='tail' numberOfLines={2}
                                             style={{
                                                 fontFamily: "IBMPlexSansThai-Bold",
-                                                fontSize: 12,
+                                                fontSize: 14,
                                                 color: "#666",
                                                 maxWidth: '100%',
                                                 maxWidth: '100%',
@@ -59,44 +60,7 @@ const cardPackage = ({title,img, price, discount,onPress}) => {
                                             flexDirection: 'row',
                                             
                                         }}>
-                                        
-                                            {discount !== 0 ?
-                                                <Text
-                                                style={{
-                                                    fontFamily: "IBMPlexSansThai-Regular",
-                                                    fontSize: 13,
-                                                    color: '#666',
-                                                    
-                                                    paddingTop: 3,
-                                                    textDecorationLine: 'line-through'
-                                                }}
-                                            >
-                                                {discount} บาท
-                                            </Text>
-                                            : 
-                                                <Text></Text>
-                                            }
-                                            <Text
-                                                style={{
-                                                    fontWeight: 700,
-                                                    fontSize: 16,
-                                                    color: '#00c402',
-                                                    marginLeft: 10,
-                                                }}
-                                            >
-                                                {price}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontFamily: "IBMPlexSansThai-Bold",
-                                                    fontSize: 14,
-                                                    marginLeft:5,
-                                                    color: '#666',
-                                                    paddingTop: 2
-                                                }}
-                                            >
-                                                บาท
-                                            </Text>
+                                            
                                             
                                             
                                         </View>
@@ -107,4 +71,4 @@ const cardPackage = ({title,img, price, discount,onPress}) => {
 }
 
 
-export default cardPackage
+export default CardCourse

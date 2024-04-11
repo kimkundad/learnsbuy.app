@@ -18,8 +18,6 @@ const Login = ({ navigation }) => {
 
     useEffect(() => {
 
-        console.log('Login error:: ', error);
-        console.log('Login message:: ', message);
         if (isLogin === true) {
             console.log('true ', isLogin);
             navigation.replace('HomePage')
@@ -135,7 +133,7 @@ const Login = ({ navigation }) => {
                         <TextInput style={styles.input}
                             value={email}
                             onChangeText={(text) => setEmail(text)}
-                            placeholder="Enter Email" placeholderTextColor="#818181" />
+                            placeholder="อีเมล" placeholderTextColor="#818181" />
 
                     </View>
 
@@ -151,7 +149,7 @@ const Login = ({ navigation }) => {
                         marginTop: 20
                     }} >
                         <Icon name="lock-closed-outline" size={22} color="#818181" />
-                        <TextInput style={styles.input} placeholder="Enter Password"
+                        <TextInput style={styles.input} placeholder="รหัสผ่าน"
                             onChangeText={(text) => setPassword(text)}
                             secureTextEntry={isPasswordShown} placeholderTextColor="#818181" />
                         <TouchableOpacity
@@ -163,9 +161,9 @@ const Login = ({ navigation }) => {
                         >
                             {
                                 isPasswordShown == false ? (
-                                    <Icon name="eye-off-outline" size={24} color="000000" />
+                                    <Icon name="eye-off-outline" size={24} color="#000000" />
                                 ) : (
-                                    <Icon name="eye-outline" size={24} color="000000" />
+                                    <Icon name="eye-outline" size={24} color="#000000" />
                                 )
                             }
 

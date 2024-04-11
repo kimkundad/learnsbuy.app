@@ -40,6 +40,7 @@ const Profile = ({ navigation }) => {
         console.log('isLogin ', isLogin);
 
     },);
+    
 
     return (
         <SafeAreaView>
@@ -218,7 +219,7 @@ const Profile = ({ navigation }) => {
                                             paddingHorizontal: 20,
                                             fontWeight: 700,
                                         }}>
-                                            {mycoin?.data}
+                                            {numberWithCommas(mycoin?.data)}
                                             {/* {numberWithCommas(mycoint)} */}
                                         </Text>
                                 }
@@ -934,6 +935,49 @@ const Profile = ({ navigation }) => {
                                 </View>
                             </TouchableOpacity>
                             {/* /////////////////////////////// */}
+                            {/* <TouchableOpacity onPress={() => navigation.navigate('VerificationPhone')}>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        padding: 15,
+                                        marginRight: 10,
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <View style={{
+                                        backgroundColor: "#32d19129",
+                                        paddingVertical: 6,
+                                        paddingHorizontal: 8,
+                                        borderRadius: 20
+                                    }}>
+                                        <Icon name="reader-outline" size={25} color="#00c402" />
+                                    </View>
+                                    <View>
+                                        <Text style={{
+                                            color: "#345c74",
+                                            fontSize: 13,
+                                            fontFamily: "IBMPlexSansThai-Regular",
+                                            paddingHorizontal: 20,
+                                            width: 270
+                                        }}>ข้อกำหนดและเงื่อนไขการใช้งาน</Text>
+                                        <Text style={{
+                                            color: "#000000",
+                                            fontSize: 14,
+                                            paddingHorizontal: 20,
+                                            fontFamily: "IBMPlexSansThai-Bold",
+                                        }}>
+                                            Terms of Service
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={{
+                                            marginRight: 10,
+                                        }}
+                                    >
+                                        <Icon name="chevron-forward-outline" size={25} color="#666" />
+                                    </View>
+                                </View>
+                            </TouchableOpacity> */}
 
                         </View>
 

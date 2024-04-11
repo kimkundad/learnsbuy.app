@@ -8,6 +8,8 @@ import MyCourse from './screens/MyCourse'
 import News from './screens/News'
 import Login from './screens/Login'
 import Profile from './screens/Profile'
+import Buffet from './screens/Buffet'
+import Tests from './screens/Tests'
 import { useSelector, useDispatch } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
@@ -40,7 +42,7 @@ export const HomeTabs = () =>  {
                 console.log('focused', focused)
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Icon name="home-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
+                    <Icon name="home-outline" size={22} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>Home</Text>
                   </View>
                 )
@@ -54,8 +56,22 @@ export const HomeTabs = () =>  {
               tabBarIcon: ({ focused }) => {
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Icon name="library-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
-                    <Text style={[focused ? styles.textfocused : styles.text]}>คอร์สเรียน</Text>
+                    <Icon name="library-outline" size={22} color={focused ? "#2ab37c" : "#111111"} />
+                    <Text style={[focused ? styles.textfocused : styles.text]}>Course</Text>
+                  </View>
+                )
+              }
+            }}
+          />
+          <Tab.Screen
+            name="Buffet"
+            component={Buffet}
+            options={{
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <View style={{ alignItems: "center", justifyContent: "center" }}>
+                    <Icon name="book-outline" size={22} color={focused ? "#2ab37c" : "#111111"} />
+                    <Text style={[focused ? styles.textfocused : styles.text]}>Buffet</Text>
                   </View>
                 )
               }
@@ -70,8 +86,8 @@ export const HomeTabs = () =>  {
               return (
                 <View style={{ alignItems: "center", justifyContent: "center",
                 backgroundColor: "#32d191",
-                    width: Platform.OS == "ios" ? 50 : 60,
-                    height: Platform.OS == "ios" ? 50 : 60,
+                    width: Platform.OS == "ios" ? 45 : 55,
+                    height: Platform.OS == "ios" ? 45 : 55,
                     top: Platform.OS == "ios" ? -10 : -20,
                     borderRadius: Platform.OS == "ios" ? 25 : 30 }}>
                   <Icon name="school-outline" size={32} color={focused ? "#ffffff" : "#ffffff"} />
@@ -89,8 +105,8 @@ export const HomeTabs = () =>  {
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center",
                   backgroundColor: "#32d191",
-                      width: Platform.OS == "ios" ? 50 : 60,
-                      height: Platform.OS == "ios" ? 50 : 60,
+                      width: Platform.OS == "ios" ? 45 : 55,
+                      height: Platform.OS == "ios" ? 45 : 55,
                       top: Platform.OS == "ios" ? -10 : -20,
                       borderRadius: Platform.OS == "ios" ? 25 : 30 }}>
                     <Icon name="school-outline" size={32} color={focused ? "#ffffff" : "#ffffff"} />
@@ -102,6 +118,23 @@ export const HomeTabs = () =>  {
           }
           
           <Tab.Screen
+            name="Tests"
+            component={Tests}
+            options={{
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <View style={{ 
+                    alignItems: "center", 
+                    justifyContent: "center",
+                     }}>
+                    <Icon name="flashlight-outline" size={22} color={focused ? "#2ab37c" : "#111111"} />
+                    <Text style={[focused ? styles.textfocused : styles.text]}>Tests</Text>
+                  </View>
+                )
+              }
+            }}
+          />
+          <Tab.Screen
             name="News"
             component={News}
             options={{
@@ -111,7 +144,7 @@ export const HomeTabs = () =>  {
                     alignItems: "center", 
                     justifyContent: "center",
                      }}>
-                    <Icon name="receipt-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
+                    <Icon name="receipt-outline" size={22} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>News</Text>
                   </View>
                 )
@@ -125,7 +158,7 @@ export const HomeTabs = () =>  {
               tabBarIcon: ({ focused }) => {
                 return (
                   <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Icon name="person-outline" size={24} color={focused ? "#2ab37c" : "#111111"} />
+                    <Icon name="person-outline" size={22} color={focused ? "#2ab37c" : "#111111"} />
                     <Text style={[focused ? styles.textfocused : styles.text]}>Profile</Text>
                   </View>
                 )
@@ -139,9 +172,9 @@ export const HomeTabs = () =>  {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 12, color: "#000000", fontFamily: "IBMPlexSansThai-Medium",
+    fontSize: 11, color: "#000000", fontFamily: "IBMPlexSansThai-Medium",
   },
   textfocused: {
-    fontSize: 12, color: "#2ab37c"
+    fontSize: 11, color: "#2ab37c"
   },
 });

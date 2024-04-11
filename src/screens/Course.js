@@ -38,7 +38,8 @@ const Course = ({ navigation: { navigate } }) => {
                                     fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 16,
                                     paddingTop: 5,
-                                    marginTop:0
+                                    marginTop:0,
+                                    color: "#666",
                                 }}
                             >
                                 คอร์สเรียนทั้งหมด
@@ -158,6 +159,24 @@ const Course = ({ navigation: { navigate } }) => {
                                             flexDirection: 'row',
                                             
                                         }}>
+                                            
+                                            {product.discount !== 0 ?
+                                                <Text
+                                                style={{
+                                                    fontFamily: "IBMPlexSansThai-Light",
+                                                    fontSize: 12,
+                                                    color: '#666',
+                                                    marginRight: 10,
+                                                    paddingTop: 4,
+                                                    textDecorationLine: 'line-through'
+                                                }}
+                                            >
+                                                {numberWithCommas(product.discount)} บาท
+                                            </Text>
+                                            : 
+                                                <Text></Text>
+                                            }
+                                            
                                             <Text
                                                 style={{
                                                     fontFamily: "IBMPlexSansThai-Bold",
@@ -179,24 +198,6 @@ const Course = ({ navigation: { navigate } }) => {
                                             >
                                                 บาท
                                             </Text>
-                                            {product.discount !== 0 ?
-                                                <Text
-                                                style={{
-                                                    fontFamily: "IBMPlexSansThai-Light",
-                                                    fontSize: 12,
-                                                    color: '#666',
-                                                    marginLeft: 10,
-                                                    paddingTop: 4,
-                                                    textDecorationLine: 'line-through'
-                                                }}
-                                            >
-                                                {numberWithCommas(product.discount)} บาท
-                                            </Text>
-                                            : 
-                                                <Text></Text>
-                                            }
-                                            
-                                            
                                         </View>
                                         </View>
                                         </View>

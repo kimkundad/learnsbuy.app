@@ -1,135 +1,238 @@
-import React, { useState, useRef, useEffect  } from 'react'
-import { View, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image, StatusBar, Dimensions, Text } from 'react-native'
+import React, {useState, useEffect} from 'react';
 import Video from 'react-native-video';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  StatusBar,
+  Image,
+  Text,
+  SafeAreaView,
+  ScrollView
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ProgressCircle from 'react-native-progress-circle'
-import axios from 'axios';
-import { useSelector, useDispatch } from "react-redux";
-import Slider from '@react-native-community/slider';
+import ProgressBar from './progressBar';
+import PlayerControls from './playerControls';
+import {FullscreenClose, FullscreenOpen} from '../assets/icons';
 import Orientation from 'react-native-orientation-locker';
+import { useSelector, useDispatch } from "react-redux";
 import getCoin from '../../services/getCoin';
+import axios from 'axios';
+import ProgressCircle from 'react-native-progress-circle'
+import { enableSecureView, disableSecureView, forbidAndroidShare, allowAndroidShare } from 'react-native-prevent-screenshot-ios-android';
+import { Platform } from 'react-native'
 
-const { width, height } = Dimensions.get("window");
+const windowHeight = Dimensions.get('window').width * (9 / 16);
+const windowWidth = Dimensions.get('window').width;
 
-const VideoPage = ({ route, navigation }) => {
+const height = Dimensions.get('window').width;
+const width = Dimensions.get('window').height;
 
-    const product = route.params.product;
-  
-    const { user, error, isLogin, message } = useSelector(state => state.auth);
-    const { data: mycoinx, isLoading: fetchLoading1 } = getCoin()
 
-    const [urlvideo, setUrlvideo] = useState('')
+const VideoPage2 = ({ route, navigation }) => {
+
+  const product = route.params.product;
+
+  const { user, error, isLogin, message } = useSelector(state => state.auth);
+  const videoRef = React.createRef();
+  const [time, setTime] = useState(new Date());
+  const { data: mycoinx, isLoading: fetchLoading1 } = getCoin()
+  const [mycoin, setMycoin] = useState(mycoinx?.data);
+  const [token, settoken] = useState(user?.token);
+
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [play, setPlay] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [showControl, setShowControl] = useState(true);
+  const [mymin, setMymin] = useState(0)
+  const [cutTime, setCutTime] = useState(0)
+
+  const [urlvideo, setUrlvideo] = useState('')
     const [imgvideo, setImgvideo] = useState('')
     const [namevideo, setNamevideo] = useState('')
     const [sortvideo, setSortvideo] = useState('')
     const [timevideo, setTimevideo] = useState('')
     const [videoall, setVideoall] = useState('')
-    const [mymin, setMymin] = useState(0)
-    const [cutTime, setCutTime] = useState(0)
-    const [token, settoken] = useState(user?.token);
-    const [mycoin, setMycoin] = useState(mycoinx?.data);
 
-    const useDataFile = async (id) => {
-        console.log('id-->', id)
-        try {
-            const data0 = await axios.get(`https://www.learnsbuy.com/api/get_file_app/${id}`)
-            
-            if(data0?.data?.status === 200){
-                setVideoall(data0?.data?.data)
-            }
-          } catch (err) {
-            
-          }
-    }
+  useEffect(() => {
 
-    useEffect(() => {
-        handleChange(product.option)
-        useDataFile(product.course_id)
-    }, []);
+    Orientation.addOrientationListener(handleOrientation);
+    return () => {
+      Orientation.removeOrientationListener(handleOrientation);
+    };
 
-    const clickedStatus = () => {
+  }, []);
 
-        setClicked(true)
-        setTimeout(function(){ setClicked(false) }, 5000);
+  useEffect(() => {
 
-    }
+  if (Platform.OS === 'android') {
+    forbidAndroidShare(); //This function blocks the Screen share/Recording and taking screenshot for android devices.
+  }
+  if (Platform.OS == 'ios') {
+    enableSecureView(); //This function blocks the Screen share/Recording and taking screenshot for iOS devices.
+  }
+}, []);
 
-    const countTime = async () => {
+  useEffect(() => {
 
-        let secs = new Date().getSeconds()
-        setMymin(new Date().getSeconds())
-        if(secs !== mymin){
-            setCutTime(cutTime + 1)
-            if(cutTime === 10){
-                console.log('10 sec-->', cutTime)
-                setCutTime(0)
-
-                try {
-                    const { data } = await axios.post('https://www.learnsbuy.com/api/del_point_v2', {
-                        token
-                    })
-                    if(data.status === 200){
-                        console.log('response', data?.data)
-                         setMycoin(data?.data)
-                    }
-                    
-                  } catch (err) {
-                    console.log('err xx00--> ', err)
-                    return err.response.data
-                  }
-
-            }
-            // console.log('setCutTime-->', cutTime)
-        }
-        
-    }
+  if(play){
+  const interval = setInterval(() => {
     
-
-    const handleChange = async (id) => {
-        try {
-            const data1 = await axios.get(`https://www.learnsbuy.com/api/getVideoId/${id}`)
-            
-            if(data1?.data?.status === 200){
-                setUrlvideo(data1?.data?.data?.course_video_url)
-                setImgvideo(data1?.data?.data?.thumbnail_img)
-                setNamevideo(data1?.data?.data?.course_video_name)
-                setSortvideo(data1?.data?.data?.order_sort)
-                setTimevideo(data1?.data?.data?.time_video)
+        let secs = new Date().getSeconds()
+            if(secs === 10){
+                console.log('1 min-->')
+                delete_point();
             }
-          } catch (err) {
-            
-          }
+        console.log('interval', secs)
+
+  }, 1000);
+  
+
+    return () => clearInterval(interval);
+  }
+  }, [play]);
+
+ 
+  const delete_point = async () => {
+
+    try {
+      const { data } = await axios.post('https://www.learnsbuy.com/api/del_point_v2', {
+          token
+      })
+      if(data.status === 200){
+          console.log('response', data?.data)
+           setMycoin(data?.data)
+           if(data?.data <= 0){
+            navigation.navigate('MyCourse')
+           }
+      }
+      
+    } catch (err) {
+      console.log('err xx00--> ', err)
+      return err.response.data
     }
 
-    //// video /////////////
+  }
+
+  const useDataFile = async (id) => {
+    
+    try {
+        const data0 = await axios.get(`https://www.learnsbuy.com/api/get_file_app/${id}`)
+        if(data0?.data?.status === 200){
+            setVideoall(data0?.data?.data)
+        }
+      } catch (err) {
+        
+      }
+}
+
+useEffect(() => {
+  handleChange(product.option)
+  useDataFile(product.course_id)
+}, []);
 
 
-    const [clicked, setClicked] = useState(false);
-  const [puased, setPaused] = useState(false);
-  const [progress, setProgress] = useState(null);
-  const [statusBars, setStatusBars] = useState(false);
-  const [fullScreen,setFullScreen]=useState(false)
-  const ref = useRef();
+const handleChange = async (id) => {
   
-  const format = seconds => {
-    let mins = parseInt(seconds / 60)
-      .toString()
-      .padStart(2, '0');
-    let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
-    return `${mins}:${secs}`;
+  try {
+    
+      const data1 = await axios.get(`https://www.learnsbuy.com/api/getVideoId/${id}`)
+      console.log('id-->rr', id)
+      if(data1?.data?.status === 200){
+          setUrlvideo(data1?.data?.data?.course_video_url)
+          setImgvideo(data1?.data?.data?.thumbnail_img)
+          setNamevideo(data1?.data?.data?.course_video_name)
+          setSortvideo(data1?.data?.data?.order_sort)
+          setTimevideo(data1?.data?.data?.time_video)
+      }
+    } catch (err) {
+      
+    }
+}
+
+
+  const handleOrientation = orientation => {
+    if (orientation === 'LANDSCAPE-LEFT' || orientation === 'LANDSCAPE-RIGHT') {
+      setFullscreen(true);
+      StatusBar.setHidden(true);
+    } else {
+      setFullscreen(false);
+      StatusBar.setHidden(false);
+    }
   };
 
-    //// end video /////////////
+  const handlePlayPause = () => {
+    if (play) {
+      setPlay(false);
+      setShowControl(true);
+      console.log('Play', play);
+      return;
+    }
+    setTimeout(() => setShowControl(false), 2000);
+    setPlay(true);
+  };
 
+  const handlePlay = () => {
+    setTimeout(() => setShowControl(false), 500);
+    let secs = new Date().getSeconds()
+    console.log('Play', time);
+    setPlay(true);
+  };
 
-      const numberWithCommas = (x) => {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      };
+  const skipBackward = () => {
+    videoRef.current.seek(currentTime - 15);
+    setCurrentTime(currentTime - 15);
+  };
 
-    return (
-        <SafeAreaView>
-            <View style={styles.container}>
-                <StatusBar hidden={statusBars} backgroundColor="#32d191" />
+  const skipForward = () => {
+    videoRef.current.seek(currentTime + 15);
+    setCurrentTime(currentTime + 15);
+  };
+
+  const handleControls = () => {
+    if (showControl) {
+      setShowControl(false);
+    } else {
+      setShowControl(true);
+    }
+  };
+
+  const handleFullscreen = () => {
+    if (fullscreen) {
+      Orientation.unlockAllOrientations();
+    } else {
+      Orientation.lockToLandscapeLeft();
+    }
+  };
+
+  const onLoadEnd = data => {
+    setDuration(data.duration);
+    setCurrentTime(data.currentTime);
+  };
+
+  const onProgress = data => {
+    setCurrentTime(data.currentTime);
+  };
+
+  const onSeek = data => {
+    videoRef.current.seek(data.seekTime);
+    setCurrentTime(data.seekTime);
+  };
+
+  const onEnd = () => {
+    setPlay(false);
+    videoRef.current.seek(0);
+  };
+
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  return (
+    <SafeAreaView>
+      <StatusBar backgroundColor="#32d191" />
                 <View
                     style={{
                         flexDirection: "row",
@@ -167,7 +270,7 @@ const VideoPage = ({ route, navigation }) => {
                                                 fontWeight: 700,
                                                 
                                             }}>
-                                                {numberWithCommas(mycoin)}
+                                                {(mycoin)}
                                             </Text></View>
                     </Text>
                     <TouchableOpacity
@@ -178,171 +281,76 @@ const VideoPage = ({ route, navigation }) => {
                         
                     </TouchableOpacity>
                 </View>
-
-               
-                    <View>
-                        <TouchableOpacity
-                            style={{ marginTop: -40, width: '100%', height:fullScreen?'69%': 200}}
-                            onPress={() => {
-                            clickedStatus();
-                            }}>
-
-                        <Video
-                                paused={puased}
-                                source={{
-                                    uri: urlvideo,
-                                }}
-                                poster={'https://learnsbuy.com/assets/uploads/' + imgvideo}
-                                ref={ref}
-                                onProgress={x => {
-                                    // console.log( 'xxx',x);
-                                    countTime()
-                                    setProgress(x);
-                                }}
-                                // Can be a URL or a local file.
-                                //  ref={(ref) => {
-                                //    this.player = ref
-                                //  }}                                      // Store reference
-                                //  onBuffer={this.onBuffer}                // Callback when remote video is buffering
-                                //  onError={this.videoError}
-
-                                // Callback when video cannot be loaded
-                                style={{width: '100%', height: fullScreen?'100%': 200}}
-                                resizeMode="contain"
-                                />
-                                <Text
+    <View style={fullscreen ? styles.fullscreenContainer : styles.container}>
+      <TouchableOpacity onPress={handleControls}>
+        <>
+          <Video
+            ref={videoRef}
+            source={{
+              uri: urlvideo,
+          }}
+          poster={'https://learnsbuy.com/assets/uploads/' + imgvideo}
+            style={fullscreen ? styles.fullscreenVideo : styles.video}
+            controls={false}
+            resizeMode={'contain'}
+            onLoad={onLoadEnd}
+            onProgress={onProgress}
+            onEnd={onEnd}
+            paused={!play}
+          />
+          <Text
                                     style={{ 
                                         fontSize: 12,
                                         fontWeight: 'bold',
-                                        color: '#ea4335',
+                                        color: '#BBBBBB',
                                         position: 'absolute',
-                                        bottom: 10, right: 20,
+                                        bottom: 30, right: 20,
                                         fontFamily: "IBMPlexSansThai-Bold",
                                     }}
                                 >
                                     {user?.profile?.name} {user?.profile?.email}
                                 </Text>
-                                {clicked && (
-          <TouchableOpacity
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              backgroundColor: 'rgba(0,0,0,.5)',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  ref.current.seek(parseInt(progress.currentTime) - 10);
-                }}>
-                <Image
-                  source={require('../assets/video/backward.png')}
-                  style={{width: 30, height: 30, tintColor: 'white'}}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setPaused(!puased);
-                }}>
-                <Image
-                  source={
-                    puased
-                      ? require('../assets/video/play-button.png')
-                      : require('../assets/video/pause.png')
-                  }
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: 'white',
-                    marginLeft: 50,
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  ref.current.seek(parseInt(progress.currentTime) + 10);
-                }}>
-                <Image
-                  source={require('../assets/video/forward.png')}
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: 'white',
-                    marginLeft: 50,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                position: 'absolute',
-                bottom: 0,
-                paddingLeft: 20,
-                paddingRight: 20,
-                alignItems:'center'
-              }}>
-              <Text style={{color: 'white'}}>
-                {format(progress.currentTime)}
-              </Text>
-              <Slider
-                style={{width: '80%', height: 100}}
-                minimumValue={0}
-                maximumValue={progress.seekableDuration}
-                minimumTrackTintColor="#FFFFFF"
-                maximumTrackTintColor="#fff"
-                onValueChange={(x)=>{
-                  ref.current.seek(x);
-                }}
-              />
-              <Text style={{color: 'white'}}>
-                {format(progress.seekableDuration)}
-              </Text>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                position: 'absolute',
-                top: 10,
-                paddingLeft: 20,
-                paddingRight: 20,
-                alignItems:'center'
-              }}>
-            <TouchableOpacity onPress={()=>{
-              if(fullScreen){
-                Orientation.lockToPortrait();
-                setStatusBars(false)
-            } else{
-                Orientation.lockToLandscape();
-                setStatusBars(true)
-            }
-            setFullScreen(!fullScreen)
-            }}>
-              <Image source={fullScreen?require('../assets/video/minimize.png'):require('../assets/video/full-size.png')}
-               style={{width:24,height: 24,tintColor:'white'}}/>
-            </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-        )}
 
-                        </TouchableOpacity>
-{/* 
-                        <Video
-                            resizeMode={"cover"}
-                            ref={(ref) => {
-                                this.video = ref;
-                              }}
-                            poster={'https://learnsbuy.com/assets/uploads/' + imgvideo}
-                            source={{ uri: urlvideo }}
-                            style={{ width: '100%', aspectRatio: 16 / 9 }} 
-                        /> */}
-                        <View
+          {showControl && (
+            <View style={styles.controlOverlay}>
+              <TouchableOpacity
+                onPress={handleFullscreen}
+                hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                style={styles.fullscreenButton}>
+                {fullscreen ? 
+                <Image
+                source={require('../assets/icons/fullscreen-close.png')}
+                style={{width: 30, height: 30,}}
+              />
+                : 
+                <Image
+                source={require('../assets/icons/fullscreen-open.png')}
+                style={{width: 30, height: 30,}}
+              />}
+              </TouchableOpacity>
+
+              <PlayerControls
+                onPlay={handlePlay}
+                onPause={handlePlayPause}
+                playing={play}
+                skipBackwards={skipBackward}
+                skipForwards={skipForward}
+              />
+
+              <ProgressBar
+                currentTime={currentTime}
+                duration={duration > 0 ? duration : 0}
+                onSlideStart={handlePlayPause}
+                onSlideComplete={handlePlayPause}
+                onSlideCapture={onSeek}
+              />
+            </View>
+          )}
+        </>
+      </TouchableOpacity>
+      
+    </View>
+    <View
                         style={{
                             paddingHorizontal: 2,
                         }}
@@ -380,7 +388,7 @@ const VideoPage = ({ route, navigation }) => {
                                                 color: "#345c74",
                                                 fontSize: 12,
                                                 paddingLeft: 20,
-                                                width: 280,
+                                                width: 240,
                                                 fontFamily: "IBMPlexSansThai-Regular",
                                             }}>
                                                 {namevideo}
@@ -411,17 +419,8 @@ const VideoPage = ({ route, navigation }) => {
                                         </ProgressCircle>
                                     </TouchableOpacity>
                     </View>
-                    </View>
 
-        
-
-                {/* <CourseList
-                num={1}
-                color="#fde6e6"
-                duration="2 hours, 20 minutes"
-                title="บทนำและ Hiragana ตอนที่ 1"
-            /> */}
-                <ScrollView
+    <ScrollView
                     style={{
                         paddingHorizontal: 10,
                     }}
@@ -511,21 +510,56 @@ const VideoPage = ({ route, navigation }) => {
                         
 
                 </ScrollView>
-            </View>
-        </SafeAreaView>
-    )
-
-}
-
-export default VideoPage
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-    backgroundVideo: {
-        width: '100%',
-        height: '100%',
-    },
-    container: {
-        backgroundColor: "#eee",
-        justifyContent: "center"
-    }
+  container: {
+    backgroundColor: '#ebebeb',
+  },
+  fullscreenContainer: {
+    flex: 1,
+    backgroundColor: '#ebebeb',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 5,
+  },
+  video: {
+    height: windowHeight,
+    width: windowWidth,
+    backgroundColor: 'black',
+  },
+  fullscreenVideo: {
+    flex: 1,
+    height: height,
+    width: width,
+    backgroundColor: 'black',
+  },
+  text: {
+    marginTop: 30,
+    marginHorizontal: 20,
+    fontSize: 15,
+    textAlign: 'justify',
+  },
+  fullscreenButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    paddingRight: 10,
+  },
+  controlOverlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#000000c4',
+    justifyContent: 'space-between',
+  },
 });
+
+export default VideoPage2;

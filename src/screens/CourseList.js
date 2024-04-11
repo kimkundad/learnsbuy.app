@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View, Image } from 'react-native'
 import ProgressCircle from 'react-native-progress-circle'
 
 
-const CourseList = ({num, videos, color, onPress, bg}) => {
+const CourseList = ({ num, videos, color, onPress, bg }) => {
 
     return (
         <TouchableOpacity
@@ -21,14 +21,18 @@ const CourseList = ({num, videos, color, onPress, bg}) => {
         >
             <View style={{
                 backgroundColor: color,
-                paddingVertical: 5,
-                paddingHorizontal: 10,
+                paddingVertical: 2,
+                paddingHorizontal: 2,
                 borderRadius: 6
             }}>
-                <Text style={{
-                    fontSize: 10,
-                    fontFamily: "Bold"
-                }}>{num}</Text>
+                <Image
+                    style={{
+                        width: 70,
+                        height: 40,
+                        borderRadius: 6
+                    }}
+                    source={{ uri: 'https://learnsbuy.com/assets/uploads/' + videos.thumbnail_img }}
+                />
             </View>
             <View>
                 <Text style={{
@@ -36,7 +40,7 @@ const CourseList = ({num, videos, color, onPress, bg}) => {
                     fontSize: 12,
                     paddingLeft: 20,
                     fontFamily: "IBMPlexSansThai-Regular",
-                    width: 280
+                    width: 240
                 }}>
                     {videos.course_video_name}
                 </Text>
@@ -48,7 +52,7 @@ const CourseList = ({num, videos, color, onPress, bg}) => {
                     width: 180
                 }}>
                     {videos.time_video == "" ? "ไม่ระบุเวลา" : videos.time_video + "นาที"}
-                    
+
                 </Text>
             </View>
 

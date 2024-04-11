@@ -224,7 +224,7 @@ const BuyHistory = ({ navigation }) => {
                                                 justifyContent: 'space-between',
                                                 paddingBottom: 5,
                                             }}>
-                                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", }}>หมายเลขคำสั่งซื้อ</Text>
+                                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", color: "#666", }}>หมายเลขคำสั่งซื้อ</Text>
                                                 <Text style={{
                                                     fontWeight: 'bold',
                                                     color: 'black',
@@ -235,7 +235,7 @@ const BuyHistory = ({ navigation }) => {
                                                 justifyContent: 'space-between',
                                                 paddingBottom: 5,
                                             }}>
-                                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", }}>เวลาชำระเงิน</Text>
+                                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", color: "#666", }}>เวลาชำระเงิน</Text>
                                                 <Text style={{
                                                     fontWeight: 'bold',
                                                     color: 'black',
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     ops: {
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        height: 800,
+        height: '100%',
         backgroundColor: '#FFF',
         marginHorizontal: -10
     },

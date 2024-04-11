@@ -148,7 +148,7 @@ const Register = ({ navigation }) => {
                         <Icon name="person-outline" size={22} color="#818181" />
                         <TextInput
                             style={styles.input}
-                            placeholder="UserName"
+                            placeholder="ชื่อ-นามสกุล (ภาษาไทย)"
                             placeholderTextColor="#818181"
                             value={username}
                             onChangeText={(text) => setUsername(text)}
@@ -161,7 +161,7 @@ const Register = ({ navigation }) => {
                         <Icon name="mail-outline" size={22} color="#818181" />
                         <TextInput
                             style={styles.input}
-                            placeholder="Enter Email"
+                            placeholder="อีเมล"
                             placeholderTextColor="#818181"
                             value={email}
                             onChangeText={(text) => setEmail(text)}
@@ -185,7 +185,7 @@ const Register = ({ navigation }) => {
                         <TextInput
                             onChangeText={(text) => setPassword(text)}
                             style={styles.input}
-                            placeholder="Enter Password"
+                            placeholder="รหัสผ่าน"
                             secureTextEntry={isPasswordShown}
                             placeholderTextColor="#818181" />
                         <TouchableOpacity
@@ -220,7 +220,7 @@ const Register = ({ navigation }) => {
                     }} >
                         <Icon name="lock-closed-outline" size={22} color="#818181" />
                         <TextInput style={styles.input}
-                            placeholder="Confirm Password"
+                            placeholder="ยืนยันรหัสผ่าน"
                             secureTextEntry={isPasswordShown}
                             onChangeText={(text) => setConPassword(text)}
                             placeholderTextColor="#818181" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect ,useState } from 'react'
 import { StyleSheet, Text, ScrollView, View, StatusBar, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Buttons from '../components/ButtonsLogin'
@@ -6,6 +6,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useSelector, useDispatch } from "react-redux";
 import myCourse from '../../services/myCourse';
 import getCoin from '../../services/getCoin';
+import getMycousem from '../../services/get_mycousem';
+import Orientation from 'react-native-orientation-locker';
+import { useFocusEffect } from '@react-navigation/native';
+import Dialog from "react-native-dialog";
+import axios from 'axios';
+import useCoursem from '../../services/packm';
 
 const win = Dimensions.get('window');
 
@@ -23,6 +29,32 @@ const EditName = ({ navigation }) => {
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
     const { data: mycourse, isLoading: fetchLoading } = myCourse()
     const { data: mycoin, isLoading: fetchLoading1 } = getCoin()
+    const [token, settoken] = useState(user?.token);
+    const [getStatusx, setgetStatusx] = useState(0);
+    const [getExpire, setGetExpire] = useState(true);
+    const [getExpireDay, setGetExpireDay] = useState('');
+    const { data: coursem, isLoading: fetchLoading3 } = useCoursem()
+    const { data: getMyco } = getMycousem()
+
+    const getDataUser = async () => {
+
+        try {
+            const { data } = await axios.post('https://www.learnsbuy.com/api/get_mycousem', {
+                token
+            })
+            console.log('data xx00--> ', data)
+            if(data.status === 200){
+                console.log('response', data?.data)
+                setgetStatusx(data?.data)
+                setGetExpire(data?.expire)
+                setGetExpireDay(data?.expire_day)
+            }
+            
+          } catch (err) {
+            console.log('err xx00--> ', err)
+            return err.response.data
+          }
+      }
 
     const formatDate = (rawDate) => {
         let date = new Date(rawDate);
@@ -32,8 +64,12 @@ const EditName = ({ navigation }) => {
         let day = date.getDate();
         return `${year}-${month}-${day}`;
     }
-
-      console.log('mycourse', mycourse)
+    
+    useFocusEffect(
+        React.useCallback(() => {
+            Orientation.lockToPortrait();
+        },)
+      );
 
     useEffect(() => {
 
@@ -42,6 +78,75 @@ const EditName = ({ navigation }) => {
         } 
 
     },[]);
+
+    useFocusEffect(() => {
+
+        getDataUser()
+
+    },[]);
+
+    const [visible, setVisible] = useState(false);
+
+    const [visibleEx, setVisibleEx] = useState(false);
+
+  const handleCancel = () => {
+    setVisible(false);
+    setVisibleEx(false);
+  };
+
+
+
+    const handleCheck = async (id) => {
+
+        try {
+            const { data } = await axios.post('https://www.learnsbuy.com/api/check_mypoint', {
+                token , id
+            })
+            console.log('check', data)
+            if(data.status === 200){
+                
+                setVisible(false);
+                navigation.navigate('VideoPage2', { product: data.coursess })
+
+            }else{
+                setVisible(true);
+            }
+            
+          } catch (err) {
+            console.log('err xx00--> ', err)
+            return err.response.data
+          }
+
+    }
+
+
+    const handleCheck2 = async (id) => {
+
+        try {
+            const { data } = await axios.post('https://www.learnsbuy.com/api/get_mycousem2', {
+                token , id
+            })
+            console.log('check', data)
+            if(data.status === 200){
+                
+                if(data?.expire === false){
+                    setVisible(false);
+                    navigation.navigate('VideoPage3', { product: data.coursess })
+                }else{
+                    setVisible(true);
+                }
+                
+
+            }else{
+                setVisible(true);
+            }
+            
+          } catch (err) {
+            console.log('err xx00--> ', err)
+            return err.response.data
+          }
+
+    }
 
    
 
@@ -113,11 +218,18 @@ const EditName = ({ navigation }) => {
                         
                     </View>
             </View>
-            <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
+            <ScrollView style={{ flex: 1, flexDirection: 'column',  }}>
 
+            <Dialog.Container visible={visible}>
+                <Dialog.Title style={{fontFamily: "IBMPlexSansThai-Regular"}}>ไม่สามารถเข้าเรียนได้</Dialog.Title>
+                <Dialog.Description style={{fontFamily: "IBMPlexSansThai-Regular"}}>
+                คอร์สของท่านหมดอายุแล้ว กรุณาสมัครเรียนใหม่ หรือติดต่อ LINE : @ZA-SHI เพื่อรับส่วนลด
+                </Dialog.Description>
+                <Dialog.Button style={{fontFamily: "IBMPlexSansThai-Regular"}} label="ตกลง" onPress={handleCancel} />
+            </Dialog.Container>
                 <View style={{
                     paddingHorizontal: 10,
-                    marginTop: 30
+                    marginTop: 30,
                 }}>
                     <View style={styles.ops}>
                         <View style={styles.col}>
@@ -155,7 +267,7 @@ const EditName = ({ navigation }) => {
                                             paddingHorizontal: 20,
                                             fontWeight: 700,
                                         }}>
-                                            {mycoin?.data}
+                                            {numberWithCommas(mycoin?.data)}
                                             {/* {numberWithCommas(mycoint)} */}
                                         </Text>
                                 }
@@ -178,9 +290,13 @@ const EditName = ({ navigation }) => {
                                 <View>
                                     {mycourse?.data?.map((pack) => (
                                         <>
-                                        {pack?.type_course == 1 ?
+                                        {pack.videocount > 0 ?
                                         <TouchableOpacity
                                         key={pack}
+                                        onPress={()=> 
+                                            handleCheck( pack.Oid )
+                                            // handleCheck() navigation.navigate('VideoPage2', { product: pack }) 
+                                        }
                                         style={{
                                             marginVertical: 5,
                                             borderBottomColor: "#dadde1",
@@ -196,7 +312,7 @@ const EditName = ({ navigation }) => {
                                         }}>
                                             <View style={{
                                                 width: '50%',
-                                                height: 100,
+                                                height: '100%',
                                                 
                                             }}>
                                                 <Image
@@ -226,6 +342,7 @@ const EditName = ({ navigation }) => {
                                                             maxWidth: '100%',
                                                             letterSpacing: 0.5,
                                                             maxWidth: '100%',
+                                                            lineHeight: 18
                                                         }}
                                                     >
                                                         {pack.title_course} 
@@ -233,7 +350,7 @@ const EditName = ({ navigation }) => {
                                                     <View style={{
                                                         flexDirection: 'row',
                                                         paddingHorizontal: 5,
-                                                        marginTop:5
+                                                        marginTop:0
                                                     }}>
                                                         <Icon name="pricetags-outline" size={16} color="#4caf50"  />
                                                         <Text
@@ -250,7 +367,7 @@ const EditName = ({ navigation }) => {
                                                     <View style={{
                                                         flexDirection: 'row',
                                                         paddingHorizontal: 5,
-                                                        marginTop:5
+                                                        marginTop:0
                                                     }}>
                                                         <Icon name="stopwatch-outline" size={16} color="#ff741a"  />
                                                         <Text
@@ -264,16 +381,32 @@ const EditName = ({ navigation }) => {
                                                             {pack.time_course}
                                                         </Text>
                                                     </View>
+                                                    <View style={{
+                                                        flexDirection: 'row',
+                                                    }}>
+                                                        <Text
+                                                            style={{
+                                                                fontFamily: "IBMPlexSansThai-Bold",
+                                                                fontSize: 14,
+                                                                marginLeft:5,
+                                                                color: '#9e9e9e',
+                                                            }}
+                                                        >
+                                                            หมดอายุ {formatDate(pack.end_day)}
+                                                        </Text>
+                                                    </View>
                                                 </View>
                                             </View>
                                         </View>
                                         </TouchableOpacity>
-                                :
-                                <TouchableOpacity
+                                        :
+                                        <TouchableOpacity
                                 key={pack}
                                 onPress={()=> 
-                                    navigation.navigate('VideoPage', { product: pack }) 
+                                    handleCheck( pack.Oid )
+                                    // handleCheck() navigation.navigate('VideoPage2', { product: pack }) 
                                 }
+                                
                                 style={{
                                     marginVertical: 5,
                                     borderBottomColor: "#dadde1",
@@ -289,7 +422,7 @@ const EditName = ({ navigation }) => {
                                 }}>
                                     <View style={{
                                         width: '50%',
-                                        height: 100,
+                                        height: '100%',
                                         
                                     }}>
                                         <Image
@@ -376,17 +509,142 @@ const EditName = ({ navigation }) => {
                                     </View>
                                 </View>
                                 </TouchableOpacity>
-                            }
-                            
-                            
+                                        }
+                                        
                             </>
                             ))}
                             </View>
                             }
+
+                        {getStatusx === 2 &&
+                            <>
+                        {fetchLoading3 ?
+                            <View></View>
+                            :
+                            <>
+                         
+                            <View>
+                            {coursem?.data?.map((course) => (
+                        <TouchableOpacity
+                        key={course}
+                        onPress={()=> 
+                            handleCheck2( course.c_id )
+                        }
+                        style={{
+                            marginVertical: 5,
+                            borderBottomColor: "#dadde1",
+                            borderBottomWidth: 1,
+                        }}
+                        >
+                        <View key={course} style={{
+                            width: '100%',
+                            height: 100,
+                            flexDirection: "row",
+                            marginBottom: 10,
+                            alignItems: 'center',
+                        }}>
+                            <View style={{
+                                width: '50%',
+                                height: '100%',
+                                
+                            }}>
+                                <Image
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        borderRadius: 10,
+                                    }}
+                                    source={{ uri: 'https://learnsbuy.com/assets/uploads/' + course.image_course }}
+                                />
+                            </View>
+
+                            <View
+                                style={{
+                                    flex: 1,
+                                    height: '100%',
+                                    justifyContent: 'space-around',
+                                    marginLeft:10
+                                }}
+                            >
+                                <View>
+                                    <Text ellipsizeMode='tail' numberOfLines={2}
+                                        style={{
+                                            fontFamily: "IBMPlexSansThai-Bold",
+                                            fontSize: 14,
+                                            color: "#666666",
+                                            maxWidth: '100%',
+                                            letterSpacing: 0.5,
+                                            maxWidth: '100%',
+                                            lineHeight: 18
+                                        }}
+                                    >
+                                        {course.title_course} 
+                                    </Text>
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        paddingHorizontal: 5,
+                                        marginTop:0
+                                    }}>
+                                        <Icon name="pricetags-outline" size={16} color="#4caf50"  />
+                                        <Text
+                                            style={{
+                                                fontFamily: "IBMPlexSansThai-Regular",
+                                                fontSize: 14,
+                                                marginLeft:5,
+                                                color: '#9e9e9e',
+                                            }}
+                                        >
+                                            คอร์สรายเดือน
+                                        </Text>
+                                    </View>
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        paddingHorizontal: 5,
+                                        marginTop:0
+                                    }}>
+                                        <Icon name="stopwatch-outline" size={16} color="#ff741a"  />
+                                        <Text
+                                            style={{
+                                                fontFamily: "IBMPlexSansThai-Regular",
+                                                fontSize: 14,
+                                                marginLeft:5,
+                                                color: '#9e9e9e',
+                                            }}
+                                        >
+                                            {course.time_course}
+                                        </Text>
+                                    </View>
+                                    <View style={{
+                                        flexDirection: 'row',
+                                    }}>
+                                        <Text
+                                            style={{
+                                                fontFamily: "IBMPlexSansThai-Bold",
+                                                fontSize: 14,
+                                                marginLeft:5,
+                                                color: '#9e9e9e',
+                                            }}
+                                        >
+                                            หมดอายุ {formatDate(getExpireDay)}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                        </TouchableOpacity>
+                        ))}
+                        </View>
+                            
+                            
+                            </>
+                        }
+                        </>
+                        }
                             
                         </View>
 
                     </View>
+                    <View style={{ height:80 }}></View>
                 </View>
 
 
@@ -438,7 +696,7 @@ const styles = StyleSheet.create({
     ops: {
         borderTopLeftRadius: 35,
         borderTopRightRadius: 35,
-        height: 800,
+        height: '100%',
         backgroundColor: '#FFFFFF',
         marginHorizontal: -10
     },

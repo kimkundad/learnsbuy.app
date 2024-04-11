@@ -104,7 +104,7 @@ const About = ({ navigation }) => {
                                     marginTop: 5,
                                     fontFamily: "IBMPlexSansThai-Bold",
                                 }}>พรหมเทพ ชัยกิตติวณิชย์ (ครูพี่โฮม ZA-SHI)</Text>
-                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular"}}>สถาบันติว PAT ญี่ปุ่นและภาษาญี่ปุ่น ZA-SHI ภาษาญี่ปุ่น (ครูพี่โฮม) คนแรกและคนเดียวที่ได้ PAT ญี่ปุ่น 300 คะแนนเต็ม เกียรตินิยมอันดับ 1 (เหรียญทอง) อักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</Text>
+                                <Text style={{ fontFamily: "IBMPlexSansThai-Regular", color: "#666",}}>สถาบันติว PAT ญี่ปุ่นและภาษาญี่ปุ่น ZA-SHI ภาษาญี่ปุ่น (ครูพี่โฮม) คนแรกและคนเดียวที่ได้ PAT ญี่ปุ่น 300 คะแนนเต็ม เกียรตินิยมอันดับ 1 (เหรียญทอง) อักษรศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</Text>
 
                             </View>
 

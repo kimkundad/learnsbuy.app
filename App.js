@@ -7,7 +7,6 @@ import HomePage from './src/screens/HomePage'
 import OnboardingScreen from './src/screens/OnboardingScreen'
 import ProductDetail from './src/screens/ProductDetail'
 import VideoPage from './src/screens/VideoPage'
-import News from './src/screens/News'
 import Profile from './src/screens/Profile'
 import Course from './src/screens/Course'
 import Login from './src/screens/Login'
@@ -27,10 +26,17 @@ import VerificationScreen from './src/screens/VerificationScreen'
 import NewPassword from './src/screens/NewPassword'
 import Pay1 from './src/screens/Pay1'
 import Pay2 from './src/screens/Pay2'
+import Pay3 from './src/screens/Pay3'
+import Pay4 from './src/screens/Pay4'
 import MessagesScreen from './src/screens/MessagesScreen'
 import MessagesScreen2 from './src/screens/MessagesScreen2'
 import ChatList from './src/screens/ChatList'
-
+import VerificationPhone from './src/screens/VerificationPhone'
+import VerificationPhoneFinal from './src/screens/VerificationPhoneFinal'
+import VideoPage2 from './src/screens/VideoPage2'
+import VideoPage3 from './src/screens/VideoPage3'
+import Buffet from './src/screens/Buffet'
+import Tests from './src/screens/Tests'
 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -174,9 +180,17 @@ const HomeStack = () => {
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Pay1" component={Pay1} />
             <Stack.Screen name="Pay2" component={Pay2} />
+            <Stack.Screen name="Pay3" component={Pay3} />
+            <Stack.Screen name="Pay4" component={Pay4} />
             <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
             <Stack.Screen name="MessagesScreen2" component={MessagesScreen2} />
             <Stack.Screen name="ChatList" component={ChatList} />
+            <Stack.Screen name="VerificationPhone" component={VerificationPhone} />
+            <Stack.Screen name="VerificationPhoneFinal" component={VerificationPhoneFinal} />
+            <Stack.Screen name="VideoPage2" component={VideoPage2} />
+            <Stack.Screen name="VideoPage3" component={VideoPage3} />
+            <Stack.Screen name="Buffet" component={Buffet} />
+            <Stack.Screen name="Tests" component={Tests} />
             
           </Stack.Navigator>
         </NavigationContainer>

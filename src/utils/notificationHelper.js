@@ -18,7 +18,7 @@ export const requestUserPermission = async () => {
 
 // get fcmToken to send notification
 export const getFcmToken = async () => {
-    console.log(`getFcmToken function called`);
+
   let fcmToken = await AsyncStorage.getItem('fcmToken');
   if (!fcmToken) {
     try {
@@ -26,7 +26,6 @@ export const getFcmToken = async () => {
 
       if (token) {
         await AsyncStorage.setItem('fcmToken', token);
-        console.log(`getFcmToken success ${token}`);
 
         let token_web = await AsyncStorage.getItem('token_web');
 
@@ -43,7 +42,7 @@ export const getFcmToken = async () => {
      .then(function (response) {
 
         if (response?.data?.status == 200) { 
-            console.log(`updateFcmToken success`);
+            console.log(`updateFcmToken success1`);
         }
      }).catch((response) => {
       console.log(`updateFcmToken error ${response}`);
@@ -60,9 +59,6 @@ export const getFcmToken = async () => {
     // const keys = await AsyncStorage.getAllKeys();
     // const result = await AsyncStorage.mult.users
 
-    console.log(`All token_web ${token_web}`);
-    console.log(`All fcmToken ${fcmToken}`);
-
     axios.request({
         method: "POST",
         url: 'https://www.learnsbuy.com/api/updateFcmToken',
@@ -75,7 +71,7 @@ export const getFcmToken = async () => {
      .then(function (response) {
 
         if (response?.data?.status == 200) { 
-            console.log(`updateFcmToken success`);
+            console.log(`updateFcmToken success2`);
         }
      }).catch((response) => {
       console.log(`updateFcmToken error ${response}`);
@@ -90,9 +86,6 @@ export const getNoti = async () => {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     // const keys = await AsyncStorage.getAllKeys();
     // const result = await AsyncStorage.mult.users
-
-    console.log(`All token_web ${token_web}`);
-    console.log(`All fcmToken ${fcmToken}`);
 
     axios.request({
         method: "POST",

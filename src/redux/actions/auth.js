@@ -16,7 +16,44 @@ export const updateProfile = (user) => async dispatch => {
 
 }
 
-export const login = (user) => async dispatch => {
+export const update_userprofile = (user,navigation) => async dispatch => {
+
+    console.log('token update', user)
+
+    try {
+
+      axios.request({
+        method: "POST",
+        url: 'https://www.learnsbuy.com/api/update_userprofile',
+        data: user,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+     })
+     .then(function (response) {
+      console.log('update_userprofile', response?.data?.data);
+      if (response?.data?.status === 200) { 
+
+        dispatch({
+          type: type.GET_USERS_SUCCESS,
+          payload: response?.data?.data
+        });
+        dispatch({
+         type: type.LOGIN_SUCCESS,
+         payload: response?.data?.data
+     });
+
+      }
+
+     })
+     .catch((response) => { })
+
+    } catch (error) {}
+
+}
+
+export const login = (user,navigation) => async dispatch => {
         dispatch({
           type: type.LOGIN_REQUEST,
         });
@@ -35,7 +72,6 @@ export const login = (user) => async dispatch => {
          .then(function (response) {
 
           if (response?.data?.status == 200) { 
-            console.log('@@@Login response xxx:: ', response?.data?.status);
             
                   AsyncStorage.setItem('token_web', response?.data?.data?.token);
                   requestUserPermission();
@@ -49,6 +85,7 @@ export const login = (user) => async dispatch => {
                     type: type.LOGIN_SUCCESS,
                     payload: response?.data?.data
                 });
+                console.log('HomePage');
                 navigation.navigate("HomePage")
 
           } else {
@@ -177,7 +214,7 @@ export const login = (user) => async dispatch => {
             type: type.CREATE_USER_SUCCESS,
             payload: response?.data?.data
           });
-          navigation.navigate("HomePage")
+          navigation.navigate("VerificationPhone")
 
         }else{
           dispatch({

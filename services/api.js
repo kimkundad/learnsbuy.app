@@ -38,6 +38,21 @@ export const resetPassword = async (email) => {
     }
   }
 
+
+  export const sendOtpPhone = async ({otp, phone}) => {
+    console.log('otp xx--> ', otp)
+    try {
+      const { data } = await axios.post('https://www.learnsbuy.com/api/sendOtpphone', {
+        otp, phone
+      })
+      console.log('data xx--> ', data)
+      return data
+    } catch (err) {
+      console.log('err xx--> ', err)
+      return err.response.data
+    }
+  }
+
   export const newPasswords = async ({email, password}) => {
     try {
       const { data } = await axios.post('https://www.learnsbuy.com/api/newpassword2', {

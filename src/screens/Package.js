@@ -52,6 +52,7 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                                 fontSize: 12,
                                                 color: "#666666",
                                                 maxWidth: '100%',
+                                                height: 20,
                                                 maxWidth: '100%',
                                             }}
                                         >
@@ -61,11 +62,28 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                             flexDirection: 'row',
                                             
                                         }}>
+                                            
+                                            {discount !== 0 ?
+                                                <Text
+                                                style={{
+                                                    fontFamily: "IBMPlexSansThai-Light",
+                                                    fontSize: 13,
+                                                    color: '#666666',
+                                                    paddingTop: 3,
+                                                    textDecorationLine: 'line-through'
+                                                }}
+                                            >
+                                                {numberWithCommas(discount)} บาท
+                                            </Text>
+                                            : 
+                                                <Text></Text>
+                                            }
                                             <Text
                                                 style={{
                                                     fontFamily: "IBMPlexSansThai-Bold",
                                                     fontSize: 16,
                                                     color: '#00c402',
+                                                    marginLeft: 10,
                                                 }}
                                             >
                                                 {numberWithCommas(price)}
@@ -81,22 +99,6 @@ const Package = ({title,img, price, discount, pack, onPress, navigation}) => {
                                             >
                                                 บาท
                                             </Text>
-                                            {discount !== 0 ?
-                                                <Text
-                                                style={{
-                                                    fontFamily: "IBMPlexSansThai-Light",
-                                                    fontSize: 13,
-                                                    color: '#666666',
-                                                    marginLeft: 10,
-                                                    paddingTop: 3,
-                                                    textDecorationLine: 'line-through'
-                                                }}
-                                            >
-                                                {numberWithCommas(discount)} บาท
-                                            </Text>
-                                            : 
-                                                <Text></Text>
-                                            }
                                             
                                             
                                         </View>

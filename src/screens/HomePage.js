@@ -82,6 +82,7 @@ const HomePage = ({ navigation: { navigate } }) => {
                                 style={{
                                     fontSize: 16,
                                     paddingTop: 5,
+                                    color: "#666666",
                                     fontFamily: "IBMPlexSansThai-Bold"
                                 }}
                             >
@@ -151,7 +152,8 @@ const HomePage = ({ navigation: { navigate } }) => {
                                     fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 16,
                                     paddingTop: 5,
-                                    marginTop:0
+                                    marginTop:0,
+                                    color: "#666666",
                                 }}
                             >
                                 คอร์สเรียนทั้งหมด
@@ -214,7 +216,8 @@ const HomePage = ({ navigation: { navigate } }) => {
                                         style={{
                                             fontFamily: "IBMPlexSansThai-Bold",
                                             fontSize: 16,
-                                            paddingTop: 5
+                                            paddingTop: 5,
+                                            color: "#666666",
                                         }}
                                     >
                                         คอร์สใหม่ล่าสุด
@@ -318,6 +321,23 @@ const HomePage = ({ navigation: { navigate } }) => {
                                             flexDirection: 'row',
                                             
                                         }}>
+                                            
+                                            {product.discount !== 0 ?
+                                                <Text
+                                                style={{
+                                                    fontFamily: "IBMPlexSansThai-Light",
+                                                    fontSize: 12,
+                                                    color: '#666666',
+                                                    marginRight: 10,
+                                                    paddingTop: 4,
+                                                    textDecorationLine: 'line-through'
+                                                }}
+                                            >
+                                                {numberWithCommas(product.discount)} บาท
+                                            </Text>
+                                            : 
+                                                <Text></Text>
+                                            }
                                             <Text
                                                 style={{
                                                     fontFamily: "IBMPlexSansThai-Bold",
@@ -339,22 +359,6 @@ const HomePage = ({ navigation: { navigate } }) => {
                                             >
                                                 บาท
                                             </Text>
-                                            {product.discount !== 0 ?
-                                                <Text
-                                                style={{
-                                                    fontFamily: "IBMPlexSansThai-Light",
-                                                    fontSize: 12,
-                                                    color: '#666666',
-                                                    marginLeft: 10,
-                                                    paddingTop: 4,
-                                                    textDecorationLine: 'line-through'
-                                                }}
-                                            >
-                                                {numberWithCommas(product.discount)} บาท
-                                            </Text>
-                                            : 
-                                                <Text></Text>
-                                            }
                                             
                                             
                                         </View>

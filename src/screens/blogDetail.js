@@ -63,7 +63,8 @@ const BlogDetail = ({ route, navigation }) => {
                                         borderWidth: 0.5, }}></View>
                 <View style={styles.data}>
                     <Text style={styles.date}>{moment(product.publishedAt).format("MMM Do YY")}</Text>
-                    <Text style={{ fontFamily: "IBMPlexSansThai-Bold", }}>การดู: <Text style={styles.source}>{format(product.sourceName)}</Text></Text>
+                    <Text style={{ fontFamily: "IBMPlexSansThai-Bold", color: "#666", }}>การดู: 
+                    <Text style={styles.source}>{format(product.sourceName)}</Text></Text>
                 </View>
                 <View style={{ borderColor: "#dadde1",
                                         backgroundColor: "#FFF",
@@ -113,7 +114,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontFamily: "IBMPlexSansThai-Bold",
-        marginTop: 0
+        marginTop: 0,
+        color: "#666",
     },
     description: {
         fontSize: 14,

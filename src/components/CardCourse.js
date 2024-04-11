@@ -60,6 +60,23 @@ const CardCourse = ({title,img, price, discount, onPress, course}) => {
                                             flexDirection: 'row',
                                             
                                         }}>
+                                            
+                                            {discount !== 0 ?
+                                                <Text
+                                                style={{
+                                                    fontWeight: 200,
+                                                    fontSize: 13,
+                                                    color: '#666',
+                                                    marginRight: 10,
+                                                    paddingTop: 3,
+                                                    textDecorationLine: 'line-through'
+                                                }}
+                                            >
+                                                {discount} บาท
+                                            </Text>
+                                            : 
+                                                <Text></Text>
+                                            }
                                             <Text
                                                 style={{
                                                     fontWeight: 700,
@@ -80,22 +97,6 @@ const CardCourse = ({title,img, price, discount, onPress, course}) => {
                                             >
                                                 บาท
                                             </Text>
-                                            {discount !== 0 ?
-                                                <Text
-                                                style={{
-                                                    fontWeight: 200,
-                                                    fontSize: 13,
-                                                    color: '#666',
-                                                    marginLeft: 10,
-                                                    paddingTop: 3,
-                                                    textDecorationLine: 'line-through'
-                                                }}
-                                            >
-                                                {discount} บาท
-                                            </Text>
-                                            : 
-                                                <Text></Text>
-                                            }
                                             
                                             
                                         </View>
