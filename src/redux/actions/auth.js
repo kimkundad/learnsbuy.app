@@ -72,7 +72,7 @@ export const login = (user,navigation) => async dispatch => {
          .then(function (response) {
 
           if (response?.data?.status == 200) { 
-            
+            console.log('LOGIN_SUCCESS');
                   AsyncStorage.setItem('token_web', response?.data?.data?.token);
                   requestUserPermission();
                   getFcmToken()
@@ -89,10 +89,10 @@ export const login = (user,navigation) => async dispatch => {
                 navigation.navigate("HomePage")
 
           } else {
-
+            console.log('LOGIN_FAILED');
             dispatch({
-              type: type.CREATE_USER_FAILED,
-              payload: error,
+              type: type.LOGIN_FAILED,
+              payload: response?.data?.message,
             });
 
           }
@@ -105,49 +105,6 @@ export const login = (user,navigation) => async dispatch => {
             });
           })
          
-  
-          // const data =  fetch( apiUrl, {
-          //   method: 'GET',
-          //   headers: {
-          //     Accept: "application/json, text/plain, */*",
-          //     "Content-Type": "application/json;charset=UTF-8",
-          //   },
-          //   // body: JSON.stringify(formData)
-          // })
-          //   data.then(response => {
-          //       return response.json();
-          //   }).then(result => {
-          
-              
-          //     dispatch({
-          //       type: type.GET_USERS_SUCCESS,
-          //       payload: result
-          //     });
-            
-          //       if (result.find(o => o.email === formLogin.email) == null) {
-          //         dispatch({
-          //           type: type.LOGIN_FAILED,
-          //           payload: 'Email Not Found'
-          //         });
-          //       } else {
-          //           let user = result.find(o => o.email === formLogin.email);
-          //           if (user.password === formLogin.password) {
-          //             dispatch({
-          //               type: type.LOGIN_SUCCESS,
-          //               payload: user
-          //           });
-          //           } else {
-          //             dispatch({
-          //               type: type.LOGIN_FAILED,
-          //               payload: 'Wrong Password'
-          //             });
-          //           }
-                    
-    
-          //       }
- 
-          // });
-       
 
      
     

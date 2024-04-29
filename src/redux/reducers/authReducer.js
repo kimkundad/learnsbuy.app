@@ -43,6 +43,7 @@ const initialStateAuth = {
                   return {
                     ...state,
                     isLoading: false,
+                    isLogin: false,
                     error: action.payload,
                     message: 'LOGIN_FAILED',
                   };

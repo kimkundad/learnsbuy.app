@@ -420,89 +420,90 @@ const handleChange = async (id) => {
                                     </TouchableOpacity>
                     </View>
 
-    <ScrollView
+                <ScrollView
                     style={{
                         paddingHorizontal: 10,
                     }}
                 >
                     <View
                         style={{
-                            marginTop: 10
+                            marginTop: 10,
+                            marginBottom: 400,
                         }}
                     >
                                 {videoall?.video &&
-    <>
-    {videoall?.video.map((videos) =>
-                                (
-                                    <TouchableOpacity
-                                    key={videos.id}
-                                    onPress={() => handleChange(videos.id)}
-                                        style={{
-                                            flexDirection: "row",
-                                            backgroundColor: '#ffffff',
-                                            padding: 10,
-                                            marginHorizontal: 0,
-                                            borderRadius: 10,
-                                            alignItems: "center",
-                                            marginTop: 8,
-                                            borderWidth: 1,
-                                            borderColor: '#fde6e6',
-                                        }}
-                                    >
+                                <>
+                                {videoall?.video.map((videos) =>
+                                                            (
+                                                                <TouchableOpacity
+                                                                key={videos.id}
+                                                                onPress={() => handleChange(videos.id)}
+                                                                    style={{
+                                                                        flexDirection: "row",
+                                                                        backgroundColor: '#ffffff',
+                                                                        padding: 10,
+                                                                        marginHorizontal: 0,
+                                                                        borderRadius: 10,
+                                                                        alignItems: "center",
+                                                                        marginTop: 8,
+                                                                        borderWidth: 1,
+                                                                        borderColor: '#fde6e6',
+                                                                    }}
+                                                                >
 
-                                        <View style={{
-                backgroundColor: '#fde6e6',
-                paddingVertical: 2,
-                paddingHorizontal: 2,
-                borderRadius: 6
-            }}>
-                <Image
-                    style={{
-                        width: 70,
-                        height: 40,
-                        borderRadius: 6
-                    }}
-                    source={{ uri: 'https://learnsbuy.com/assets/uploads/' + videos.thumbnail_img }}
-                />
-            </View>
-                                        <View>
-                                            <Text style={{
-                                                color: "#345c74",
-                                                fontSize: 12,
-                                                paddingLeft: 20,
-                                                width: 240,
-                                                fontFamily: "IBMPlexSansThai-Regular",
-                                            }}>
-                                                {videos.course_video_name}
-                                            </Text>
-                                            <Text style={{
-                                                color: "#666666",
-                                                fontSize: 12,
-                                                paddingLeft: 20,
-                                                width: 180,
-                                                fontFamily: "IBMPlexSansThai-Regular",
-                                            }}>
-                                                {videos.time_video == "" ? "ไม่ระบุเวลา" : videos.time_video + "นาที"}
-
-                                            </Text>
-                                        </View>
-
-                                        <ProgressCircle
-                                            percent={0}
-                                            radius={17}
-                                            borderWidth={1.5}
-                                            color="#f58084"
-                                            shadowColor="#FFF"
-                                            bgColor='#fde6e6'
-                                        >
+                                                                    <View style={{
+                                            backgroundColor: '#fde6e6',
+                                            paddingVertical: 2,
+                                            paddingHorizontal: 2,
+                                            borderRadius: 6
+                                        }}>
                                             <Image
-                                                source={require('../assets/img/pl.png')}
+                                                style={{
+                                                    width: 70,
+                                                    height: 40,
+                                                    borderRadius: 6
+                                                }}
+                                                source={{ uri: 'https://learnsbuy.com/assets/uploads/' + videos.thumbnail_img }}
                                             />
-                                        </ProgressCircle>
-                                    </TouchableOpacity>
-                                )
-                                )}
-    </>
+                                        </View>
+                                                                    <View>
+                                                                        <Text style={{
+                                                                            color: "#345c74",
+                                                                            fontSize: 12,
+                                                                            paddingLeft: 20,
+                                                                            width: 240,
+                                                                            fontFamily: "IBMPlexSansThai-Regular",
+                                                                        }}>
+                                                                            {videos.course_video_name}
+                                                                        </Text>
+                                                                        <Text style={{
+                                                                            color: "#666666",
+                                                                            fontSize: 12,
+                                                                            paddingLeft: 20,
+                                                                            width: 180,
+                                                                            fontFamily: "IBMPlexSansThai-Regular",
+                                                                        }}>
+                                                                            {videos.time_video == "" ? "ไม่ระบุเวลา" : videos.time_video + "นาที"}
+
+                                                                        </Text>
+                                                                    </View>
+
+                                                                    <ProgressCircle
+                                                                        percent={0}
+                                                                        radius={17}
+                                                                        borderWidth={1.5}
+                                                                        color="#f58084"
+                                                                        shadowColor="#FFF"
+                                                                        bgColor='#fde6e6'
+                                                                    >
+                                                                        <Image
+                                                                            source={require('../assets/img/pl.png')}
+                                                                        />
+                                                                    </ProgressCircle>
+                                                                </TouchableOpacity>
+                                                            )
+                                                            )}
+                                </>
                                 }
                                 
                             </View>
@@ -510,6 +511,7 @@ const handleChange = async (id) => {
                         
 
                 </ScrollView>
+      
     </SafeAreaView>
   );
 };

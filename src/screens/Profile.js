@@ -15,8 +15,11 @@ import SwitchComponent from '../components/Switch'
 import Buttons from '../components/ButtonsLogout'
 import { useSelector, useDispatch } from "react-redux";
 import getCoin from '../../services/getCoin';
+import { logout } from '../redux/actions/auth';
 
 const Profile = ({ navigation }) => {
+
+    const dispatch = useDispatch();
 
     const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -25,7 +28,7 @@ const Profile = ({ navigation }) => {
     const { user, isLoading, error, isLogin, message } = useSelector(state => state.auth);
 
     const { data: mycoin, isLoading: fetchLoading1 } = getCoin()
-
+    
     const getWeekNumber = (date) => {
         const currentDate = new Date(date);
         currentDate.setHours(0, 0, 0, 0); // Set time to midnight to ensure accurate week calculation
@@ -36,10 +39,12 @@ const Profile = ({ navigation }) => {
       };
       
     useEffect(() => {
-        console.log('@@@Login guser:: ', user?.token);
-        console.log('isLogin ', isLogin);
-
-    },);
+        console.log('check error--> ', error);
+        if(error){
+            dispatch(logout())
+            navigation.navigate('Login')
+        }
+    },[]);
     
 
     return (

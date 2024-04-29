@@ -424,6 +424,7 @@ const VideoPage = ({ route, navigation }) => {
                 <ScrollView
                     style={{
                         paddingHorizontal: 10,
+                        marginBottom: 1000,
                     }}
                 >
                     <View
